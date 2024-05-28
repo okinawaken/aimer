@@ -16,5 +16,25 @@
             <groupId>org.dromara</groupId>
             <artifactId>aimer-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <!-- 北极星注册发现插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-registry-polaris</artifactId>
+        </dependency>
+        <!-- 北极星元数据中心插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-metadatareport-polaris</artifactId>
+        </dependency>
+        <!-- 北极星注册发现插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-registry-polaris</artifactId>
+        </dependency>
     </dependencies>
 </project>

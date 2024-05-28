@@ -26,10 +26,12 @@
         <maven-compiler-plugin.verison>3.13.0</maven-compiler-plugin.verison>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <spring.cloud.tencent.dubbo.version>0.3.2-3.2.7</spring.cloud.tencent.dubbo.version>
         <spring.cloud.tencent.version>1.13.2-2021.0.9</spring.cloud.tencent.version>
         <spring.framework.version>5.3.31</spring.framework.version>
         <spring.boot.version>2.7.18</spring.boot.version>
         <spring.cloud.version>2021.0.9</spring.cloud.version>
+        <dubbo.version>3.2.6</dubbo.version>
 
         <mendmix.version>1.4.3</mendmix.version>
     </properties>
@@ -72,6 +74,15 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Dubbo Dependencies -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- Project Dependencies -->
             <dependency>
                 <groupId>org.dromara</groupId>
@@ -109,11 +120,23 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- Module Dependencies -->
+            <!-- 工具类 -->
             <dependency>
                 <groupId>com.mendmix</groupId>
                 <artifactId>mendmix-common</artifactId>
                 <version>${mendmix.version}</version>
+            </dependency>
+            <!-- 北极星注册发现插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-registry-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
+            </dependency>
+            <!-- 北极星元数据中心插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-metadatareport-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
