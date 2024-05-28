@@ -24,5 +24,10 @@
             <groupId>com.tencent.cloud</groupId>
             <artifactId>spring-cloud-starter-tencent-all</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.mendmix</groupId>
+            <artifactId>mendmix-common</artifactId>
+        </dependency>
     </dependencies>
 </project>
