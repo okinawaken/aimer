@@ -138,6 +138,30 @@
                 <artifactId>dubbo-metadatareport-polaris</artifactId>
                 <version>${spring.cloud.tencent.dubbo.version}</version>
             </dependency>
+            <!-- 北极星动态路由插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-router-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
+            </dependency>
+            <!-- 北极星限流功能插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-ratelimit-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
+            </dependency>
+            <!-- 北极星熔断功能插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-circuitbreaker-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
+            </dependency>
+            <!-- 北极星动态配置中心插件 -->
+            <dependency>
+                <groupId>com.tencent.polaris</groupId>
+                <artifactId>dubbo-configcenter-polaris</artifactId>
+                <version>${spring.cloud.tencent.dubbo.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

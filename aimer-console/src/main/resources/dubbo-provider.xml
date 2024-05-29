@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
+    <!-- 定义应用名 -->
+    <dubbo:application name="aimer-console" register-mode="instance"/>
+
+    <!-- 定义注册中心地址 -->
+    <dubbo:registry address="polaris://polaris.nicomoe.cn:8091?namespace=${spring.profiles.active}"/>
+    <!-- 定义元数据中心地址 -->
+    <dubbo:metadata-report address="polaris://polaris.nicomoe.cn:8091?namespace=${spring.profiles.active}"/>
+    <!-- 定义配置中心地址 -->
+    <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
+
+    <!-- 定义dubbo插件 -->
+    <dubbo:consumer filter="polaris_router"/>
+    <dubbo:consumer filter="polaris_circuitbreaker"/>
+    <dubbo:provider filter="polaris_ratelimit"/>
+
+    <!-- 定义dubbo提供接口 -->
+    <dubbo:service interface="org.dromara.aimer.api.dubbo.GreetingService" id="greetingService"
+                   ref="greetingServiceImpl"/>
+</beans>

@@ -17,6 +17,7 @@
             <artifactId>aimer-common</artifactId>
         </dependency>
 
+        <!-- Dubbo依赖 -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
@@ -31,10 +32,25 @@
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-metadatareport-polaris</artifactId>
         </dependency>
-        <!-- 北极星注册发现插件 -->
+        <!-- 北极星动态路由插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
-            <artifactId>dubbo-registry-polaris</artifactId>
+            <artifactId>dubbo-router-polaris</artifactId>
+        </dependency>
+        <!-- 北极星限流功能插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-ratelimit-polaris</artifactId>
+        </dependency>
+        <!-- 北极星熔断功能插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-circuitbreaker-polaris</artifactId>
+        </dependency>
+        <!-- 北极星动态配置中心插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-configcenter-polaris</artifactId>
         </dependency>
     </dependencies>
 </project>
