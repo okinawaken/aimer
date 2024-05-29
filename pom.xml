@@ -33,6 +33,7 @@
         <spring.cloud.version>2021.0.9</spring.cloud.version>
         <dubbo.version>3.2.6</dubbo.version>
 
+        <hutool.version>5.8.26</hutool.version>
         <mendmix.version>1.4.3</mendmix.version>
         <lombok.version>1.18.32</lombok.version>
         <mapstruct-plus.version>1.4.0</mapstruct-plus.version>
@@ -124,6 +125,11 @@
             </dependency>
 
             <!-- 工具类 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.mendmix</groupId>
                 <artifactId>mendmix-common</artifactId>
