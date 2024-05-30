@@ -33,6 +33,7 @@
         <spring.cloud.version>2021.0.9</spring.cloud.version>
         <dubbo.version>3.2.6</dubbo.version>
 
+        <jetbrains-annotations.version>13.0</jetbrains-annotations.version>
         <hutool.version>5.8.26</hutool.version>
         <mendmix.version>1.4.3</mendmix.version>
         <lombok.version>1.18.32</lombok.version>
@@ -128,6 +129,12 @@
 
             <!-- 工具类 -->
             <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${jetbrains-annotations.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
@@ -151,6 +158,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
