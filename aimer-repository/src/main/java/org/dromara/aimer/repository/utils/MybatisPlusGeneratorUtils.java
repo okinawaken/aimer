@@ -38,20 +38,23 @@ public class MybatisPlusGeneratorUtils {
                 })
                 .packageConfig(builder ->
                         builder.parent("org.dromara.aimer")
-                                .moduleName("repository")
-                                .entity("entity")
-                                .service("service")
-                                .serviceImpl("service.impl")
-                                .mapper("mapper")
-                                .xml("mapper")
-                                .controller("controller")
+                                .entity("repository.entity")
+                                .service("service.internal.generator")
+                                .serviceImpl("service.internal.generator.impl")
+                                .mapper("repository.mapper")
+                                .xml("repository.mapper")
+                                .controller("console.controller.generator")
                                 .pathInfo(MapUtil.<OutputFile, String>builder()
-                                        .put(OutputFile.xml, "aimer-repository/src/main/resources")
+                                        .put(OutputFile.entity, "./aimer-repository/src/main/java/org/dromara/aimer/repository/entity")
+                                        .put(OutputFile.service, "./aimer-service/src/main/java/org/dromara/aimer/service/internal/generator")
+                                        .put(OutputFile.serviceImpl, "./aimer-service/src/main/java/org/dromara/aimer/service/internal/generator/impl")
+                                        .put(OutputFile.mapper, "./aimer-repository/src/main/java/org/dromara/aimer/repository/mapper")
+                                        .put(OutputFile.xml, "./aimer-repository/src/main/resources/mapper")
+                                        .put(OutputFile.controller, "./aimer-console/src/main/java/org/dromara/aimer/console/controller/generator")
                                         .build())
                 )
                 .strategyConfig(builder ->
-                        builder.addInclude("t_simple") // 设置需要生成的表名
-                                .addTablePrefix("t_", "c_") // 设置过滤表前缀
+                        builder.addInclude("user")
                 )
                 .execute();
     }
