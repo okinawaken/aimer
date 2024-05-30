@@ -1,4 +1,4 @@
-package org.dromara.aimer.repository.mapper;
+package org.dromara.aimer.repository.base;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

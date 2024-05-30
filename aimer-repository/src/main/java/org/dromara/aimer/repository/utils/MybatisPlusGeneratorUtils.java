@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.keywords.MySqlKeyWordsHandler;
 import com.baomidou.mybatisplus.generator.query.DefaultQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.aimer.repository.base.BaseMapperPlus;
+import org.dromara.aimer.repository.base.BaseServicePlus;
 import org.dromara.aimer.repository.convert.MyTypeConvertHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,7 +34,6 @@ public class MybatisPlusGeneratorUtils {
                     builder.disableOpenDir()
                             .outputDir("./")
                             .author("wangleijin")
-                            .enableSwagger()
                             .dateType(DateType.TIME_PACK)
                             .commentDate("yyyy-MM-dd");
                 })
@@ -55,6 +56,10 @@ public class MybatisPlusGeneratorUtils {
                 )
                 .strategyConfig(builder ->
                         builder.addInclude("user")
+                                .entityBuilder().enableFileOverride().enableTableFieldAnnotation().enableLombok().enableChainModel().formatFileName("%sEntity")
+                                .controllerBuilder().enableFileOverride().enableRestStyle().enableHyphenStyle()
+                                .serviceBuilder().enableFileOverride().superServiceClass(BaseServicePlus.class)
+                                .mapperBuilder().enableFileOverride().superClass(BaseMapperPlus.class)
                 )
                 .execute();
     }
