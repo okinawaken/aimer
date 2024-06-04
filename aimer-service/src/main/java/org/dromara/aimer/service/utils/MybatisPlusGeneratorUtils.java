@@ -19,10 +19,10 @@ public class MybatisPlusGeneratorUtils {
     private MybatisPlusGeneratorConfig mybatisPlusGeneratorConfig;
 
     public void generateTable() {
-        new AutoGenerator(mybatisPlusGeneratorConfig.getDataSourceConfig())
-                .global(mybatisPlusGeneratorConfig.getGlobalConfig())
-                .packageInfo(mybatisPlusGeneratorConfig.getPackageConfig())
-                .strategy(mybatisPlusGeneratorConfig.getStrategyConfig())
+        new AutoGenerator(mybatisPlusGeneratorConfig.getTargetDataSourceConfig())
+                .global(mybatisPlusGeneratorConfig.getTargetGlobalConfig())
+                .packageInfo(mybatisPlusGeneratorConfig.getTargetPackageConfig())
+                .strategy(mybatisPlusGeneratorConfig.getTargetStrategyConfig())
                 .execute();
     }
 }
