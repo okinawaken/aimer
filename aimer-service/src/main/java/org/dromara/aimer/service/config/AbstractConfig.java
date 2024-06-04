@@ -1,9 +1,9 @@
 package org.dromara.aimer.service.config;
 
 import com.mendmix.common.util.BeanUtils;
-import com.mendmix.common.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.aimer.common.utils.ValidatorUtils;
+import org.dromara.aimer.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
