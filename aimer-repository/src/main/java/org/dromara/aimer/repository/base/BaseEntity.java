@@ -1,8 +1,10 @@
 package org.dromara.aimer.repository.base;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -18,12 +20,14 @@ public class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    protected Date createTime;
+    @TableField("create_time")
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    protected Date updateTime;
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 
     @Override
     public String toString() {
