@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package org.dromara.aimer.service.dubbo.impl;
+package org.dromara.aimer.service.service.dubbo.impl;
 
 import org.dromara.aimer.api.dubbo.GreetingService;
 import org.springframework.stereotype.Service;
