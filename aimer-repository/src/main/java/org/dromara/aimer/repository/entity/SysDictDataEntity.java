@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典类型表
+ * 字典数据表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +20,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_dict_type")
-public class SysDictTypeEntity extends BaseEntity {
+@TableName("sys_dict_data")
+public class SysDictDataEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 字典主键
+     * 字典编码
      */
-    @TableId("dict_id")
-    private Long dictId;
+    @TableId("dict_code")
+    private Long dictCode;
 
     /**
      * 租户编号
@@ -38,16 +38,46 @@ public class SysDictTypeEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 字典名称
+     * 字典排序
      */
-    @TableField("dict_name")
-    private String dictName;
+    @TableField("dict_sort")
+    private Integer dictSort;
+
+    /**
+     * 字典标签
+     */
+    @TableField("dict_label")
+    private String dictLabel;
+
+    /**
+     * 字典键值
+     */
+    @TableField("dict_value")
+    private String dictValue;
 
     /**
      * 字典类型
      */
     @TableField("dict_type")
     private String dictType;
+
+    /**
+     * 样式属性（其他样式扩展）
+     */
+    @TableField("css_class")
+    private String cssClass;
+
+    /**
+     * 表格回显样式
+     */
+    @TableField("list_class")
+    private String listClass;
+
+    /**
+     * 是否默认（Y是 N否）
+     */
+    @TableField("is_default")
+    private String isDefault;
 
     /**
      * 创建部门
