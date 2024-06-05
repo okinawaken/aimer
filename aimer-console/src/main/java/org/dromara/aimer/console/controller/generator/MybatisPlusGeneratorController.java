@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mybatis-plus-generator")
+@RequestMapping("/aimer/mybatis-plus-generator")
 public class MybatisPlusGeneratorController {
 
     @Autowired
     private MybatisPlusGeneratorUtils mybatisPlusGeneratorUtils;
 
-    @GetMapping
+    @GetMapping("")
     public BaseResponse<Void> testMybatisPlusGenerator() {
         mybatisPlusGeneratorUtils.generateTable();
         return BaseResponse.ok();

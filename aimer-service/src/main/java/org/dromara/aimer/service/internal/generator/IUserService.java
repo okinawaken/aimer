@@ -8,8 +8,8 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  *  服务类
  * </p>
  *
- * @author wangleijin
- * @since 2024-05-30
+ * @author Shinomiya
+ * @since 2024-06-05
  */
 public interface IUserService extends BaseServicePlus<UserEntity> {
 

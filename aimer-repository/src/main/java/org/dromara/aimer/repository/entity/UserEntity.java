@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import org.dromara.aimer.repository.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,14 +14,14 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author wangleijin
- * @since 2024-05-30
+ * @author Shinomiya
+ * @since 2024-06-05
  */
 @Getter
 @Setter
 @Accessors(chain = true)
 @TableName("user")
-public class UserEntity implements Serializable {
+public class UserEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +34,7 @@ public class UserEntity implements Serializable {
     /**
      * 姓名
      */
-    @TableField("`name`")
+    @TableField("name")
     private String name;
 
     /**

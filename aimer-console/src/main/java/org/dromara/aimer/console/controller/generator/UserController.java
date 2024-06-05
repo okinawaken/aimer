@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
  *  前端控制器
  * </p>
  *
- * @author wangleijin
- * @since 2024-05-30
+ * @author Shinomiya
+ * @since 2024-06-05
  */
 @RestController
-@RequestMapping("/user-entity")
+@RequestMapping("/aimer/user-entity")
 public class UserController {
 
 }
