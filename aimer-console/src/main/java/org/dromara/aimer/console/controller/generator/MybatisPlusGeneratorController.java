@@ -1,5 +1,6 @@
 package org.dromara.aimer.console.controller.generator;
 
+import org.dromara.aimer.common.response.BaseResponse;
 import org.dromara.aimer.service.utils.MybatisPlusGeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,8 @@ public class MybatisPlusGeneratorController {
     private MybatisPlusGeneratorUtils mybatisPlusGeneratorUtils;
 
     @GetMapping
-    public void testMybatisPlusGenerator() {
+    public BaseResponse<Void> testMybatisPlusGenerator() {
         mybatisPlusGeneratorUtils.generateTable();
+        return BaseResponse.ok();
     }
 }
