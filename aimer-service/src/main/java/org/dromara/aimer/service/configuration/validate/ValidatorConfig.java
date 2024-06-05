@@ -1,4 +1,4 @@
-package org.dromara.aimer.common.configuration;
+package org.dromara.aimer.service.configuration.validate;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

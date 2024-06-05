@@ -1,4 +1,4 @@
-package org.dromara.aimer.common.validate.custom.xss;
+package org.dromara.aimer.service.configuration.validate.custom.xss;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.http.HtmlUtil;
