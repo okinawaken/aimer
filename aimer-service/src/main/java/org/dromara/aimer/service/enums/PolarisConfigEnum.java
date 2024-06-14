@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum PolarisConfigEnum {
 
     MYBATIS_PLUS_GENERATOR_CONFIG("mybatis-plus-generator-config.json", "mybatis-plus代码生成器配置"),
+    XXL_JOB_CONFIG("xxl-job-config.json", "xxl-job配置"),
     ;
 
     private final String polarisKey;

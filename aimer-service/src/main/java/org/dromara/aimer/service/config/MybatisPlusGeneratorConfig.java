@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.dromara.aimer.repository.base.BaseEntity;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 import org.dromara.aimer.repository.base.BaseServicePlus;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Component
 public class MybatisPlusGeneratorConfig extends AbstractPolarisConfig {
