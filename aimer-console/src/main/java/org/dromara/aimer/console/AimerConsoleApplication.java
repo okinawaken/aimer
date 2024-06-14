@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Import;
 
 @Import(AimerServiceContext.class)
 @SpringBootApplication
-public class AimerApplication {
+public class AimerConsoleApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AimerApplication.class, args);
+        SpringApplication.run(AimerConsoleApplication.class, args);
     }
 
 }
