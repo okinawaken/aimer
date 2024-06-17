@@ -11,4 +11,6 @@ public interface SeparatorConstant {
     String DOUBLE_QUOTATION_MARKS = "\"\"";
 
     String EMPTY = "";
+
+    String SPACE = " ";
 }

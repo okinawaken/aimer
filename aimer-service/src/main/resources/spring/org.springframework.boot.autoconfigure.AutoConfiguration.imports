@@ -1,1 +1,2 @@
 org.dromara.aimer.service.configuration.validate.ValidatorConfig
+org.dromara.aimer.service.configuration.idempotent.IdempotentAutoConfiguration
