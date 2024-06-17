@@ -44,6 +44,7 @@
         <mapstruct-plus.version>1.4.0</mapstruct-plus.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <dynamic.datasource.version>4.3.0</dynamic.datasource.version>
+        <redission.version>3.31.0</redission.version>
         <mysql.connector.version>8.0.33</mysql.connector.version>
         <volocity.version>2.3</volocity.version>
     </properties>
@@ -190,6 +191,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
                 <version>${dynamic.datasource.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redission.version}</version>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>

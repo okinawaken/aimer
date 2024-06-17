@@ -2,3 +2,4 @@ spring:
   config:
     import:
       - optional:polaris:dynamic-datasource.yaml
+      - optional:polaris:redisson.yaml
