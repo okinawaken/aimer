@@ -114,15 +114,15 @@ public class DropDownOptions {
         // 先创建父类的下拉
         parentLinkSonOptions.setIndex(parentIndex);
         parentLinkSonOptions.setOptions(
-            parentList.stream()
-                .map(howToBuildEveryOption)
-                .collect(Collectors.toList())
+                parentList.stream()
+                        .map(howToBuildEveryOption)
+                        .collect(Collectors.toList())
         );
         // 提取父-子级联下拉
         Map<String, List<String>> sonOptions = new HashMap<>();
         // 父级依据自己的ID分组
         Map<Number, List<T>> parentGroupByIdMap =
-            parentList.stream().collect(Collectors.groupingBy(parentHowToGetIdFunction));
+                parentList.stream().collect(Collectors.groupingBy(parentHowToGetIdFunction));
         // 遍历每个子集，提取到Map中
         sonList.forEach(everySon -> {
             if (parentGroupByIdMap.containsKey(sonHowToGetParentIdFunction.apply(everySon))) {

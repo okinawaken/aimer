@@ -1,3 +1,4 @@
 org.dromara.aimer.service.configuration.validate.ValidatorConfig
 org.dromara.aimer.service.configuration.idempotent.IdempotentAutoConfiguration
 org.dromara.aimer.service.configuration.ratelimiter.config.RateLimiterConfig
+org.dromara.aimer.service.configuration.translation.config.TranslationConfig

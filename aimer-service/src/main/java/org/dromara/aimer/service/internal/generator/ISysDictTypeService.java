@@ -1,7 +1,7 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.SysDictTypeEntity;
 import org.dromara.aimer.repository.base.BaseServicePlus;
+import org.dromara.aimer.repository.entity.SysDictTypeEntity;
 
 /**
  * <p>
