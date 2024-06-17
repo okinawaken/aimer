@@ -7,4 +7,8 @@ public interface SeparatorConstant {
     String SEMICOLON = ";";
 
     String POINT = ".";
+
+    String DOUBLE_QUOTATION_MARKS = "\"\"";
+
+    String EMPTY = "";
 }
