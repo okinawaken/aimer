@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
 
 /**
  * 限流注解
- *
- * @author Lion Li
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

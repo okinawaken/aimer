@@ -1,13 +1,13 @@
-package org.dromara.aimer.service.configuration.translation.config;
+package org.dromara.aimer.service.configuration.translation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.aimer.service.configuration.translation.annotation.TranslationType;
 import org.dromara.aimer.service.configuration.translation.core.TranslationInterface;
-import org.dromara.aimer.service.configuration.translation.core.handler.TranslationBeanSerializerModifier;
-import org.dromara.aimer.service.configuration.translation.core.handler.TranslationHandler;
+import org.dromara.aimer.service.configuration.translation.handler.TranslationBeanSerializerModifier;
+import org.dromara.aimer.service.configuration.translation.handler.TranslationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
  * 翻译模块配置类
  */
 @Slf4j
-@AutoConfiguration
+@Configuration
 public class TranslationConfig {
 
     @Autowired

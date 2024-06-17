@@ -2,7 +2,7 @@ package org.dromara.aimer.service.configuration.translation.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.dromara.aimer.service.configuration.translation.core.handler.TranslationHandler;
+import org.dromara.aimer.service.configuration.translation.handler.TranslationHandler;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 public @interface Translation {
 
     /**
-     * 类型 (需与实现类上的 {@link org.dromara.aimer.service.configuration.translation.core.handler.TranslationHandler} 注解type对应)
+     * 类型 (需与实现类上的 {@link TranslationHandler} 注解type对应)
      * <p>
      * 默认取当前字段的值 如果设置了 @{@link Translation#mapper()} 则取映射字段的值
      */

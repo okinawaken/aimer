@@ -22,8 +22,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 /**
  * 限流处理
- *
- * @author Lion Li
  */
 @Slf4j
 @Aspect

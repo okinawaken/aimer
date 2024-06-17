@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.configuration.excel.annotation;
 
-import org.dromara.aimer.service.configuration.excel.core.CellMergeStrategy;
+import org.dromara.aimer.service.configuration.excel.strategy.CellMergeStrategy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

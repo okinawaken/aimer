@@ -1,7 +1,8 @@
-package org.dromara.aimer.service.configuration.excel.core;
+package org.dromara.aimer.service.configuration.excel.result.impl;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Setter;
+import org.dromara.aimer.service.configuration.excel.result.ExcelResult;
 
 import java.util.ArrayList;
 import java.util.List;

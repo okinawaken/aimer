@@ -1,4 +1,4 @@
-package org.dromara.aimer.service.configuration.translation.core.handler;
+package org.dromara.aimer.service.configuration.translation.handler;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonGenerator;

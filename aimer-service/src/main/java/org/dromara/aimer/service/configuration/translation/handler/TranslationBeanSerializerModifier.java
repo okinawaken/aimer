@@ -1,4 +1,4 @@
-package org.dromara.aimer.service.configuration.translation.core.handler;
+package org.dromara.aimer.service.configuration.translation.handler;
 
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.SerializationConfig;

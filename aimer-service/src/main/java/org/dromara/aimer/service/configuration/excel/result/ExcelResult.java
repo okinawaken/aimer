@@ -1,4 +1,4 @@
-package org.dromara.aimer.service.configuration.excel.core;
+package org.dromara.aimer.service.configuration.excel.result;
 
 import java.util.List;
 
