@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 前端控制器
+ *  前端控制器
  * </p>
  *
  * @author Shinomiya
- * @since 2024-06-05
+ * @since 2024-06-18
  */
 @RestController
 @RequestMapping("/aimer/user-entity")
