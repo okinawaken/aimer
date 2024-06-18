@@ -2,14 +2,20 @@ package org.dromara.aimer.service.configuration.idempotent.aspectj;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.SecureUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.dromara.aimer.common.constants.SeparatorConstant;
+import org.dromara.aimer.common.exception.ServiceException;
 import org.dromara.aimer.common.response.BaseResponse;
 import org.dromara.aimer.common.utils.JsonUtils;
+import org.dromara.aimer.common.utils.MessageUtils;
+import org.dromara.aimer.common.utils.ServletUtils;
+import org.dromara.aimer.repository.constants.GlobalConstants;
 import org.dromara.aimer.repository.utils.RedisUtils;
 import org.dromara.aimer.service.configuration.idempotent.annotation.RepeatSubmit;
 import org.springframework.validation.BindingResult;
@@ -17,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -33,7 +40,33 @@ public class RepeatSubmitAspect {
 
     @Before("@annotation(repeatSubmit)")
     public void doBefore(JoinPoint point, RepeatSubmit repeatSubmit) throws Throwable {
-        // todo 后续再实现方案
+// 如果注解不为0 则使用注解数值
+        long interval = repeatSubmit.timeUnit().toMillis(repeatSubmit.interval());
+
+        if (interval < 1000) {
+            throw new ServiceException("重复提交间隔时间不能小于'1'秒");
+        }
+        HttpServletRequest request = ServletUtils.getRequest();
+        String nowParams = argsArrayToString(point.getArgs());
+
+        // 请求地址（作为存放cache的key值）
+        String url = request.getRequestURI();
+
+        // 唯一值（没有消息头则使用请求地址）
+        String submitKey = StringUtils.trimToEmpty(request.getHeader("token"));
+
+        submitKey = SecureUtil.md5(submitKey + ":" + nowParams);
+        // 唯一标识（指定key + url + 消息头）
+        String cacheRepeatKey = GlobalConstants.REPEAT_SUBMIT_KEY + url + submitKey;
+        if (RedisUtils.setObjectIfAbsent(cacheRepeatKey, "", Duration.ofMillis(interval))) {
+            KEY_CACHE.set(cacheRepeatKey);
+        } else {
+            String message = repeatSubmit.message();
+            if (StringUtils.startsWith(message, "{") && StringUtils.endsWith(message, "}")) {
+                message = MessageUtils.message(StringUtils.substring(message, 1, message.length() - 1));
+            }
+            throw new ServiceException(message);
+        }
     }
 
     /**
