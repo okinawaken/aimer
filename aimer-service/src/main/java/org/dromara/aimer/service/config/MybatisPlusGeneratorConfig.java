@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import org.dromara.aimer.repository.base.BaseEntity;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 import org.dromara.aimer.repository.base.BaseServicePlus;
-import org.dromara.aimer.service.dto.DataSourceConfigDto;
-import org.dromara.aimer.service.dto.GlobalConfigDto;
-import org.dromara.aimer.service.dto.PackageConfigDto;
-import org.dromara.aimer.service.dto.StrategyConfigDto;
+import org.dromara.aimer.service.dto.DataSourceConfigDTO;
+import org.dromara.aimer.service.dto.GlobalConfigDTO;
+import org.dromara.aimer.service.dto.PackageConfigDTO;
+import org.dromara.aimer.service.dto.StrategyConfigDTO;
 import org.dromara.aimer.service.enums.PolarisConfigEnum;
 import org.springframework.stereotype.Component;
 
@@ -26,16 +26,16 @@ import java.util.Objects;
 public class MybatisPlusGeneratorConfig extends AbstractPolarisConfig {
 
     @NotNull
-    private DataSourceConfigDto dataSourceConfig;
+    private DataSourceConfigDTO dataSourceConfig;
 
     @NotNull
-    private GlobalConfigDto globalConfig;
+    private GlobalConfigDTO globalConfig;
 
     @NotNull
-    private PackageConfigDto packageConfig;
+    private PackageConfigDTO packageConfig;
 
     @NotNull
-    private StrategyConfigDto strategyConfig;
+    private StrategyConfigDTO strategyConfig;
 
     @JsonIgnore
     public DataSourceConfig getTargetDataSourceConfig() {

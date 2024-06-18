@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class PackageConfigDto {
+public class PackageConfigDTO {
 
     private String parent;
 

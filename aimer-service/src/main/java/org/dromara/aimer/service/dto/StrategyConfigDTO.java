@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class StrategyConfigDto {
+public class StrategyConfigDTO {
 
     private List<String> includes;
 }
