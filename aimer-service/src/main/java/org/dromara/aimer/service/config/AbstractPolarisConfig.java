@@ -4,7 +4,7 @@ import com.tencent.cloud.polaris.context.config.PolarisContextProperties;
 import com.tencent.polaris.configuration.api.core.ConfigFile;
 import com.tencent.polaris.configuration.api.core.ConfigFileService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.dromara.aimer.common.constants.ApplicationConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -40,7 +40,6 @@ public abstract class AbstractPolarisConfig extends AbstractConfig {
 
     @Override
     String group() {
-        return StringUtils.getIfBlank(polarisContextProperties.getService(),
-                () -> environment.getProperty("spring.application.name"));
+        return ApplicationConstant.AIMER_CONSOLE;
     }
 }

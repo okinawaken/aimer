@@ -3,7 +3,7 @@ package org.dromara.aimer.common.constants;
 /**
  * 返回状态码
  */
-public interface HttpStatus {
+public interface HttpStatusConstant {
     /**
      * 操作成功
      */
