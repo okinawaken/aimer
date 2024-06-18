@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysSocialEntity;
+import org.dromara.aimer.repository.domain.SysSocialDO;
 import org.dromara.aimer.repository.mapper.SysSocialMapper;
 import org.dromara.aimer.service.internal.generator.ISysSocialService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysSocialServiceImpl extends ServiceImpl<SysSocialMapper, SysSocialEntity> implements ISysSocialService {
+public class SysSocialServiceImpl extends ServiceImpl<SysSocialMapper, SysSocialDO> implements ISysSocialService {
 
 }

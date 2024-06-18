@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 通知公告表
+ * OSS对象存储表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_notice")
-public class SysNoticeEntity extends BaseEntity {
+@TableName("sys_oss")
+public class SysOssDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 公告ID
+     * 对象存储主键
      */
-    @TableId("notice_id")
-    private Long noticeId;
+    @TableId("oss_id")
+    private Long ossId;
 
     /**
      * 租户编号
@@ -38,28 +37,28 @@ public class SysNoticeEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 公告标题
+     * 文件名
      */
-    @TableField("notice_title")
-    private String noticeTitle;
+    @TableField("file_name")
+    private String fileName;
 
     /**
-     * 公告类型（1通知 2公告）
+     * 原名
      */
-    @TableField("notice_type")
-    private String noticeType;
+    @TableField("original_name")
+    private String originalName;
 
     /**
-     * 公告内容
+     * 文件后缀名
      */
-    @TableField("notice_content")
-    private byte[] noticeContent;
+    @TableField("file_suffix")
+    private String fileSuffix;
 
     /**
-     * 公告状态（0正常 1关闭）
+     * URL地址
      */
-    @TableField("status")
-    private String status;
+    @TableField("url")
+    private String url;
 
     /**
      * 创建部门
@@ -68,20 +67,20 @@ public class SysNoticeEntity extends BaseEntity {
     private Long createDept;
 
     /**
-     * 创建者
+     * 上传人
      */
     @TableField("create_by")
     private Long createBy;
 
     /**
-     * 更新者
+     * 更新人
      */
     @TableField("update_by")
     private Long updateBy;
 
     /**
-     * 备注
+     * 服务商
      */
-    @TableField("remark")
-    private String remark;
+    @TableField("service")
+    private String service;
 }

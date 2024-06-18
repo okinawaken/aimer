@@ -1,6 +1,6 @@
 package org.dromara.aimer.repository.mapper;
 
-import org.dromara.aimer.repository.entity.SysRoleEntity;
+import org.dromara.aimer.repository.domain.SysRoleDO;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseMapperPlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface SysRoleMapper extends BaseMapperPlus<SysRoleEntity> {
+public interface SysRoleMapper extends BaseMapperPlus<SysRoleDO> {
 
 }

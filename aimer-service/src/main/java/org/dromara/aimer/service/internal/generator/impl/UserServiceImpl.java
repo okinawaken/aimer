@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.UserEntity;
+import org.dromara.aimer.repository.domain.UserDO;
 import org.dromara.aimer.repository.mapper.UserMapper;
 import org.dromara.aimer.service.internal.generator.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements IUserService {
 
 }

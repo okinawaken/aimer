@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典数据表
+ * 岗位信息表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_dict_data")
-public class SysDictDataEntity extends BaseEntity {
+@TableName("sys_post")
+public class SysPostDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 字典编码
+     * 岗位ID
      */
-    @TableId("dict_code")
-    private Long dictCode;
+    @TableId("post_id")
+    private Long postId;
 
     /**
      * 租户编号
@@ -38,46 +37,28 @@ public class SysDictDataEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 字典排序
+     * 岗位编码
      */
-    @TableField("dict_sort")
-    private Integer dictSort;
+    @TableField("post_code")
+    private String postCode;
 
     /**
-     * 字典标签
+     * 岗位名称
      */
-    @TableField("dict_label")
-    private String dictLabel;
+    @TableField("post_name")
+    private String postName;
 
     /**
-     * 字典键值
+     * 显示顺序
      */
-    @TableField("dict_value")
-    private String dictValue;
+    @TableField("post_sort")
+    private Integer postSort;
 
     /**
-     * 字典类型
+     * 状态（0正常 1停用）
      */
-    @TableField("dict_type")
-    private String dictType;
-
-    /**
-     * 样式属性（其他样式扩展）
-     */
-    @TableField("css_class")
-    private String cssClass;
-
-    /**
-     * 表格回显样式
-     */
-    @TableField("list_class")
-    private String listClass;
-
-    /**
-     * 是否默认（Y是 N否）
-     */
-    @TableField("is_default")
-    private String isDefault;
+    @TableField("status")
+    private String status;
 
     /**
      * 创建部门

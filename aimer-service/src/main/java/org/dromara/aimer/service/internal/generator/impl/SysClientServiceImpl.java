@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysClientEntity;
+import org.dromara.aimer.repository.domain.SysClientDO;
 import org.dromara.aimer.repository.mapper.SysClientMapper;
 import org.dromara.aimer.service.internal.generator.ISysClientService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysClientServiceImpl extends ServiceImpl<SysClientMapper, SysClientEntity> implements ISysClientService {
+public class SysClientServiceImpl extends ServiceImpl<SysClientMapper, SysClientDO> implements ISysClientService {
 
 }

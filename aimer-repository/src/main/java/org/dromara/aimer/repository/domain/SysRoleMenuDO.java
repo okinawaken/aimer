@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 角色和部门关联表
+ * 角色和菜单关联表
  * </p>
  *
  * @author Shinomiya
@@ -20,8 +19,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_role_dept")
-public class SysRoleDeptEntity extends BaseEntity {
+@TableName("sys_role_menu")
+public class SysRoleMenuDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,8 +34,8 @@ public class SysRoleDeptEntity extends BaseEntity {
     private Long roleId;
 
     /**
-     * 部门ID
+     * 菜单ID
      */
-    @TableField("dept_id")
-    private Long deptId;
+    @TableField("menu_id")
+    private Long menuId;
 }

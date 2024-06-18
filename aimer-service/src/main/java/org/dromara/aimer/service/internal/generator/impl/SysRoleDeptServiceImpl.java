@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysRoleDeptEntity;
+import org.dromara.aimer.repository.domain.SysRoleDeptDO;
 import org.dromara.aimer.repository.mapper.SysRoleDeptMapper;
 import org.dromara.aimer.service.internal.generator.ISysRoleDeptService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysRoleDeptServiceImpl extends ServiceImpl<SysRoleDeptMapper, SysRoleDeptEntity> implements ISysRoleDeptService {
+public class SysRoleDeptServiceImpl extends ServiceImpl<SysRoleDeptMapper, SysRoleDeptDO> implements ISysRoleDeptService {
 
 }

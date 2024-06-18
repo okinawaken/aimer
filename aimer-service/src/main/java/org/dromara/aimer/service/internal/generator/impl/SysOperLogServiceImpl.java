@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysOperLogEntity;
+import org.dromara.aimer.repository.domain.SysOperLogDO;
 import org.dromara.aimer.repository.mapper.SysOperLogMapper;
 import org.dromara.aimer.service.internal.generator.ISysOperLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOperLogEntity> implements ISysOperLogService {
+public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOperLogDO> implements ISysOperLogService {
 
 }

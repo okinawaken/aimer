@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysDictDataEntity;
+import org.dromara.aimer.repository.domain.SysDictDataDO;
 import org.dromara.aimer.repository.mapper.SysDictDataMapper;
 import org.dromara.aimer.service.internal.generator.ISysDictDataService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictDataEntity> implements ISysDictDataService {
+public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDictDataDO> implements ISysDictDataService {
 
 }

@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 参数配置表
+ * 字典类型表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_config")
-public class SysConfigEntity extends BaseEntity {
+@TableName("sys_dict_type")
+public class SysDictTypeDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 参数主键
+     * 字典主键
      */
-    @TableId("config_id")
-    private Long configId;
+    @TableId("dict_id")
+    private Long dictId;
 
     /**
      * 租户编号
@@ -38,28 +37,16 @@ public class SysConfigEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 参数名称
+     * 字典名称
      */
-    @TableField("config_name")
-    private String configName;
+    @TableField("dict_name")
+    private String dictName;
 
     /**
-     * 参数键名
+     * 字典类型
      */
-    @TableField("config_key")
-    private String configKey;
-
-    /**
-     * 参数键值
-     */
-    @TableField("config_value")
-    private String configValue;
-
-    /**
-     * 系统内置（Y是 N否）
-     */
-    @TableField("config_type")
-    private String configType;
+    @TableField("dict_type")
+    private String dictType;
 
     /**
      * 创建部门

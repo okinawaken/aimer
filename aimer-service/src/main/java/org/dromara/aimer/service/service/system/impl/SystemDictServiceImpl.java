@@ -3,7 +3,7 @@ package org.dromara.aimer.service.service.system.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.aimer.common.constants.SeparatorConstant;
 import org.dromara.aimer.common.utils.StreamUtils;
-import org.dromara.aimer.repository.entity.SysDictDataEntity;
+import org.dromara.aimer.repository.domain.SysDictDataDO;
 import org.dromara.aimer.service.internal.generator.ISysDictDataService;
 import org.dromara.aimer.service.service.system.ISystemDictService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class SystemDictServiceImpl implements ISystemDictService {
 
     @Override
     public Map<String, String> getDictValueToDictLabelMapByDictType(String dictType) {
-        List<SysDictDataEntity> list = sysDictDataService.lambdaQuery()
-                .eq(SysDictDataEntity::getDictType, dictType)
+        List<SysDictDataDO> list = sysDictDataService.lambdaQuery()
+                .eq(SysDictDataDO::getDictType, dictType)
                 .list();
-        return StreamUtils.toMap(list, SysDictDataEntity::getDictValue, SysDictDataEntity::getDictLabel);
+        return StreamUtils.toMap(list, SysDictDataDO::getDictValue, SysDictDataDO::getDictLabel);
     }
 
     @Override
     public Map<String, String> getDictLabelToDictValueMapByDictType(String dictType) {
-        List<SysDictDataEntity> list = sysDictDataService.lambdaQuery()
-                .eq(SysDictDataEntity::getDictType, dictType)
+        List<SysDictDataDO> list = sysDictDataService.lambdaQuery()
+                .eq(SysDictDataDO::getDictType, dictType)
                 .list();
-        return StreamUtils.toMap(list, SysDictDataEntity::getDictLabel, SysDictDataEntity::getDictValue);
+        return StreamUtils.toMap(list, SysDictDataDO::getDictLabel, SysDictDataDO::getDictValue);
     }
 
     @Override

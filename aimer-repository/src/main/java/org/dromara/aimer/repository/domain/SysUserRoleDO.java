@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 用户和角色关联表
  * </p>
  *
  * @author Shinomiya
@@ -20,32 +19,23 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("user")
-public class UserEntity extends BaseEntity {
+@TableName("sys_user_role")
+public class SysUserRoleDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键ID
-     */
     @TableId("id")
     private Long id;
 
     /**
-     * 姓名
+     * 用户ID
      */
-    @TableField("name")
-    private String name;
+    @TableField("user_id")
+    private Long userId;
 
     /**
-     * 年龄
+     * 角色ID
      */
-    @TableField("age")
-    private Integer age;
-
-    /**
-     * 邮箱
-     */
-    @TableField("email")
-    private String email;
+    @TableField("role_id")
+    private Long roleId;
 }

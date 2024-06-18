@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.SysOperLogEntity;
+import org.dromara.aimer.repository.domain.SysOperLogDO;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface ISysOperLogService extends BaseServicePlus<SysOperLogEntity> {
+public interface ISysOperLogService extends BaseServicePlus<SysOperLogDO> {
 
 }

@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.SysNoticeEntity;
+import org.dromara.aimer.repository.domain.SysNoticeDO;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface ISysNoticeService extends BaseServicePlus<SysNoticeEntity> {
+public interface ISysNoticeService extends BaseServicePlus<SysNoticeDO> {
 
 }

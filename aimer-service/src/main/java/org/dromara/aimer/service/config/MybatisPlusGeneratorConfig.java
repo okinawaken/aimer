@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 import org.dromara.aimer.service.dto.DataSourceConfigDTO;
@@ -83,7 +83,7 @@ public class MybatisPlusGeneratorConfig extends AbstractPolarisConfig {
         }
         return new StrategyConfig.Builder()
                 .addInclude(strategyConfig.getIncludes())
-                .entityBuilder().superClass(BaseEntity.class).enableFileOverride().formatFileName("%sEntity").addIgnoreColumns("create_time", "update_time").enableTableFieldAnnotation().enableLombok().enableChainModel().build()
+                .entityBuilder().superClass(BaseDO.class).enableFileOverride().formatFileName("%sDO").addIgnoreColumns("create_time", "update_time").enableTableFieldAnnotation().enableLombok().enableChainModel().build()
                 .controllerBuilder().enableFileOverride().enableRestStyle().enableHyphenStyle().build()
                 .mapperBuilder().superClass(BaseMapperPlus.class).enableFileOverride().build()
                 .serviceBuilder().superServiceClass(BaseServicePlus.class).enableFileOverride().build();

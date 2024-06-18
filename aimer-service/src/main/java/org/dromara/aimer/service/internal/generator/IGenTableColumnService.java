@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.GenTableColumnEntity;
+import org.dromara.aimer.repository.domain.GenTableColumnDO;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface IGenTableColumnService extends BaseServicePlus<GenTableColumnEntity> {
+public interface IGenTableColumnService extends BaseServicePlus<GenTableColumnDO> {
 
 }

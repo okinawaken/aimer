@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysOssConfigEntity;
+import org.dromara.aimer.repository.domain.SysOssConfigDO;
 import org.dromara.aimer.repository.mapper.SysOssConfigMapper;
 import org.dromara.aimer.service.internal.generator.ISysOssConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysOssConfigServiceImpl extends ServiceImpl<SysOssConfigMapper, SysOssConfigEntity> implements ISysOssConfigService {
+public class SysOssConfigServiceImpl extends ServiceImpl<SysOssConfigMapper, SysOssConfigDO> implements ISysOssConfigService {
 
 }

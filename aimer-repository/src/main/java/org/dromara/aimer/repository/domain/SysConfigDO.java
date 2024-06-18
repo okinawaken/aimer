@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * OSS对象存储表
+ * 参数配置表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_oss")
-public class SysOssEntity extends BaseEntity {
+@TableName("sys_config")
+public class SysConfigDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 对象存储主键
+     * 参数主键
      */
-    @TableId("oss_id")
-    private Long ossId;
+    @TableId("config_id")
+    private Long configId;
 
     /**
      * 租户编号
@@ -38,28 +37,28 @@ public class SysOssEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 文件名
+     * 参数名称
      */
-    @TableField("file_name")
-    private String fileName;
+    @TableField("config_name")
+    private String configName;
 
     /**
-     * 原名
+     * 参数键名
      */
-    @TableField("original_name")
-    private String originalName;
+    @TableField("config_key")
+    private String configKey;
 
     /**
-     * 文件后缀名
+     * 参数键值
      */
-    @TableField("file_suffix")
-    private String fileSuffix;
+    @TableField("config_value")
+    private String configValue;
 
     /**
-     * URL地址
+     * 系统内置（Y是 N否）
      */
-    @TableField("url")
-    private String url;
+    @TableField("config_type")
+    private String configType;
 
     /**
      * 创建部门
@@ -68,20 +67,20 @@ public class SysOssEntity extends BaseEntity {
     private Long createDept;
 
     /**
-     * 上传人
+     * 创建者
      */
     @TableField("create_by")
     private Long createBy;
 
     /**
-     * 更新人
+     * 更新者
      */
     @TableField("update_by")
     private Long updateBy;
 
     /**
-     * 服务商
+     * 备注
      */
-    @TableField("service")
-    private String service;
+    @TableField("remark")
+    private String remark;
 }

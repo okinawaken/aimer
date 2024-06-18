@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.SysPostEntity;
+import org.dromara.aimer.repository.domain.SysPostDO;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface ISysPostService extends BaseServicePlus<SysPostEntity> {
+public interface ISysPostService extends BaseServicePlus<SysPostDO> {
 
 }

@@ -1,6 +1,6 @@
 package org.dromara.aimer.repository.mapper;
 
-import org.dromara.aimer.repository.entity.SysOperLogEntity;
+import org.dromara.aimer.repository.domain.SysOperLogDO;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseMapperPlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface SysOperLogMapper extends BaseMapperPlus<SysOperLogEntity> {
+public interface SysOperLogMapper extends BaseMapperPlus<SysOperLogDO> {
 
 }

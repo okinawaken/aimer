@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.GenTableColumnEntity;
+import org.dromara.aimer.repository.domain.GenTableColumnDO;
 import org.dromara.aimer.repository.mapper.GenTableColumnMapper;
 import org.dromara.aimer.service.internal.generator.IGenTableColumnService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper, GenTableColumnEntity> implements IGenTableColumnService {
+public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper, GenTableColumnDO> implements IGenTableColumnService {
 
 }

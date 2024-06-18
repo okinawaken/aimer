@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author FrozenWatermelon
  */
 @Data
-public class BaseEntity implements Serializable {
+public class BaseDO implements Serializable {
 
     /**
      * 创建时间

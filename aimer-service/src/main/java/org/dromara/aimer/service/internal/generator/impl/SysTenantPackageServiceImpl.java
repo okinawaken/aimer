@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator.impl;
 
-import org.dromara.aimer.repository.entity.SysTenantPackageEntity;
+import org.dromara.aimer.repository.domain.SysTenantPackageDO;
 import org.dromara.aimer.repository.mapper.SysTenantPackageMapper;
 import org.dromara.aimer.service.internal.generator.ISysTenantPackageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-06-18
  */
 @Service
-public class SysTenantPackageServiceImpl extends ServiceImpl<SysTenantPackageMapper, SysTenantPackageEntity> implements ISysTenantPackageService {
+public class SysTenantPackageServiceImpl extends ServiceImpl<SysTenantPackageMapper, SysTenantPackageDO> implements ISysTenantPackageService {
 
 }

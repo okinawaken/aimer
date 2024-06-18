@@ -1,17 +1,16 @@
-package org.dromara.aimer.repository.entity;
+package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import org.dromara.aimer.repository.base.BaseEntity;
+import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 字典类型表
+ * 通知公告表
  * </p>
  *
  * @author Shinomiya
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_dict_type")
-public class SysDictTypeEntity extends BaseEntity {
+@TableName("sys_notice")
+public class SysNoticeDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 字典主键
+     * 公告ID
      */
-    @TableId("dict_id")
-    private Long dictId;
+    @TableId("notice_id")
+    private Long noticeId;
 
     /**
      * 租户编号
@@ -38,16 +37,28 @@ public class SysDictTypeEntity extends BaseEntity {
     private String tenantId;
 
     /**
-     * 字典名称
+     * 公告标题
      */
-    @TableField("dict_name")
-    private String dictName;
+    @TableField("notice_title")
+    private String noticeTitle;
 
     /**
-     * 字典类型
+     * 公告类型（1通知 2公告）
      */
-    @TableField("dict_type")
-    private String dictType;
+    @TableField("notice_type")
+    private String noticeType;
+
+    /**
+     * 公告内容
+     */
+    @TableField("notice_content")
+    private byte[] noticeContent;
+
+    /**
+     * 公告状态（0正常 1关闭）
+     */
+    @TableField("status")
+    private String status;
 
     /**
      * 创建部门

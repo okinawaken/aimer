@@ -1,6 +1,6 @@
 package org.dromara.aimer.service.internal.generator;
 
-import org.dromara.aimer.repository.entity.SysClientEntity;
+import org.dromara.aimer.repository.domain.SysClientDO;
 import org.dromara.aimer.repository.base.BaseServicePlus;
 
 /**
@@ -11,6 +11,6 @@ import org.dromara.aimer.repository.base.BaseServicePlus;
  * @author Shinomiya
  * @since 2024-06-18
  */
-public interface ISysClientService extends BaseServicePlus<SysClientEntity> {
+public interface ISysClientService extends BaseServicePlus<SysClientDO> {
 
 }
