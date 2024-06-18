@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-06-18
  */
 @RestController
-@RequestMapping("/aimer/sys-menu-entity")
+@RequestMapping("/aimer/sys-menu-do")
 public class SysMenuController {
 
 }

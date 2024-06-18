@@ -3,7 +3,7 @@ package org.dromara.aimer.repository.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import org.dromara.aimer.repository.base.BaseDO;
 import lombok.Getter;

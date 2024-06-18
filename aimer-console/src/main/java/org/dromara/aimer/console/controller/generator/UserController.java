@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-06-18
  */
 @RestController
-@RequestMapping("/aimer/user-entity")
+@RequestMapping("/aimer/user-do")
 public class UserController {
 
 }

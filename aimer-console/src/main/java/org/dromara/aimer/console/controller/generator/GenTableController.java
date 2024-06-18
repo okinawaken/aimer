@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-06-18
  */
 @RestController
-@RequestMapping("/aimer/gen-table-entity")
+@RequestMapping("/aimer/gen-table-do")
 public class GenTableController {
 
 }

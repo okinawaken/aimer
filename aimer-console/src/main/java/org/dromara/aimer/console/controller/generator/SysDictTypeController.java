@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-06-18
  */
 @RestController
-@RequestMapping("/aimer/sys-dict-type-entity")
+@RequestMapping("/aimer/sys-dict-type-do")
 public class SysDictTypeController {
 
 }

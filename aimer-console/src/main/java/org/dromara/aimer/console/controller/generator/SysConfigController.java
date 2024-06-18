@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-06-18
  */
 @RestController
-@RequestMapping("/aimer/sys-config-entity")
+@RequestMapping("/aimer/sys-config-do")
 public class SysConfigController {
 
 }
