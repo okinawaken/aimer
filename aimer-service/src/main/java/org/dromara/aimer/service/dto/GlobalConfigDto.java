@@ -1,9 +1,9 @@
-package org.dromara.aimer.service.bo.config;
+package org.dromara.aimer.service.dto;
 
 import lombok.Data;
 
 @Data
-public class GlobalConfigBo {
+public class GlobalConfigDto {
 
     private String outputDir;
 

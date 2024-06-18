@@ -1,9 +1,9 @@
-package org.dromara.aimer.service.bo.config;
+package org.dromara.aimer.service.dto;
 
 import lombok.Data;
 
 @Data
-public class DataSourceConfigBo {
+public class DataSourceConfigDto {
 
     private String url;
 

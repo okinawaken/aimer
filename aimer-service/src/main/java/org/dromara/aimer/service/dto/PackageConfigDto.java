@@ -1,4 +1,4 @@
-package org.dromara.aimer.service.bo.config;
+package org.dromara.aimer.service.dto;
 
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class PackageConfigBo {
+public class PackageConfigDto {
 
     private String parent;
 
