@@ -49,6 +49,7 @@
         <redission.version>3.31.0</redission.version>
         <mysql.connector.version>8.0.33</mysql.connector.version>
         <volocity.version>2.3</volocity.version>
+        <sa-token.version>1.38.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
@@ -219,6 +220,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${volocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${sa-token.version}</version>
             </dependency>
 
             <!-- 北极星注册发现插件 -->
