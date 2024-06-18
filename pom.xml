@@ -17,6 +17,7 @@
         <module>aimer-task</module>
         <module>aimer-console</module>
         <module>aimer-gateway</module>
+        <module>aimer-auth</module>
     </modules>
 
     <properties>
@@ -136,6 +137,11 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>aimer-gateway</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>aimer-auth</artifactId>
                 <version>${revision}</version>
             </dependency>
 
