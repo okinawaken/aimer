@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    polaris:
+      config:
+        groups:
+          - name: aimer-console
+            files:
+              - dynamic-datasource.yaml
+              - redisson.yaml
