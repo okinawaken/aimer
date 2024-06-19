@@ -30,6 +30,11 @@
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-registry-polaris</artifactId>
         </dependency>
+        <!-- 北极星动态配置中心插件 -->
+        <dependency>
+            <groupId>com.tencent.polaris</groupId>
+            <artifactId>dubbo-configcenter-polaris</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>cn.dev33</groupId>
