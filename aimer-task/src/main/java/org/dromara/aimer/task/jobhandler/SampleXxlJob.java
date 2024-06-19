@@ -4,6 +4,7 @@ import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedInputStream;
@@ -165,7 +166,7 @@ public class SampleXxlJob {
             XxlJobHelper.handleFail();
             return;
         }
-        boolean isPostMethod = method.equals("POST");
+        boolean isPostMethod = HttpMethod.POST.matches(method);
 
         // request
         HttpURLConnection connection = null;

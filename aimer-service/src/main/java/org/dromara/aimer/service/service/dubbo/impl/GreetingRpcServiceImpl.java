@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GreetingRpcServiceImpl implements IGreetingRpcService {
 
+    @Override
     public BaseResponse<String> sayHello(String name) {
         String result = "hello, " + name;
         return BaseResponse.ok(result);
