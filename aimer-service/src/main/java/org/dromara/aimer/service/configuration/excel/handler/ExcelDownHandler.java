@@ -29,7 +29,7 @@ import org.dromara.aimer.common.utils.StreamUtils;
 import org.dromara.aimer.service.configuration.excel.annotation.ExcelDictFormat;
 import org.dromara.aimer.service.configuration.excel.annotation.ExcelEnumFormat;
 import org.dromara.aimer.service.configuration.excel.core.DropDownOptions;
-import org.dromara.aimer.service.service.system.ISystemDictService;
+import org.dromara.aimer.service.service.system.ISysDictDataService;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -76,13 +76,13 @@ public class ExcelDownHandler implements SheetWriteHandler {
      */
     private int currentLinkedOptionsSheetIndex;
 
-    private final ISystemDictService dictService;
+    private final ISysDictDataService dictService;
 
     public ExcelDownHandler(List<DropDownOptions> options) {
         this.dropDownOptions = options;
         this.currentOptionsColumnIndex = 0;
         this.currentLinkedOptionsSheetIndex = 0;
-        this.dictService = SpringUtil.getBean(ISystemDictService.class);
+        this.dictService = SpringUtil.getBean(ISysDictDataService.class);
     }
 
     /**

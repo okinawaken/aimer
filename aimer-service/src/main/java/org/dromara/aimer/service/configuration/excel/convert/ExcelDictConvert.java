@@ -13,7 +13,7 @@ import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.aimer.service.configuration.excel.annotation.ExcelDictFormat;
-import org.dromara.aimer.service.service.system.ISystemDictService;
+import org.dromara.aimer.service.service.system.ISysDictDataService;
 import org.dromara.aimer.service.utils.ExcelUtil;
 
 import java.lang.reflect.Field;
@@ -43,7 +43,7 @@ public class ExcelDictConvert implements Converter<Object> {
         if (StringUtils.isBlank(type)) {
             value = ExcelUtil.reverseByExp(label, anno.readConverterExp(), anno.separator());
         } else {
-            value = SpringUtil.getBean(ISystemDictService.class).getDictValue(type, label, anno.separator());
+            value = SpringUtil.getBean(ISysDictDataService.class).getDictValue(type, label, anno.separator());
         }
         return Convert.convert(contentProperty.getField().getType(), value);
     }
@@ -60,7 +60,7 @@ public class ExcelDictConvert implements Converter<Object> {
         if (StringUtils.isBlank(type)) {
             label = ExcelUtil.convertByExp(value, anno.readConverterExp(), anno.separator());
         } else {
-            label = SpringUtil.getBean(ISystemDictService.class).getDictLabel(type, value, anno.separator());
+            label = SpringUtil.getBean(ISysDictDataService.class).getDictLabel(type, value, anno.separator());
         }
         return new WriteCellData<>(label);
     }
