@@ -1,4 +1,4 @@
-package org.dromara.aimer.console.configuration;
+package org.dromara.aimer.console.configuration.dubbo;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.context.annotation.Configuration;
