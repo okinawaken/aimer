@@ -19,6 +19,6 @@
     <dubbo:provider filter="-polaris_ratelimit"/>
 
     <!-- 定义dubbo提供接口 -->
-    <dubbo:service interface="org.dromara.aimer.api.dubbo.GreetingService" id="greetingService"
-                   ref="greetingServiceImpl"/>
+    <dubbo:service interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" id="greetingService"
+                   ref="greetingRpcServiceImpl"/>
 </beans>

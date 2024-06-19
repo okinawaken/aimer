@@ -15,21 +15,14 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package org.dromara.aimer.service.service.dubbo.impl;
+package org.dromara.aimer.api.dubbo;
 
-import org.dromara.aimer.api.dubbo.GreetingService;
-import org.springframework.stereotype.Service;
+import org.dromara.aimer.common.response.BaseResponse;
 
-@Service
-public class GreetingServiceImpl implements GreetingService {
+public interface IGreetingRpcService {
 
-    public String sayHello(String name) {
-        return "hello, " + name;
-    }
+    BaseResponse<String> sayHello(String name);
 
-    @Override
-    public String sayHi(String name) {
-        return "[provider by polaris] hi, " + name;
-    }
+    BaseResponse<String> sayHi(String name);
 
 }

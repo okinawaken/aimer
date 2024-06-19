@@ -27,40 +27,12 @@ public class BaseResponse<T> implements Serializable {
         return restResult(data, HttpStatusConstant.SUCCESS, "操作成功");
     }
 
-    public static <T> BaseResponse<T> ok(String msg) {
-        return restResult(null, HttpStatusConstant.SUCCESS, msg);
-    }
-
-    public static <T> BaseResponse<T> ok(String msg, T data) {
-        return restResult(data, HttpStatusConstant.SUCCESS, msg);
-    }
-
     public static <T> BaseResponse<T> fail() {
         return restResult(null, HttpStatusConstant.ERROR, "操作失败");
     }
 
     public static <T> BaseResponse<T> fail(String msg) {
         return restResult(null, HttpStatusConstant.ERROR, msg);
-    }
-
-    public static <T> BaseResponse<T> fail(T data) {
-        return restResult(data, HttpStatusConstant.ERROR, "操作失败");
-    }
-
-    public static <T> BaseResponse<T> fail(String msg, T data) {
-        return restResult(data, HttpStatusConstant.ERROR, msg);
-    }
-
-    public static <T> BaseResponse<T> fail(int code, String msg) {
-        return restResult(null, code, msg);
-    }
-
-    public static <T> BaseResponse<T> warn(String msg) {
-        return restResult(null, HttpStatusConstant.WARN, msg);
-    }
-
-    public static <T> BaseResponse<T> warn(String msg, T data) {
-        return restResult(data, HttpStatusConstant.WARN, msg);
     }
 
     private static <T> BaseResponse<T> restResult(T data, int code, String msg) {

@@ -8,7 +8,15 @@ public class UserException extends BaseException {
 
     private static final long serialVersionUID = 1L;
 
-    public UserException(String code, Object... args) {
-        super("user", code, args, null);
+    public UserException(String code, Object[] args) {
+        super(code, args);
+    }
+
+    public UserException(String message) {
+        super(message);
+    }
+
+    public UserException(Exception e) {
+        super(e);
     }
 }
