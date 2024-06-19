@@ -1,4 +1,4 @@
-package org.dromara.aimer.integration.configuration.polaris;
+package org.dromara.aimer.service.configuration.polaris;
 
 import com.tencent.cloud.polaris.config.adapter.PolarisConfigCustomExtensionLayer;
 import com.tencent.cloud.polaris.config.adapter.PolarisConfigPropertyAutoRefresher;
