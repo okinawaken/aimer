@@ -1,6 +1,6 @@
 package org.dromara.aimer.api.dubbo;
 
-public interface ISystemConfigGrpcService {
+public interface ISystemConfigRpcService {
 
     /**
      * 获取注册开关
