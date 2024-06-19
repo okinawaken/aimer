@@ -7,10 +7,10 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-import static org.dromara.aimer.common.constants.UserConstants.PASSWORD_MAX_LENGTH;
-import static org.dromara.aimer.common.constants.UserConstants.PASSWORD_MIN_LENGTH;
-import static org.dromara.aimer.common.constants.UserConstants.USERNAME_MAX_LENGTH;
-import static org.dromara.aimer.common.constants.UserConstants.USERNAME_MIN_LENGTH;
+import static org.dromara.aimer.common.constants.UserConstant.PASSWORD_MAX_LENGTH;
+import static org.dromara.aimer.common.constants.UserConstant.PASSWORD_MIN_LENGTH;
+import static org.dromara.aimer.common.constants.UserConstant.USERNAME_MAX_LENGTH;
+import static org.dromara.aimer.common.constants.UserConstant.USERNAME_MIN_LENGTH;
 
 
 /**

@@ -5,7 +5,7 @@ package org.dromara.aimer.common.constants;
  *
  * @author ruoyi
  */
-public interface UserConstants {
+public interface UserConstant {
 
     /**
      * 平台内系统用户的唯一标志

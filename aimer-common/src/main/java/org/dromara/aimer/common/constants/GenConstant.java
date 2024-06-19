@@ -3,7 +3,7 @@ package org.dromara.aimer.common.constants;
 /**
  * 代码生成通用常量
  */
-public interface GenConstants {
+public interface GenConstant {
     /**
      * 单表（增删改查）
      */
