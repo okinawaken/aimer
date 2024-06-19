@@ -5,7 +5,7 @@ package org.dromara.aimer.common.enums;
  *
  * @author ruoyi
  */
-public enum BusinessStatus {
+public enum BusinessStatusEnum {
     /**
      * 成功
      */

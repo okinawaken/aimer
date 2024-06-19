@@ -1,7 +1,7 @@
 package org.dromara.aimer.service.configuration.log.annotation;
 
-import org.dromara.aimer.common.enums.BusinessType;
-import org.dromara.aimer.common.enums.OperatorType;
+import org.dromara.aimer.common.enums.BusinessTypeEnum;
+import org.dromara.aimer.common.enums.OperatorTypeEnum;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,12 +24,12 @@ public @interface Log {
     /**
      * 功能
      */
-    BusinessType businessType() default BusinessType.OTHER;
+    BusinessTypeEnum businessType() default BusinessTypeEnum.OTHER;
 
     /**
      * 操作人类别
      */
-    OperatorType operatorType() default OperatorType.MANAGE;
+    OperatorTypeEnum operatorType() default OperatorTypeEnum.MANAGE;
 
     /**
      * 是否保存请求的参数

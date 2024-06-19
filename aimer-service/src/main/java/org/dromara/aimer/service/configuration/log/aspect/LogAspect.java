@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.dromara.aimer.common.enums.BusinessStatus;
+import org.dromara.aimer.common.enums.BusinessStatusEnum;
 import org.dromara.aimer.common.utils.JsonUtils;
 import org.dromara.aimer.common.utils.ServletUtils;
 import org.dromara.aimer.service.configuration.log.annotation.Log;
@@ -90,14 +90,14 @@ public class LogAspect {
 
             // *========数据库日志=========*//
             OperLogEvent operLog = new OperLogEvent();
-            operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
+            operLog.setStatus(BusinessStatusEnum.SUCCESS.ordinal());
             // 请求的地址
             String ip = ServletUtils.getClientIP();
             operLog.setOperIp(ip);
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
 
             if (e != null) {
-                operLog.setStatus(BusinessStatus.FAIL.ordinal());
+                operLog.setStatus(BusinessStatusEnum.FAIL.ordinal());
                 operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
             // 设置方法名称

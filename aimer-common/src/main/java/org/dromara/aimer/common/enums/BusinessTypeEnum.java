@@ -3,7 +3,7 @@ package org.dromara.aimer.common.enums;
 /**
  * 业务操作类型
  */
-public enum BusinessType {
+public enum BusinessTypeEnum {
     /**
      * 其它
      */
