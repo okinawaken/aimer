@@ -13,4 +13,6 @@
     <dubbo:registry address="polaris://polaris.nicomoe.cn:8091?namespace=${spring.profiles.active}"/>
     <!-- 定义配置中心地址 -->
     <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
+
+    <dubbo:reference interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" id="systemConfigRpcService"/>
 </beans>

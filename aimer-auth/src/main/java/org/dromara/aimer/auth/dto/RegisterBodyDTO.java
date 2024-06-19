@@ -33,4 +33,10 @@ public class RegisterBodyDTO {
      * 用户类型
      */
     private String userType;
+
+    /**
+     * 租户ID
+     */
+    private String tenantId;
+
 }
