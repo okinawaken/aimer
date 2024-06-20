@@ -7,5 +7,4 @@
     <context:property-placeholder/>
 
     <!-- 定义dubbo消费接口 -->
-    <dubbo:reference interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" id="greetingRpcService"/>
 </beans>
