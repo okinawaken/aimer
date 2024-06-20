@@ -19,10 +19,25 @@ package org.dromara.aimer.api.dubbo;
 
 import org.dromara.aimer.common.response.BaseResponse;
 
+/**
+ * @author bixiu
+ */
 public interface IGreetingRpcService {
 
+    /**
+     * sayHello
+     *
+     * @param name 姓名
+     * @return sayHello
+     */
     BaseResponse<String> sayHello(String name);
 
+    /**
+     * sayHi
+     *
+     * @param name 姓名
+     * @return sayHi
+     */
     BaseResponse<String> sayHi(String name);
 
 }

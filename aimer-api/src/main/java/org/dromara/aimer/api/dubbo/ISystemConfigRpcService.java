@@ -2,6 +2,9 @@ package org.dromara.aimer.api.dubbo;
 
 import org.dromara.aimer.common.response.BaseResponse;
 
+/**
+ * @author bixiu
+ */
 public interface ISystemConfigRpcService {
 
     /**
