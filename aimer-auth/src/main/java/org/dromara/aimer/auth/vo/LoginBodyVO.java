@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * 用户登录对象
+ *
+ * @author bixiu
  */
 @Data
 @NoArgsConstructor

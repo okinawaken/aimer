@@ -8,6 +8,9 @@ import org.dromara.aimer.common.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author bixiu
+ */
 @Service
 public class AuthServiceImpl implements IAuthService {
 

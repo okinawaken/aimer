@@ -15,6 +15,8 @@ import static org.dromara.aimer.common.constants.UserConstant.USERNAME_MIN_LENGT
 
 /**
  * 用户注册对象
+ *
+ * @author bixiu
  */
 @Data
 @NoArgsConstructor
