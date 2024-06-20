@@ -2,6 +2,8 @@ package org.dromara.aimer.common.constants;
 
 /**
  * 代码生成通用常量
+ *
+ * @author bixiu
  */
 public interface GenConstant {
     /**

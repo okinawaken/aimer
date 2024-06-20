@@ -5,10 +5,16 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.github.linpeilie.Converter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author bixiu
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MapstructUtils {
 
     private final static Converter CONVERTER = SpringUtil.getBean(Converter.class);

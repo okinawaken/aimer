@@ -3,7 +3,7 @@ package org.dromara.aimer.common.constants;
 /**
  * 用户常量信息
  *
- * @author ruoyi
+ * @author bixiu
  */
 public interface UserConstant {
 

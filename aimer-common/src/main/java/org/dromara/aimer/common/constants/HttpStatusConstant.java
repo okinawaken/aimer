@@ -2,6 +2,8 @@ package org.dromara.aimer.common.constants;
 
 /**
  * 返回状态码
+ *
+ * @author bixiu
  */
 public interface HttpStatusConstant {
     /**

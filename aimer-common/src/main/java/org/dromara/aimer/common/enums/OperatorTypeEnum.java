@@ -2,6 +2,8 @@ package org.dromara.aimer.common.enums;
 
 /**
  * 操作人类别
+ *
+ * @author bixiu
  */
 public enum OperatorTypeEnum {
     /**

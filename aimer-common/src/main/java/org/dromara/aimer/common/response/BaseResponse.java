@@ -1,16 +1,16 @@
 package org.dromara.aimer.common.response;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.dromara.aimer.common.constants.HttpStatusConstant;
 
 import java.io.Serializable;
 
 /**
  * 响应信息主体
+ *
+ * @author bixiu
  */
 @Data
-@NoArgsConstructor
 public class BaseResponse<T> implements Serializable {
 
     private int code;

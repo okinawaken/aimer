@@ -2,6 +2,8 @@ package org.dromara.aimer.common.enums;
 
 /**
  * 业务操作类型
+ *
+ * @author bixiu
  */
 public enum BusinessTypeEnum {
     /**

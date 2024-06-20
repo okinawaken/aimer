@@ -3,6 +3,8 @@ package org.dromara.aimer.common.exception;
 
 /**
  * 用户信息异常类
+ *
+ * @author bixiu
  */
 public class UserException extends BaseException {
 

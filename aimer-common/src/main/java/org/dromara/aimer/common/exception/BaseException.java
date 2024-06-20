@@ -5,6 +5,8 @@ import org.dromara.aimer.common.utils.MessageUtils;
 
 /**
  * 基础异常
+ *
+ * @author bixiu
  */
 public class BaseException extends RuntimeException {
 

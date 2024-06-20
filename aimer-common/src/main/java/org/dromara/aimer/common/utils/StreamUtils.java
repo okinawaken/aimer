@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 /**
  * stream 流工具类
+ *
+ * @author bixiu
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StreamUtils {

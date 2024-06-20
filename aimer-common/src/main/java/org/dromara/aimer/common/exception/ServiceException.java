@@ -2,6 +2,8 @@ package org.dromara.aimer.common.exception;
 
 /**
  * 业务异常
+ *
+ * @author bixiu
  */
 public final class ServiceException extends BaseException {
 

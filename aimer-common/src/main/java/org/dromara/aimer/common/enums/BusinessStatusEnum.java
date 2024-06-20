@@ -3,7 +3,7 @@ package org.dromara.aimer.common.enums;
 /**
  * 操作状态
  *
- * @author ruoyi
+ * @author bixiu
  */
 public enum BusinessStatusEnum {
     /**

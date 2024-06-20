@@ -3,6 +3,8 @@ package org.dromara.aimer.common.exception;
 
 /**
  * 文件信息异常类
+ *
+ * @author bixiu
  */
 public class FileException extends BaseException {
 

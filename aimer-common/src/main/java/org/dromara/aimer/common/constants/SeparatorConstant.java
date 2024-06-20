@@ -1,5 +1,10 @@
 package org.dromara.aimer.common.constants;
 
+/**
+ * 分隔符产量
+ *
+ * @author bixiu
+ */
 public interface SeparatorConstant {
 
     String COMMA = ",";

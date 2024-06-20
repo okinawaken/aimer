@@ -3,7 +3,6 @@ package org.dromara.aimer.common.utils;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -13,9 +12,8 @@ import java.util.Set;
 /**
  * Validator 校验框架工具
  *
- * @author Lion Li
+ * @author bixiu
  */
-@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidatorUtils {
 

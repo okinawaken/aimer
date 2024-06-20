@@ -3,6 +3,8 @@ package org.dromara.aimer.common.exception;
 
 /**
  * 验证码错误异常类
+ *
+ * @author bixiu
  */
 public class CaptchaException extends BaseException {
 
