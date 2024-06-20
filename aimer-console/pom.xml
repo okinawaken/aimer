@@ -12,11 +12,13 @@
     <artifactId>aimer-console</artifactId>
 
     <dependencies>
+        <!-- Project Dependencies -->
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>aimer-service</artifactId>
         </dependency>
 
+        <!--starter类-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

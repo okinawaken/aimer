@@ -10,37 +10,31 @@
     <artifactId>aimer-auth</artifactId>
 
     <dependencies>
+        <!-- Project Dependencies -->
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>aimer-api</artifactId>
         </dependency>
 
-        <!-- 北极星spring cloud依赖 -->
-        <dependency>
-            <groupId>com.tencent.cloud</groupId>
-            <artifactId>spring-cloud-starter-tencent-all</artifactId>
-        </dependency>
-        <!-- Dubbo依赖 -->
+        <!--框架类-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
-        <!-- 北极星注册发现插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-registry-polaris</artifactId>
         </dependency>
-        <!-- 北极星动态配置中心插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-configcenter-polaris</artifactId>
         </dependency>
-        <!-- 北极星元数据中心插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-metadatareport-polaris</artifactId>
         </dependency>
 
+        <!--starter类-->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
@@ -48,6 +42,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tencent.cloud</groupId>
+            <artifactId>spring-cloud-starter-tencent-all</artifactId>
         </dependency>
     </dependencies>
 </project>

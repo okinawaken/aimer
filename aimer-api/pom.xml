@@ -12,6 +12,7 @@
     <artifactId>aimer-api</artifactId>
 
     <dependencies>
+        <!-- Project Dependencies -->
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>aimer-common</artifactId>

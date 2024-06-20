@@ -10,6 +10,7 @@
     <artifactId>aimer-gateway</artifactId>
 
     <dependencies>
+        <!--starter类-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -18,8 +19,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
-
-        <!-- 北极星spring cloud依赖 -->
         <dependency>
             <groupId>com.tencent.cloud</groupId>
             <artifactId>spring-cloud-starter-tencent-all</artifactId>

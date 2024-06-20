@@ -12,6 +12,7 @@
     <artifactId>aimer-integration</artifactId>
 
     <dependencies>
+        <!-- Project Dependencies -->
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>aimer-api</artifactId>
@@ -21,45 +22,40 @@
             <artifactId>aimer-common</artifactId>
         </dependency>
 
-        <!-- 北极星spring cloud依赖 -->
-        <dependency>
-            <groupId>com.tencent.cloud</groupId>
-            <artifactId>spring-cloud-starter-tencent-all</artifactId>
-        </dependency>
-        <!-- Dubbo依赖 -->
+        <!--框架类-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
-        <!-- 北极星注册发现插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-registry-polaris</artifactId>
         </dependency>
-        <!-- 北极星元数据中心插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-metadatareport-polaris</artifactId>
         </dependency>
-        <!-- 北极星动态路由插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-router-polaris</artifactId>
         </dependency>
-        <!-- 北极星限流功能插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-ratelimit-polaris</artifactId>
         </dependency>
-        <!-- 北极星熔断功能插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-circuitbreaker-polaris</artifactId>
         </dependency>
-        <!-- 北极星动态配置中心插件 -->
         <dependency>
             <groupId>com.tencent.polaris</groupId>
             <artifactId>dubbo-configcenter-polaris</artifactId>
+        </dependency>
+
+        <!--starter类-->
+        <dependency>
+            <groupId>com.tencent.cloud</groupId>
+            <artifactId>spring-cloud-starter-tencent-all</artifactId>
         </dependency>
     </dependencies>
 </project>
