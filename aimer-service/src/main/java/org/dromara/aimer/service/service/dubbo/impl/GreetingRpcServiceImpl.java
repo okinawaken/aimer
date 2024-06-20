@@ -21,6 +21,9 @@ import org.dromara.aimer.api.dubbo.IGreetingRpcService;
 import org.dromara.aimer.common.response.BaseResponse;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author bixiu
+ */
 @Service
 public class GreetingRpcServiceImpl implements IGreetingRpcService {
 

@@ -4,6 +4,7 @@ import org.dromara.aimer.service.configuration.translation.annotation.Translatio
 
 /**
  * 翻译接口 (实现类需标注 {@link TranslationType} 注解标明翻译类型)
+ * @author bixiu
  */
 public interface TranslationInterface<T> {
 

@@ -9,6 +9,9 @@ import com.baomidou.mybatisplus.generator.type.TypeRegistry;
 
 import java.sql.Types;
 
+/**
+ * @author bixiu
+ */
 public class MyTypeConvertHandler implements ITypeConvertHandler {
     @Override
     public @org.jetbrains.annotations.NotNull IColumnType convert(GlobalConfig globalConfig, TypeRegistry typeRegistry, TableField.MetaInfo metaInfo) {

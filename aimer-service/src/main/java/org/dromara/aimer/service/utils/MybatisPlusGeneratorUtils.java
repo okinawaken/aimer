@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
+/**
+ * @author bixiu
+ */
 @Slf4j
 @Component
 public class MybatisPlusGeneratorUtils {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 部门翻译实现
+ * @author bixiu
  */
 @Component
 @TranslationType(type = TransConstant.DEPT_ID_TO_NAME)

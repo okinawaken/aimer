@@ -1,4 +1,4 @@
-package org.dromara.aimer.integration.dubbo.aimer;
+package org.dromara.aimer.integration.aimer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.aimer.api.dubbo.IGreetingRpcService;

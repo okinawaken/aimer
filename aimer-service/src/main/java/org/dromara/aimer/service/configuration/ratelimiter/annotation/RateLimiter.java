@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * 限流注解
+ * @author bixiu
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

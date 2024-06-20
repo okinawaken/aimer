@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 幂等功能配置
+ * @author bixiu
  */
 @Configuration
 public class IdempotentConfiguration {

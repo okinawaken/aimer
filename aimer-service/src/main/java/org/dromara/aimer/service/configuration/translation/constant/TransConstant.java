@@ -2,6 +2,7 @@ package org.dromara.aimer.service.configuration.translation.constant;
 
 /**
  * 翻译常量
+ * @author bixiu
  */
 public interface TransConstant {
 

@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 /**
  * 登录事件
+ * @author bixiu
  */
-
 @Data
 public class LogininforEvent implements Serializable {
 

@@ -3,7 +3,7 @@ package org.dromara.aimer.repository.constants;
 /**
  * 缓存的key 常量
  *
- * @author Lion Li
+ * @author bixiu
  */
 public interface CacheConstants {
 

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * xxl-job config
+ * @author bixiu
  */
 @Configuration
 public class XxlJobConfiguration {

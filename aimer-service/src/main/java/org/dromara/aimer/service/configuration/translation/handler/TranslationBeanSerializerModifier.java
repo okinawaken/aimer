@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Bean 序列化修改器 解决 Null 被单独处理问题
+ * @author bixiu
  */
 public class TranslationBeanSerializerModifier extends BeanSerializerModifier {
 

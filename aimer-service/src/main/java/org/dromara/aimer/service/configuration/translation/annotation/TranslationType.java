@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * 翻译类型注解 (标注到{@link TranslationInterface} 的实现类)
+ * @author bixiu
  */
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)

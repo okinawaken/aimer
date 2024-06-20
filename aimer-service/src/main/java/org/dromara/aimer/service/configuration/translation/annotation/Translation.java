@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 
 /**
  * 通用翻译注解
+ * @author bixiu
  */
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)

@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * 枚举格式化
+ * @author bixiu
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

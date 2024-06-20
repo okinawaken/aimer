@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.aimer.common.utils.JsonUtils;
 import org.dromara.aimer.common.utils.ValidatorUtils;
 
+/**
+ * @author bixiu
+ */
 @Slf4j
 public abstract class AbstractConfig {
 

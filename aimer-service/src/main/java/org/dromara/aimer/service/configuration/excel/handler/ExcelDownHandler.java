@@ -45,7 +45,7 @@ import java.util.Optional;
  * <p>
  * 即只有前1000行的数据可以用下拉框，超出的自行通过限制数据量的形式，第二次输出
  *
- * @author Emil.Zhang
+ * @author bixiu
  */
 @Slf4j
 public class ExcelDownHandler implements SheetWriteHandler {

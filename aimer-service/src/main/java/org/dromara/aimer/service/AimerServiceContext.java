@@ -6,6 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author bixiu
+ */
 @Component
 @ComponentScan
 @Import({AimerRepositoryContext.class, AimerIntegrationContext.class})

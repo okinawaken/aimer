@@ -6,7 +6,6 @@ import org.dromara.aimer.service.configuration.excel.result.ExcelResult;
 /**
  * Excel 导入监听
  *
- * @author Lion Li
  */
 public interface ExcelListener<T> extends ReadListener<T> {
 

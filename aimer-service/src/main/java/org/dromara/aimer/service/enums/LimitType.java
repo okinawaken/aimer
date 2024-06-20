@@ -2,6 +2,7 @@ package org.dromara.aimer.service.enums;
 
 /**
  * 限流类型
+ * @author bixiu
  */
 public enum LimitType {
     /**

@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Map;
 
+/**
+ * @author bixiu
+ */
 @Data
 public class PackageConfigDTO {
 

@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * 翻译模块配置类
+ * @author bixiu
  */
 @Slf4j
 @Configuration

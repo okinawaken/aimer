@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 自定义注解防止表单重复提交
+ * @author bixiu
  */
 @Inherited
 @Target(ElementType.METHOD)

@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.Environment;
 
+/**
+ * @author bixiu
+ */
 @Slf4j
 public class MyPolarisConfigCustomExtensionLayer implements PolarisConfigCustomExtensionLayer {
     @Override

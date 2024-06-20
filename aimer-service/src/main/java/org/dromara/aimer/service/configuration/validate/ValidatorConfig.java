@@ -11,6 +11,7 @@ import java.util.Properties;
 
 /**
  * 校验框架配置类
+ * @author bixiu
  */
 @Configuration
 public class ValidatorConfig {

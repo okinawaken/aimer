@@ -10,6 +10,9 @@ import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * @author bixiu
+ */
 @Slf4j
 public abstract class AbstractPolarisConfig extends AbstractConfig {
 

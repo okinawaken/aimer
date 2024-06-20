@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author bixiu
+ */
 @Data
 public class StrategyConfigDTO {
 

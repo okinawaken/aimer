@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
  * excel 列单元格合并(合并列相同项)
  * <p>
  * 需搭配 {@link CellMergeStrategy} 策略使用
+ * @author bixiu
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

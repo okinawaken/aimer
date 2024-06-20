@@ -3,7 +3,7 @@ package org.dromara.aimer.repository.constants;
 /**
  * 全局的key常量 (业务无关的key)
  *
- * @author Lion Li
+ * @author bixiu
  */
 public interface GlobalConstants {
 

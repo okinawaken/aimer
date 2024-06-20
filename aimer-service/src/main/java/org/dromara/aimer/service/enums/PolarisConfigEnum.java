@@ -3,6 +3,10 @@ package org.dromara.aimer.service.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author bixiu
+ */
+
 @Getter
 @AllArgsConstructor
 public enum PolarisConfigEnum {

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author bixiu
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Component
