@@ -21,6 +21,8 @@ import java.util.Objects;
 
 /**
  * 异常处理器
+ *
+ * @author bixiu
  */
 @Slf4j
 @RestControllerAdvice
@@ -33,7 +35,7 @@ public class ConsoleExceptionHandler {
     public BaseResponse<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
                                                                   HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',不支持'{}'请求" , requestURI, e.getMethod());
+        log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return BaseResponse.fail(e.getMessage());
     }
 
@@ -43,8 +45,8 @@ public class ConsoleExceptionHandler {
     @ExceptionHandler(MissingPathVariableException.class)
     public BaseResponse<Void> handleMissingPathVariableException(MissingPathVariableException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求路径中缺少必需的路径变量'{}',发生系统异常." , requestURI);
-        return BaseResponse.fail(String.format("请求路径中缺少必需的路径变量[%s]" , e.getVariableName()));
+        log.error("请求路径中缺少必需的路径变量'{}',发生系统异常.", requestURI);
+        return BaseResponse.fail(String.format("请求路径中缺少必需的路径变量[%s]", e.getVariableName()));
     }
 
     /**
@@ -53,8 +55,8 @@ public class ConsoleExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public BaseResponse<Void> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求参数类型不匹配'{}',发生系统异常." , requestURI);
-        return BaseResponse.fail(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'" , e.getName(), e.getRequiredType().getName(), e.getValue()));
+        log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI);
+        return BaseResponse.fail(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), e.getValue()));
     }
 
     /**
@@ -102,7 +104,7 @@ public class ConsoleExceptionHandler {
     @ExceptionHandler(Exception.class)
     public BaseResponse<Void> handleException(Exception e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',发生系统异常." , requestURI, e);
+        log.error("请求地址'{}',发生系统异常.", requestURI, e);
         return BaseResponse.fail(e.getMessage());
     }
 }
