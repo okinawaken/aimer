@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * unsigned、单表时自增、步长为 1。create_time, update_time 的类型均为 datetime
  * 类型，前者现在时表示主动式创建，后者过去分词表示被动式更新。
  *
- * @author FrozenWatermelon
+ * @author bixiu
  */
 @Data
 public class BaseDO implements Serializable {
@@ -30,7 +30,7 @@ public class BaseDO implements Serializable {
 
     @Override
     public String toString() {
-        return "BaseEntity{" + "createTime=" + createTime + ", updateTime=" + updateTime + '}';
+        return "BaseDO{" + "createTime=" + createTime + ", updateTime=" + updateTime + '}';
     }
 
 }

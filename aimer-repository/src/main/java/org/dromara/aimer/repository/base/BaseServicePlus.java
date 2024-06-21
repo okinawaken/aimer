@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @author bixiu
+ */
 public interface BaseServicePlus<E> extends IService<E> {
 
     default <V> V getById(Serializable id, Class<V> voClass) {

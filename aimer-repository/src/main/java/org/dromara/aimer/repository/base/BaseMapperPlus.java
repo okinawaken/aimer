@@ -13,6 +13,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author bixiu
+ */
 public interface BaseMapperPlus<E> extends BaseMapper<E> {
 
     default <V> V selectById(Serializable id, Class<V> voClass) {
