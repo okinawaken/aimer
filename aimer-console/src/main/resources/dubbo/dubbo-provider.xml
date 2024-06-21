@@ -15,9 +15,6 @@
     <!-- 定义配置中心地址 -->
     <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
 
-    <!-- 定义dubbo插件 -->
-    <dubbo:provider filter="-polaris_ratelimit"/>
-
     <!-- 定义dubbo提供接口 -->
     <dubbo:service interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" ref="greetingRpcServiceImpl"/>
     <dubbo:service interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" ref="systemConfigRpcServiceImpl"/>
