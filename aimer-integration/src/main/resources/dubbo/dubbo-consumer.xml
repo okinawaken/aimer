@@ -17,5 +17,6 @@
     <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
 
     <!-- 定义dubbo消费接口 -->
-
+    <dubbo:reference interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" id="greetingRpcService"/>
+    <dubbo:reference interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" id="systemConfigRpcService"/>
 </beans>
