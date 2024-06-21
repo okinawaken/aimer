@@ -7,14 +7,15 @@
     <context:property-placeholder/>
 
     <!-- 定义应用名 -->
-    <dubbo:application name="${spring.application.name}" register-mode="instance"/>
+    <dubbo:application name="${spring.application.name}" register-mode="instance" qos-enable="false"/>
 
     <!-- 定义注册中心地址 -->
     <dubbo:registry address="polaris://polaris.nicomoe.cn:8091?namespace=${spring.profiles.active}"/>
-    <!-- 定义配置中心地址 -->
-    <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
     <!-- 定义元数据中心地址 -->
     <dubbo:metadata-report address="polaris://polaris.nicomoe.cn:8091?namespace=${spring.profiles.active}"/>
+    <!-- 定义配置中心地址 -->
+    <dubbo:config-center address="polaris://polaris.nicomoe.cn:8093?namespace=${spring.profiles.active}"/>
 
-    <dubbo:reference interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" id="systemConfigRpcService"/>
+    <!-- 定义dubbo消费接口 -->
+
 </beans>
