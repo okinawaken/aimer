@@ -6,6 +6,7 @@ import org.dromara.aimer.common.exception.RpcException;
 import org.dromara.aimer.common.response.BaseResponse;
 import org.dromara.aimer.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -18,6 +19,7 @@ import java.util.Objects;
 public class GreetingDubboRpcService {
 
     @Autowired
+    @Qualifier("greetingRpcService")
     private IGreetingRpcService greetingRpcService;
 
     public String sayHello(String name) {
