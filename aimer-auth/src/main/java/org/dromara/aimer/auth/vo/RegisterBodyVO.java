@@ -1,8 +1,10 @@
 package org.dromara.aimer.auth.vo;
 
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dromara.aimer.auth.dto.RegisterBodyDTO;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -21,6 +23,7 @@ import static org.dromara.aimer.common.constants.UserConstant.USERNAME_MIN_LENGT
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@AutoMapper(target = RegisterBodyDTO.class)
 public class RegisterBodyVO {
 
     /**
