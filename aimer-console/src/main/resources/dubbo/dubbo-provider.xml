@@ -8,6 +8,8 @@
     <context:component-scan base-package="org.dromara.aimer.console"/>
 
     <!-- 定义dubbo提供接口 -->
-    <dubbo:service interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" ref="greetingRpcServiceImpl"/>
-    <dubbo:service interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" ref="systemConfigRpcServiceImpl"/>
+    <dubbo:service interface="org.dromara.aimer.api.dubbo.IGreetingRpcService" ref="greetingRpcServiceImpl"
+                   version="1.0.0"/>
+    <dubbo:service interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" ref="systemConfigRpcServiceImpl"
+                   version="1.0.0"/>
 </beans>
