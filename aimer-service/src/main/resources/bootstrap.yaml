@@ -6,4 +6,5 @@ spring:
           - name: aimer-console
             files:
               - dynamic-datasource.yaml
+              - dynamic-tp.yaml
               - redisson.yaml

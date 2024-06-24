@@ -75,5 +75,9 @@
             <groupId>com.tencent.cloud</groupId>
             <artifactId>spring-cloud-starter-tencent-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.dromara.dynamictp</groupId>
+            <artifactId>dynamic-tp-spring-cloud-starter-polaris</artifactId>
+        </dependency>
     </dependencies>
 </project>
