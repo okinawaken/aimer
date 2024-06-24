@@ -21,4 +21,9 @@ public class AimerController {
     public String sayHello(@RequestParam(value = "name") String name) {
         return greetingDubboRpcService.sayHello(name);
     }
+
+    @GetMapping("/say_hi")
+    public String sayHi(@RequestParam(value = "name") String name) {
+        return greetingDubboRpcService.sayHi(name);
+    }
 }
