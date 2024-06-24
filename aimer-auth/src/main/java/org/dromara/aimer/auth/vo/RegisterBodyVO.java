@@ -29,36 +29,26 @@ public class RegisterBodyVO {
     /**
      * 用户名
      */
-    @NotBlank(message = "{user.username.not.blank}")
-    @Length(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = "{user.username.length.valid}")
+    @NotBlank(message = "用户名不能为空")
+    @Length(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = "用户名长度必须在2-20位以内")
     private String username;
 
     /**
      * 用户密码
      */
-    @NotBlank(message = "{user.password.not.blank}")
-    @Length(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = "{user.password.length.valid}")
+    @NotBlank(message = "密码不能为空")
+    @Length(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = "密码必须在5-20位以内")
     private String password;
-
-    /**
-     * 客户端id
-     */
-    @NotBlank(message = "{auth.clientid.not.blank}")
-    private String clientId;
-
-    /**
-     * 授权类型
-     */
-    @NotBlank(message = "{auth.grant.type.not.blank}")
-    private String grantType;
 
     /**
      * 用户类型
      */
+    @NotBlank(message = "用户类型不能为空")
     private String userType;
 
     /**
      * 租户ID
      */
+    @NotBlank(message = "租户id不能为空")
     private String tenantId;
 }
