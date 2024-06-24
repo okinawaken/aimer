@@ -12,4 +12,6 @@
                    version="1.0.0"/>
     <dubbo:service interface="org.dromara.aimer.api.dubbo.ISystemConfigRpcService" ref="systemConfigRpcServiceImpl"
                    version="1.0.0"/>
+    <dubbo:service interface="org.dromara.aimer.api.dubbo.ISystemClientRpcService" ref="systemClientRpcServiceImpl"
+                   version="1.0.0"/>
 </beans>
