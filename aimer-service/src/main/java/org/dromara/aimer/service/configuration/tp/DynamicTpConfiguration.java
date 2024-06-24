@@ -1,4 +1,4 @@
-package org.dromara.aimer.console.configuration.dynamic.tp;
+package org.dromara.aimer.service.configuration.tp;
 
 import org.dromara.dynamictp.core.spring.EnableDynamicTp;
 import org.springframework.context.annotation.Configuration;
