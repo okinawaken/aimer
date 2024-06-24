@@ -2,7 +2,7 @@ package org.dromara.aimer.service.service.dubbo.impl;
 
 import cn.hutool.core.convert.Convert;
 import org.dromara.aimer.api.dubbo.ISystemConfigRpcService;
-import org.dromara.aimer.common.enums.SystemConfigEnum;
+import org.dromara.aimer.service.enums.SystemConfigEnum;
 import org.dromara.aimer.common.response.BaseResponse;
 import org.dromara.aimer.repository.domain.SysConfigDO;
 import org.dromara.aimer.service.service.system.ISysConfigService;

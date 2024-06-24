@@ -13,7 +13,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.dromara.aimer.common.enums.BusinessStatusEnum;
+import org.dromara.aimer.service.enums.BusinessStatusEnum;
 import org.dromara.aimer.common.utils.JsonUtils;
 import org.dromara.aimer.common.utils.ServletUtils;
 import org.dromara.aimer.service.configuration.log.annotation.Log;

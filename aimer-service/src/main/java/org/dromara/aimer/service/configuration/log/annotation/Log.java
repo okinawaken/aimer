@@ -1,7 +1,7 @@
 package org.dromara.aimer.service.configuration.log.annotation;
 
-import org.dromara.aimer.common.enums.BusinessTypeEnum;
-import org.dromara.aimer.common.enums.OperatorTypeEnum;
+import org.dromara.aimer.service.enums.BusinessTypeEnum;
+import org.dromara.aimer.service.enums.OperatorTypeEnum;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,7 +1,7 @@
 package org.dromara.aimer.auth.controller;
 
-import org.dromara.aimer.auth.dto.RegisterBodyDTO;
-import org.dromara.aimer.auth.service.IAuthService;
+import org.dromara.aimer.api.dto.RegisterBodyDTO;
+import org.dromara.aimer.auth.service.auth.IAuthService;
 import org.dromara.aimer.auth.vo.RegisterBodyVO;
 import org.dromara.aimer.common.response.BaseResponse;
 import org.dromara.aimer.common.utils.MapstructUtils;

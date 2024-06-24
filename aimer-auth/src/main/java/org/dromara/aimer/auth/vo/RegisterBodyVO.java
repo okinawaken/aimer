@@ -4,7 +4,7 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.dromara.aimer.auth.dto.RegisterBodyDTO;
+import org.dromara.aimer.api.dto.RegisterBodyDTO;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;

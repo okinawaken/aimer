@@ -1,6 +1,6 @@
-package org.dromara.aimer.auth.service;
+package org.dromara.aimer.auth.service.auth;
 
-import org.dromara.aimer.auth.dto.RegisterBodyDTO;
+import org.dromara.aimer.api.dto.RegisterBodyDTO;
 
 /**
  * @author bixiu

@@ -1,4 +1,4 @@
-package org.dromara.aimer.common.enums;
+package org.dromara.aimer.service.enums;
 
 /**
  * 业务操作类型

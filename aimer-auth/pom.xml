@@ -17,6 +17,10 @@
         </dependency>
         <dependency>
             <groupId>org.dromara</groupId>
+            <artifactId>aimer-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
             <artifactId>aimer-integration</artifactId>
         </dependency>
 

@@ -1,8 +1,8 @@
-package org.dromara.aimer.auth.service.impl;
+package org.dromara.aimer.auth.service.auth.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.dromara.aimer.auth.dto.RegisterBodyDTO;
-import org.dromara.aimer.auth.service.IAuthService;
+import org.dromara.aimer.api.dto.RegisterBodyDTO;
+import org.dromara.aimer.auth.service.auth.IAuthService;
 import org.dromara.aimer.common.exception.UserException;
 import org.dromara.aimer.integration.aimer.SystemConfigDubboRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
