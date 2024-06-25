@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginBodyDTO {
+
+    private Long id;
 }
