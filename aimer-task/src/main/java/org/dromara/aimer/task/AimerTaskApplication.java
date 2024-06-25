@@ -1,14 +1,11 @@
 package org.dromara.aimer.task;
 
-import org.dromara.aimer.service.AimerServiceContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
 
 /**
  * @author bixiu
  */
-@Import(AimerServiceContext.class)
 @SpringBootApplication
 public class AimerTaskApplication {
 
