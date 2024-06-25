@@ -283,6 +283,11 @@
                 <artifactId>powerjob-server-starter</artifactId>
                 <version>${powerjob.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tech.powerjob</groupId>
+                <artifactId>powerjob-worker-spring-boot-starter</artifactId>
+                <version>${powerjob.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

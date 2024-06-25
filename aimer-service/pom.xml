@@ -79,5 +79,9 @@
             <groupId>org.dromara.dynamictp</groupId>
             <artifactId>dynamic-tp-spring-cloud-starter-polaris</artifactId>
         </dependency>
+        <dependency>
+            <groupId>tech.powerjob</groupId>
+            <artifactId>powerjob-worker-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>
