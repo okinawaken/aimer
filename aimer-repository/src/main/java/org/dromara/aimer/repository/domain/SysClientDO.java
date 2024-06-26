@@ -1,7 +1,6 @@
 package org.dromara.aimer.repository.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import org.dromara.aimer.repository.base.BaseDO;
@@ -15,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Shinomiya
- * @since 2024-06-18
+ * @since 2024-06-26
  */
 @Getter
 @Setter
@@ -24,18 +23,6 @@ import lombok.experimental.Accessors;
 public class SysClientDO extends BaseDO {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * id
-     */
-    @TableId("id")
-    private Long id;
-
-    /**
-     * 客户端id
-     */
-    @TableField("client_id")
-    private String clientId;
 
     /**
      * 客户端key
@@ -62,44 +49,20 @@ public class SysClientDO extends BaseDO {
     private String deviceType;
 
     /**
-     * token活跃超时时间
-     */
-    @TableField("active_timeout")
-    private Integer activeTimeout;
-
-    /**
-     * token固定超时
+     * token超时时间，单位ms
      */
     @TableField("timeout")
     private Integer timeout;
 
     /**
-     * 状态（0正常 1停用）
+     * 状态，0、正常 1、停用
      */
     @TableField("status")
-    private String status;
+    private Integer status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
+     * 备注
      */
-    @TableField("del_flag")
-    private String delFlag;
-
-    /**
-     * 创建部门
-     */
-    @TableField("create_dept")
-    private Long createDept;
-
-    /**
-     * 创建者
-     */
-    @TableField("create_by")
-    private Long createBy;
-
-    /**
-     * 更新者
-     */
-    @TableField("update_by")
-    private Long updateBy;
+    @TableField("remark")
+    private String remark;
 }

@@ -9,7 +9,7 @@ import org.dromara.aimer.repository.base.BaseMapperPlus;
  * </p>
  *
  * @author Shinomiya
- * @since 2024-06-18
+ * @since 2024-06-26
  */
 public interface SysClientMapper extends BaseMapperPlus<SysClientDO> {
 
