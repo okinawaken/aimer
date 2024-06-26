@@ -20,7 +20,7 @@ public class BaseDO implements Serializable {
      * 主键id
      */
     @TableField("id")
-    private Integer id;
+    private Long id;
 
     /**
      * 创建时间
