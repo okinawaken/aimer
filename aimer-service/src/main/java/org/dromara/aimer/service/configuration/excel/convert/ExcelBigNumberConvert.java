@@ -15,10 +15,14 @@ import java.math.BigDecimal;
 /**
  * 大数值转换
  * Excel 数值长度位15位 大于15位的数值转换位字符串
+ *
  * @author bixiu
  */
 @Slf4j
 public class ExcelBigNumberConvert implements Converter<Long> {
+
+    private static final Integer LIMIT = 15;
+
 
     @Override
     public Class<Long> supportJavaTypeKey() {
@@ -39,7 +43,7 @@ public class ExcelBigNumberConvert implements Converter<Long> {
     public WriteCellData<Object> convertToExcelData(Long object, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
         if (ObjectUtil.isNotNull(object)) {
             String str = Convert.toStr(object);
-            if (str.length() > 15) {
+            if (str.length() > LIMIT) {
                 return new WriteCellData<>(str);
             }
         }
