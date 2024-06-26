@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.ibatis.type.JdbcType;
 import org.dromara.aimer.repository.base.BaseDO;
 import org.dromara.aimer.repository.base.BaseMapperPlus;
 import org.dromara.aimer.repository.base.BaseServicePlus;
@@ -46,6 +48,13 @@ public class MybatisPlusGeneratorConfig extends AbstractPolarisConfig {
             return null;
         }
         return new DataSourceConfig.Builder(dataSourceConfig.getUrl(), dataSourceConfig.getUsername(), dataSourceConfig.getPassword())
+                .typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
+                    // 兼容旧版本转换成Integer
+                    if (JdbcType.TINYINT == metaInfo.getJdbcType()) {
+                        return DbColumnType.INTEGER;
+                    }
+                    return typeRegistry.getColumnType(metaInfo);
+                })
                 .build();
     }
 
