@@ -37,6 +37,6 @@ public class BaseDO implements Serializable {
     /**
      * 是否被删除，0、未删除 1、删除
      */
-    @TableField("deleted")
+    @TableField("is_deleted")
     private Boolean deleted;
 }
