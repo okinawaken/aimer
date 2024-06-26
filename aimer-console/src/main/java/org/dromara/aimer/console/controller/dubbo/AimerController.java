@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author bixiu
  */
 @RestController
-@RequestMapping("/aimer/dubbo")
+@RequestMapping("/dubbo")
 public class AimerController {
 
     @Autowired

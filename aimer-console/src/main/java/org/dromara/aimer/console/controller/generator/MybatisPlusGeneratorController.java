@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/aimer/mybatis-plus-generator")
+@RequestMapping("/mybatis-plus-generator")
 public class MybatisPlusGeneratorController {
 
     @Autowired
