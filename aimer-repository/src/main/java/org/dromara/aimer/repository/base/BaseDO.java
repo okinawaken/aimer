@@ -17,6 +17,12 @@ import java.time.LocalDateTime;
 public class BaseDO implements Serializable {
 
     /**
+     * 主键id
+     */
+    @TableField("id")
+    private Integer id;
+
+    /**
      * 创建时间
      */
     @TableField("create_time")
@@ -28,9 +34,9 @@ public class BaseDO implements Serializable {
     @TableField("update_time")
     private LocalDateTime updateTime;
 
-    @Override
-    public String toString() {
-        return "BaseDO{" + "createTime=" + createTime + ", updateTime=" + updateTime + '}';
-    }
-
+    /**
+     * 是否被删除，0、未删除 1、删除
+     */
+    @TableField("deleted")
+    private Boolean deleted;
 }
