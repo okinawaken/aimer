@@ -24,7 +24,6 @@ public class SystemConfigRpcServiceImpl implements ISystemConfigRpcService {
     @Override
     public BaseResponse<Boolean> selectRegisterEnabled(String tenantId) {
         Optional<SysConfigDO> sysConfigDO = sysConfigService.lambdaQuery()
-                .eq(SysConfigDO::getTenantId, tenantId)
                 .eq(SysConfigDO::getConfigKey, SystemConfigEnum.SYS_ACCOUNT_REGISTER_USER.getConfigKey())
                 .oneOpt();
         Boolean result = sysConfigDO.map(SysConfigDO::getConfigValue)
