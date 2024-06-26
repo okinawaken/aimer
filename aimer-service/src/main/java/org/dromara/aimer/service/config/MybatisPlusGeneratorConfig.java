@@ -86,8 +86,7 @@ public class MybatisPlusGeneratorConfig extends AbstractPolarisConfig {
         }
         return new StrategyConfig.Builder()
                 .addInclude(strategyConfig.getIncludes())
-                .entityBuilder().superClass(BaseDO.class).enableFileOverride().formatFileName("%sDO").addIgnoreColumns("create_time", "update_time").enableTableFieldAnnotation().enableLombok().enableChainModel().build()
-                .controllerBuilder().enableFileOverride().enableRestStyle().enableHyphenStyle().build()
+                .entityBuilder().superClass(BaseDO.class).enableFileOverride().formatFileName("%sDO").addIgnoreColumns("id", "create_time", "update_time", "deleted").enableTableFieldAnnotation().enableLombok().enableChainModel().build()
                 .mapperBuilder().superClass(BaseMapperPlus.class).enableFileOverride().build()
                 .serviceBuilder().superServiceClass(BaseServicePlus.class).enableFileOverride().build();
     }
