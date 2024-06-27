@@ -1,6 +1,7 @@
 package org.dromara.aimer.repository.base;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class BaseDO implements Serializable {
     /**
      * 主键id
      */
-    @TableField("id")
+    @TableId("id")
     private Long id;
 
     /**
