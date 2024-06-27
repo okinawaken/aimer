@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ComponentScan
-@MapperScan
+@MapperScan(basePackages = {"org.dromara.aimer.repository.mapper"})
 public class AimerRepositoryContext {
 }
