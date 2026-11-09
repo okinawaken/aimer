@@ -1,4 +1,4 @@
-package cn.nicomoe.aimer.utils;
+package cn.nicomoe.aimer.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;

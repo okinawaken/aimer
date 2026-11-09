@@ -1,0 +1,22 @@
+package cn.nicomoe.aimer.study.model.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+import java.util.List;
+
+/**
+ * 学习排行榜（/mp/study/rank/index）
+ *
+ * @author bixiu
+ * @since 4.2.0
+ */
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class StudyRoomRankClientRespDTO {
+
+    /**
+     * 排行列表
+     */
+    private List<StudyRoomRankUserClientRespDTO> rankUserList;
+}

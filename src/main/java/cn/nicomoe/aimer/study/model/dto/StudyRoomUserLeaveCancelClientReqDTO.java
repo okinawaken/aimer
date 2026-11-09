@@ -1,0 +1,18 @@
+package cn.nicomoe.aimer.study.model.dto;
+
+import lombok.Data;
+
+/**
+ * 取消请假（/mp/user/userLeave/cancelLeave）
+ *
+ * @author bixiu
+ * @since 4.2.0
+ */
+@Data
+public class StudyRoomUserLeaveCancelClientReqDTO {
+
+    /**
+     * 请假记录ID（必填）
+     */
+    private Long userLeaveId;
+}

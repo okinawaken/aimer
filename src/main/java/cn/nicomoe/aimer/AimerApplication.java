@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import xyz.erupt.core.annotation.EruptScan;
 
-@SpringBootApplication
 @EruptScan
 @EntityScan
+@SpringBootApplication
 public class AimerApplication {
 
     public static void main(String[] args) {

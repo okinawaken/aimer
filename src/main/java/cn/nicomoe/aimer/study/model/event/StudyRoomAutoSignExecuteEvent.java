@@ -1,0 +1,28 @@
+package cn.nicomoe.aimer.study.model.event;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * 自动签到执行事件。
+ *
+ * @author bixiu
+ * @since 4.2.0
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class StudyRoomAutoSignExecuteEvent implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 系统用户 ID
+     */
+    private Long userId;
+}

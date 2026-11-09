@@ -1,0 +1,38 @@
+package cn.nicomoe.aimer.study.model.dto;
+
+import lombok.Data;
+
+/**
+ * 签到首页（/mp/study/index）
+ *
+ * @author bixiu
+ * @since 4.2.0
+ */
+@Data
+public class StudyRoomIndexClientReqDTO {
+
+    /**
+     * 当前经度
+     */
+    private Double currentLng;
+
+    /**
+     * 当前纬度
+     */
+    private Double currentLat;
+
+    /**
+     * 门店ID
+     */
+    private Integer venueId;
+
+    /**
+     * BSSID
+     */
+    private String bssid;
+
+    /**
+     * SSID
+     */
+    private String ssid;
+}

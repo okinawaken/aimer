@@ -1,26 +1,25 @@
 spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:192.168.124.200}
+      port: ${REDIS_PORT:30001}
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:192.168.124.200}:${MYSQL_PORT:30000}/aimer?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${MYSQL_ROOT_USER:root}
     password: ${MYSQL_ROOT_PASSWORD:wang13587}
+    url: jdbc:mysql://${MYSQL_HOST:192.168.124.200}:${MYSQL_PORT:30000}/aimer?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: ${MYSQL_ROOT_USER:root}
   jpa:
-    show-sql: false
-    generate-ddl: true
     database: mysql
+    generate-ddl: true
     properties:
       hibernate:
         globally_quoted_identifiers: true
         type.enumeration.use_named: false
+    show-sql: false
 
 server:
   port: 8080
 
-erupt-app:
-  verify-code-count: 2
-
 erupt:
   default-locales: zh-CN
-  upms:
-    default-account: erupt
-    default-password: erupt
+  redis-session: true
