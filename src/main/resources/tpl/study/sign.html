@@ -6,28 +6,34 @@
 <meta http-equiv="Cache-Control" content="no-store">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>签到签退</title>
-<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="css/study.css">
 </head>
 <body>
 <div class="wrap">
   <div class="page-head">
     <div class="titles">
       <h1>签到签退</h1>
-      <div class="desc">选择座位签到、换座，或按套餐结账签退</div>
+      <div class="desc">预约签到、换座，或按套餐结账签退</div>
     </div>
     <div class="actions">
       <button class="btn" id="btnRefresh">刷新</button>
-      <button class="btn primary" id="btnSignIn">签到选座</button>
+      <button class="btn primary" id="btnSignIn">签到</button>
       <button class="btn" id="btnChange">换座</button>
       <button class="btn danger" id="btnSignOut">签退</button>
     </div>
   </div>
   <div class="card">
     <div class="bd pad">
-      <div class="loc-warn" id="locWarn" hidden>
-        <span id="locWarnText">无法获取当前位置</span>
+      <div class="venue-bar" id="venueBar">
+        <span class="venue-cap" id="kVenueCap">当前门店</span>
+        <span class="venue-name" id="kVenue">—</span>
         <span class="spacer"></span>
-        <button class="btn sm" id="btnRetryLoc">重新定位</button>
+        <select id="venueSelect" class="venue-select" hidden aria-label="选择门店"></select>
+      </div>
+      <div class="loc-warn" id="locWarn" hidden>
+        <span id="locWarnText">未获取到门店坐标</span>
+        <span class="spacer"></span>
+        <button class="btn sm" id="btnRetryLoc">重试</button>
       </div>
       <div class="kpis">
         <div class="kpi"><div class="k">在座状态</div><div class="v" id="kSeat">—</div></div>
@@ -43,67 +49,22 @@
   </div>
 </div>
 
-<!-- 选座弹窗 -->
-<div class="modal-mask" id="seatMask">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="seatTitle">
-    <h3 id="seatTitle">签到选座</h3>
-    <div class="body">
-      <div id="signFields">
-        <div class="field">
-          <label for="qrCode">门店签到二维码内容 <span class="req">*</span></label>
-          <input type="text" id="qrCode" placeholder="门店前台二维码内容，输入后回车加载座位">
-        </div>
-        <div class="field" style="margin-bottom:14px">
-          <label for="pkgId">扣费套餐ID（signInUserPackageId） <span class="req">*</span></label>
-          <input type="number" id="pkgId" placeholder="用户套餐ID">
-          <div class="hint block" id="pkgHint"></div>
-        </div>
-      </div>
-      <div class="step-row">
-        <button class="btn" id="btnLoadSeats">加载座位</button>
-        <span class="hint" id="seatMapHint">填写门店二维码后加载座位图</span>
-      </div>
-      <div class="legend" id="seatLegend" hidden>
-        <span class="lg"><i class="dot free"></i>空闲</span>
-        <span class="lg"><i class="dot part"></i>部分时段已被预约</span>
-        <span class="lg"><i class="dot off"></i>不可预约</span>
-        <span class="lg"><i class="dot pick"></i>已选</span>
-        <span class="lg muted">点击座位选中，再点「确认入座」</span>
-      </div>
-      <div id="seatAreas">
-        <div class="placeholder">填写信息后点击「加载座位」</div>
-      </div>
+<!-- 签到/换座/签退向导 -->
+<div class="modal-mask" id="wizMask">
+  <div class="modal wizard" role="dialog" aria-modal="true" aria-labelledby="wizTitle">
+    <div class="wiz-head">
+      <h3 id="wizTitle">签到</h3>
+      <div id="wizStepper" class="wiz-steps"></div>
+      <div class="spacer"></div>
+      <button class="btn ghost sm" id="btnWizClose" aria-label="关闭">✕</button>
     </div>
-    <div class="foot">
-      <div class="sel-info" id="seatSelInfo">未选择座位</div>
-      <div class="foot-btns">
-        <button class="btn" id="btnSeatClose">关闭</button>
-        <button class="btn primary" id="btnSeatConfirm" disabled>确认入座</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 结算签退弹窗 -->
-<div class="modal-mask" id="settleMask">
-  <div class="modal" style="width:600px" role="dialog" aria-modal="true" aria-labelledby="settleTitle">
-    <h3 id="settleTitle">签退结算</h3>
-    <div class="body">
-      <div id="settleData"><div class="loading">加载结算信息</div></div>
-      <div class="field" style="margin-top:14px"><label>选择结算套餐</label><div id="settlePkgs"></div></div>
-    </div>
-    <div class="foot">
-      <div class="sel-info muted" id="settleHint">签退后按所选套餐扣费</div>
-      <div class="foot-btns">
-        <button class="btn" id="btnSettleClose">取消</button>
-        <button class="btn primary" id="btnSettleConfirm" disabled>确认签退</button>
-      </div>
-    </div>
+    <div class="wiz-body" id="wizBody"></div>
+    <div class="wiz-foot" id="wizFoot"></div>
   </div>
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
-<script src="study-token-guard.js"></script>
+<script src="js/study-token-guard.js"></script>
 <script>
 const TOKEN = (() => {
   try { if (parent && parent.getAppToken) { const t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}
@@ -146,45 +107,154 @@ let state = {
   userSignId: null,
   packageId: null,
   packageName: '',
-  changeMode: false,
-  submitting: false,
-  selected: null
+  venueId: null,
+  venueName: '',
+  venueLng: null,
+  venueLat: null,
+  qrCodeNeedSignOut: null,
+  hasSeat: false,
+  nextReserve: null,
+  // 可选门店列表（未在座时可下拉选择），元素含 id/venueName/venueLng/venueLat
+  venueOptions: [],
+  // 用户在未在座状态下手动指定的门店；下次加载时优先使用
+  pinnedVenueId: null
 };
 
-// 当前经纬度缓存（sign/index 必传），60 秒内复用
-let locCache = null;
-function getLocation(force = false){
-  const now = Date.now();
-  if(!force && locCache && now - locCache.ts < 60000) return Promise.resolve(locCache);
-  if(!navigator.geolocation) return Promise.reject(new Error('当前环境不支持定位'));
-  return new Promise((resolve, reject)=>{
-    navigator.geolocation.getCurrentPosition(
-      pos=>{ locCache={lng:pos.coords.longitude,lat:pos.coords.latitude,ts:Date.now()}; resolve(locCache); },
-      err=>reject(new Error(err.code===1?'定位权限被拒绝，请允许获取当前位置':'定位失败，请检查定位服务')),
-      {enableHighAccuracy:true, timeout:10000, maximumAge:30000}
-    );
-  });
-}
-function showLocWarn(msg){ $('#locWarnText').textContent = msg || '无法获取当前位置'; $('#locWarn').hidden = false; }
+function showLocWarn(msg){ $('#locWarnText').textContent = msg || '未获取到门店坐标'; $('#locWarn').hidden = false; }
 function hideLocWarn(){ $('#locWarn').hidden = true; }
 
-async function loadIndex(forceLoc = false){
+// 门店坐标缓存（key=venueId），门店配置在会话内不变，取到即复用
+const venueLocCache = new Map();
+async function getVenueLocation(venueId){
+  if(venueId==null) return null;
+  if(venueLocCache.has(venueId)) return venueLocCache.get(venueId);
+  const v = await api('venue/reserve/detail',{query:{venueId}});
+  const loc = (v && v.venueLng!=null && v.venueLat!=null) ? {lng:v.venueLng, lat:v.venueLat, name:v.venueName} : null;
+  if(loc) venueLocCache.set(venueId, loc);
+  return loc;
+}
+
+// 签到/签退/换座确认所需经纬度：直接取当前需签到门店的坐标，不再请求浏览器定位
+function resolveSignLocation(){
+  if(state.venueLng!=null && state.venueLat!=null){
+    return Promise.resolve({lng:state.venueLng, lat:state.venueLat});
+  }
+  const c = state.venueId!=null ? venueLocCache.get(state.venueId) : null;
+  return Promise.resolve(c ? {lng:c.lng, lat:c.lat} : null);
+}
+
+// sign/index 的入参坐标须为门店坐标；在座时用签到门店自身的坐标，优先于列表首项
+function venueCoordsOf(v){
+  if(!v) return null;
+  return (v.venueLng!=null && v.venueLat!=null) ? {lng:v.venueLng, lat:v.venueLat} : null;
+}
+
+// 门店对象（含坐标）写入坐标缓存
+function cacheVenueList(list){
+  (list||[]).forEach(v=>{
+    const c = venueCoordsOf(v);
+    if(c && v.id!=null) venueLocCache.set(v.id, {lng:c.lng, lat:c.lat, name:v.venueName});
+  });
+}
+// 合并门店列表（按 id 去重，保留顺序），只保留可选项需要的字段
+function mergeVenues(base, add){
+  const out = (base||[]).slice();
+  (add||[]).forEach(v=>{
+    if(!v || v.id==null) return;
+    const item = {id:v.id, venueName:v.venueName, venueLng:v.venueLng, venueLat:v.venueLat};
+    const i = out.findIndex(x=>x && x.id===item.id);
+    if(i>=0) out[i] = Object.assign({}, out[i], item);
+    else out.push(item);
+  });
+  return out;
+}
+// 渲染门店下拉：仅未在座且门店数 >1 时可切换
+function renderVenueSelect(currentId, selectable){
+  const sel = $('#venueSelect');
+  const opts = state.venueOptions || [];
+  if(!selectable || opts.length<2){ sel.hidden = true; sel.innerHTML=''; return; }
+  sel.innerHTML = opts.map(v=>`<option value="${esc(v.id)}"${v.id===currentId?' selected':''}>${esc(dash(v.venueName||v.id))}</option>`).join('');
+  sel.hidden = false;
+}
+
+async function loadIndex(){
   const restore = setBusy($('#btnRefresh'), '刷新中…');
   try{
-    let loc;
-    try{ loc = await getLocation(forceLoc); hideLocWarn(); }
-    catch(e){ showLocWarn(e.message); return; }
-    const d=await api('sign/index',{query:{currentLng:loc.lng,currentLat:loc.lat}});
+    // 用户已指定门店时优先用它，否则回退本地缓存
+    const wantId = state.pinnedVenueId!=null ? state.pinnedVenueId : state.venueId;
+    let loc = venueCoordsOf(wantId!=null ? venueLocCache.get(wantId) : null);
+    let venueId = loc ? wantId : null;
+    if(!loc){
+      // 无可用坐标：sign/index 必传坐标，先取门店列表作引导
+      try{
+        const sel = await api('venue/reserve/select');
+        const list = (sel && sel.venueList) || [];
+        if(list.length){
+          cacheVenueList(list);
+          state.venueOptions = mergeVenues(state.venueOptions, list);
+          const v = (wantId!=null && list.find(x=>x && x.id===wantId)) || list[0];
+          if(v && v.id!=null){ venueId = v.id; loc = await getVenueLocation(venueId); }
+        }
+      }catch(e){ loc = null; }
+    }
+    if(!loc || loc.lng==null || loc.lat==null){
+      showLocWarn('未获取到门店坐标，请检查门店是否已配置经纬度');
+      toast('未获取到门店坐标，请检查门店配置', false);
+      return;
+    }
+    hideLocWarn();
+    const d=await api('sign/index',{query:{currentLng:loc.lng,currentLat:loc.lat,venueId}});
     if(!d){toast('未获取到签到信息',false);return;}
     const hasSeat = Number(d.hasSeat)===1;
+    state.hasSeat = hasSeat;
     $('#kSeat').textContent = hasSeat ? '在座' : '未在座';
     $('#kSignNum').textContent = dash(d.userSignInfoNum);
     $('#kDays').textContent = dash(d.studyDays);
     state.userSignId = d.userSignId || (d.userSignInfoList && d.userSignInfoList[0] && d.userSignInfoList[0].id) || null;
     $('#kSignId').textContent = dash(state.userSignId);
     const pkg = d.signInUserPackage;
-    state.packageId = (pkg && pkg.id) || (pkg && pkg.signInUserPackageId) || null;
+    // 签到传参用 signInUserPackageId（与原小程序 settlementData.id 一致），id 仅作兜底
+    state.packageId = (pkg && pkg.signInUserPackageId) || (pkg && pkg.id) || null;
     state.packageName = (pkg && pkg.packageName) || '';
+    // 扫码签退开关（字符串 "true"/"false"），签退时按此分流
+    state.qrCodeNeedSignOut = d.qrCodeNeedSignOut;
+    // 门店信息：在座取座位所在门店；未在座取用户指定门店，未指定则取最近门店
+    const nearList = (d.venueNearestList && d.venueNearestList.length) ? d.venueNearestList : [];
+    // 响应里的门店对象即带坐标，写入缓存后刷新无需再查门店列表/详情
+    cacheVenueList(nearList);
+    if(d.venueNearest) cacheVenueList([d.venueNearest]);
+    state.venueOptions = mergeVenues(state.venueOptions, nearList.concat(d.venueNearest?[d.venueNearest]:[]));
+    const seatVenueId = (d.seatCurrent && d.seatCurrent.venueId) || (d.userSign && d.userSign.venueId) || null;
+    const signVenue = (d.userSign && d.userSign.venue) || null;
+    let picked = null;
+    if(hasSeat && seatVenueId!=null){
+      picked = nearList.find(v=>v && v.id===seatVenueId) || signVenue || null;
+    }
+    if(!picked && state.pinnedVenueId!=null){
+      // 未在座时尊重用户的下拉选择
+      picked = nearList.find(v=>v && v.id===state.pinnedVenueId)
+            || state.venueOptions.find(v=>v && v.id===state.pinnedVenueId)
+            || null;
+    }
+    if(!picked) picked = nearList[0] || d.venueNearest || null;
+    state.venueId = (picked && picked.id) || seatVenueId || (signVenue && signVenue.id) || venueId || null;
+    // 坐标优先取响应内的门店对象，避免额外请求详情
+    const pLoc = venueCoordsOf(picked);
+    state.venueName = (picked && picked.venueName) || (signVenue && signVenue.venueName) || '';
+    if(pLoc){ state.venueLng = pLoc.lng; state.venueLat = pLoc.lat; }
+    else {
+      const vLoc = state.venueId!=null ? await getVenueLocation(state.venueId).catch(()=>null) : null;
+      state.venueLng = vLoc ? vLoc.lng : null;
+      state.venueLat = vLoc ? vLoc.lat : null;
+      if(!state.venueName) state.venueName = (vLoc && vLoc.name) || '';
+    }
+    state.nextReserve = d.nextReserveInfo || null;
+    // 标题区分：在座显示当前门店，未在座表示即将签到的门店
+    $('#kVenueCap').textContent = hasSeat ? '当前门店' : '待签到门店';
+    $('#kVenue').textContent = dash(state.venueName || state.venueId);
+    // 未在座时可切换门店；在座时门店由座位决定，不提供切换
+    renderVenueSelect(state.venueId, !hasSeat);
+
     // 在座列表
     const list = d.userSignInfoList && d.userSignInfoList.length ? d.userSignInfoList : (d.userSign ? [d.userSign] : []);
     $('#seatInfo').innerHTML = list.length ? list.map(s=>{
@@ -194,7 +264,7 @@ async function loadIndex(forceLoc = false){
         <div class="muted">签到 ${esc(dash(si.signInTimeStr||s.signInTimeStr))} · 已学 ${duration(si.studyHours,si.studyMinutes)}${extra?` · ${extra}`:''}</div></div>`;
     }).join('') : '<div class="muted">当前未在座</div>';
 
-    // 下一笔预约
+    // 下一笔预约（签到走的就是这条预约路径）
     if(d.nextReserveInfo){
       $('#nextReserve').innerHTML = `<div class="list-row"><div>下一笔预约：${esc(dash(d.nextReserveInfo.reserveDesc))}</div>
         <div class="muted">${esc(dash(d.nextReserveInfo.reserveDateStr))} ${esc(dash(d.nextReserveInfo.reserveTimeStr))}</div></div>`;
@@ -206,7 +276,7 @@ async function loadIndex(forceLoc = false){
     btnChange.title = btnChange.disabled ? (d.descNoChangeSeat||'') : '';
     btnSignOut.disabled = !(hasSeat && state.userSignId);
     btnSignOut.title = btnSignOut.disabled ? (d.descNoSignOut||'') : '';
-    $('#btnSignIn').textContent = d.buttonTextOfSignIn || '签到选座';
+    $('#btnSignIn').textContent = d.buttonTextOfSignIn || '签到';
     btnChange.textContent = d.buttonTextOfChangeSeat || '换座';
     btnSignOut.textContent = d.buttonTextOfSignOut || '签退';
 
@@ -236,7 +306,154 @@ async function turnLight(seatId, flag, btn){
   finally{ restore(); }
 }
 
-function renderSeats(map){
+/* ========================= 向导：签到 / 换座 / 签退 ========================= */
+
+const WIZ_DEFS = {
+  sign:    { title:'签到',   steps:[{key:'confirm',label:'确认'},{key:'done',label:'完成'}] },
+  change:  { title:'换座',   steps:[{key:'seat',label:'选座'},{key:'confirm',label:'确认'},{key:'done',label:'完成'}] },
+  signout: { title:'签退',   steps:[{key:'confirm',label:'确认'},{key:'done',label:'完成'}] }
+};
+
+let WIZ = null;
+
+function closeWizard(){
+  if(WIZ && WIZ.submitting) return;
+  $('#wizMask').classList.remove('show');
+  WIZ = null;
+}
+
+function openWizard(flow){
+  if(flow==='change' && !state.userSignId) return toast('未获取到当前签到ID',false);
+  if(flow==='signout' && !state.userSignId) return toast('未获取到当前签到ID',false);
+  WIZ = { flow, step:0, submitting:false, data:{ selected:null, result:null } };
+  WIZ.steps = WIZ_DEFS[flow].steps;
+  $('#wizTitle').textContent = WIZ_DEFS[flow].title;
+  renderWiz();
+  $('#wizMask').classList.add('show');
+  if(flow==='change') loadChangeSeats();
+}
+
+function renderWiz(){
+  renderStepper();
+  const step = WIZ.steps[WIZ.step];
+  const body = $('#wizBody'), foot = $('#wizFoot');
+  foot.innerHTML = '';
+  if(WIZ.flow==='sign'){
+    if(step.key==='confirm') renderSignConfirm(body, foot);
+    else renderDone(body, foot);
+  } else if(WIZ.flow==='change'){
+    if(step.key==='seat') renderChangeSeatStep(body, foot);
+    else if(step.key==='confirm') renderChangeConfirm(body, foot);
+    else renderDone(body, foot);
+  } else if(WIZ.flow==='signout'){
+    if(step.key==='confirm') renderSignOutConfirm(body, foot);
+    else renderDone(body, foot);
+  }
+}
+
+function renderStepper(){
+  const parts = WIZ.steps.map((s,i)=>{
+    const cls = i<WIZ.step?'done': i===WIZ.step?'active':'';
+    return `<span class="s ${cls}">${esc(s.label)}</span>`;
+  });
+  $('#wizStepper').innerHTML = parts.join('<span class="sep">/</span>');
+}
+
+function footPrev(label='上一步'){
+  return `<button class="btn" id="btnWizPrev">${esc(label)}</button>`;
+}
+function wirePrev(){ $('#btnWizPrev').addEventListener('click', ()=>{ if(WIZ.submitting)return; WIZ.step=Math.max(0,WIZ.step-1); renderWiz(); }); }
+
+/* ---- 签到：确认（走待签到预约路径，空 qrCode 调 seat/list） ---- */
+function renderSignConfirm(body, foot){
+  const nr = state.nextReserve;
+  if(!nr){
+    // 无待签到预约：签到只走已预约路径，此时无可签对象，不暴露必然失败的确认按钮
+    $('#wizStepper').innerHTML = ''; // 空状态无流程，隐藏步骤面包屑
+    body.innerHTML = `
+      <div class="wiz-empty">
+        <div class="t">没有待签到预约</div>
+        <div class="d">签到只针对已预约的座位。请先在「预约」里完成预约，到达时段后再来签到。</div>
+      </div>`;
+    foot.innerHTML = `<div class="spacer"></div><button class="btn primary" id="btnWizFinish">关闭</button>`;
+    $('#btnWizFinish').addEventListener('click', closeWizard);
+    return;
+  }
+  body.innerHTML = `
+    <div class="wiz-hero"><div class="cap">待签到预约</div><div class="val">${esc(dash(nr.reserveDateStr))} ${esc(dash(nr.reserveTimeStr))}</div></div>
+    <div class="wiz-confirm">
+      <div class="list-row"><div>门店</div><div>${esc(state.venueName||state.venueId||'—')}</div></div>
+      <div class="list-row"><div>扣费套餐</div><div>${esc(state.packageName||state.packageId||'—')}</div></div>
+    </div>
+    <div class="hint block">确认后对预约自动入座，无需扫码选座。</div>`;
+  foot.innerHTML = `<div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button><button class="btn primary" id="btnWizSignDo">确认签到</button>`;
+  $('#btnWizCancel').addEventListener('click', closeWizard);
+  $('#btnWizSignDo').addEventListener('click', doSignConfirm);
+}
+
+async function doSignConfirm(){
+  if(WIZ.submitting) return;
+  if(!state.packageId) return toast('未获取到扣费套餐，无法签到',false);
+  WIZ.submitting=true;
+  const restore = setBusy($('#btnWizSignDo'), '签到中…');
+  try{
+    // 待签到预约路径：空 qrCode，上游对预约自动入座（SV0001 / signInFlag=1）
+    const body = { qrCode:'', signAnotherFlag:0 };
+    if(state.venueId) body.venueId = state.venueId;
+    if(state.packageId) body.signInUserPackageId = Number(state.packageId);
+    const map = await api('sign/seat/list',{method:'POST',body});
+    if(map===1 || (map && Number(map.signInFlag)===1)){
+      const nr = state.nextReserve;
+      WIZ.data.result = { ok:true, title:'签到成功', rows: nr ? [['签到预约', `${dash(nr.reserveDateStr)} ${dash(nr.reserveTimeStr)}`]] : [] };
+    } else {
+      WIZ.data.result = { ok:false, title:'未能签到', sub:'当前无待签到预约，或上游返回了选座图（非预约签到路径）' };
+    }
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
+    if(WIZ.data.result.ok) await loadIndex();
+  }catch(e){
+    WIZ.data.result = { ok:false, title:'签到失败', sub:e.message };
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
+  }finally{
+    WIZ.submitting=false;
+    restore();
+  }
+}
+
+/* ---- 换座：选座 ---- */
+async function loadChangeSeats(){
+  if(WIZ.submitting) return;
+  WIZ.submitting=true;
+  $('#wizBody').innerHTML = '<div class="loading">加载座位图</div>';
+  try{
+    const map = await api('sign/change/seat/list',{method:'POST',body:{userSignId:Number(state.userSignId)}});
+    WIZ.data.seatMap = map;
+    if(WIZ.flow==='change' && WIZ.steps[WIZ.step].key==='seat') renderWiz();
+  }catch(e){
+    $('#wizBody').innerHTML = `<div class="empty-box">加载失败：${esc(e.message)}<br><button class="btn sm" data-retry="1" style="margin-top:10px">重试</button></div>`;
+  }finally{
+    WIZ.submitting=false;
+  }
+}
+
+function renderChangeSeatStep(body, foot){
+  const map = WIZ.data.seatMap;
+  if(!map){
+    body.innerHTML = '<div class="loading">加载座位图</div>';
+    foot.innerHTML = `<div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button>`;
+    $('#btnWizCancel').addEventListener('click', closeWizard);
+    return;
+  }
+  body.innerHTML = `<div id="wizSeatAreas"></div>`;
+  renderSeatsInto($('#wizSeatAreas'), map);
+  foot.innerHTML = `<div class="sel-info" id="wizSeatSelInfo">未选择座位</div><div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button><button class="btn primary" id="btnWizNext" disabled>下一步</button>`;
+  $('#btnWizCancel').addEventListener('click', closeWizard);
+  $('#btnWizNext').addEventListener('click', ()=>{ if(WIZ.submitting)return; if(!WIZ.data.selected){toast('请先选择座位',false);return;} WIZ.step++; renderWiz(); });
+  syncWizSeatSel();
+}
+
+function renderSeatsInto(container, map){
   const areas=(map&&map.venueAreaList)||[];
   let total=0, usable=0;
   const html = areas.map(a=>{
@@ -248,7 +465,7 @@ function renderSeats(map){
       const cls=st===10?'s10':st===20?'s20':'s30';
       const disabled=st!==10 && st!==20;
       const times=(s.validTimeStrList||[]).map(v=>v.validTimeStr).filter(Boolean).join('、');
-      return `<button type="button" class="seat ${cls}" ${disabled?'disabled':''} data-seat="${esc(s.id)}" data-area="${esc(a.areaName||'')}" data-no="${esc(dash(s.seatNumber))}" data-desc="${esc(s.seatReserveDesc||'')}" title="${esc([s.seatNumber,s.seatReserveDesc,s.seatReserveDescReal].filter(Boolean).join(' · '))}">
+      return `<button type="button" class="seat ${cls}" ${disabled?'disabled':''} data-seat="${esc(s.id)}" data-area="${esc(a.areaName||'')}" data-no="${esc(dash(s.seatNumber))}" title="${esc([s.seatNumber,s.seatReserveDesc].filter(Boolean).join(' · '))}">
         <span class="no">${esc(dash(s.seatNumber))}</span>
         <span class="st">${esc(s.seatReserveDesc||'')}</span>
         ${times?`<span class="tm">${esc(times)}</span>`:''}
@@ -257,277 +474,200 @@ function renderSeats(map){
     return `<div class="area"><div class="area-title">${esc(a.areaName||'区域')}<span class="area-count">${seats.length}</span></div>
       <div class="seats">${items||'<span class="muted">无座位</span>'}</div></div>`;
   }).join('');
-
   if(!total){
-    $('#seatLegend').hidden=true;
-    $('#seatAreas').innerHTML='<div class="empty-box">没有可显示的区域/座位，请检查二维码是否正确</div>';
-    $('#seatMapHint').textContent='未获取到座位';
+    container.innerHTML = '<div class="empty-box">没有可换的座位</div>';
     return;
   }
-  $('#seatLegend').hidden=false;
-  $('#seatAreas').innerHTML=html;
-  $('#seatMapHint').textContent=`共 ${total} 个座位，其中 ${usable} 个可入座`;
+  container.innerHTML = `<div class="legend"><span class="lg"><i class="dot free"></i>空闲</span><span class="lg"><i class="dot part"></i>部分时段</span><span class="lg"><i class="dot off"></i>不可预约</span><span class="lg"><i class="dot pick"></i>已选</span><span class="muted">点击座位选中</span></div>` + html;
 }
 
-function clearSeatSelection(){
-  document.querySelectorAll('.seat.selected').forEach(el=>el.classList.remove('selected'));
-  state.selected=null;
-  if(state.changeMode){
-    $('#seatSelInfo').innerHTML = state.userSignId ? `当前签到ID <b>${esc(state.userSignId)}</b>，请选择目标座位` : '请选择目标座位';
-  } else {
-    $('#seatSelInfo').textContent='未选择座位';
+function syncWizSeatSel(){
+  const sel = WIZ.data.selected;
+  const info = $('#wizSeatSelInfo');
+  const next = $('#btnWizNext');
+  if(info) info.innerHTML = sel ? `已选：<b>${esc(sel.area)} · ${esc(sel.no)}</b>` : '未选择座位';
+  if(next) next.disabled = !sel || WIZ.submitting;
+}
+
+function wizSelectSeat(btn){
+  if(btn.classList.contains('selected')){ btn.classList.remove('selected'); WIZ.data.selected=null; }
+  else {
+    $('#wizSeatAreas').querySelectorAll('.seat.selected').forEach(el=>el.classList.remove('selected'));
+    btn.classList.add('selected');
+    WIZ.data.selected = {id:Number(btn.dataset.seat), area:btn.dataset.area, no:btn.dataset.no};
   }
-  syncSeatConfirm();
+  syncWizSeatSel();
 }
 
-function selectSeat(btn){
-  if(btn.classList.contains('selected')){
-    clearSeatSelection();
-    return;
-  }
-  document.querySelectorAll('.seat.selected').forEach(el=>el.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.selected={id:Number(btn.dataset.seat), area:btn.dataset.area, no:btn.dataset.no, desc:btn.dataset.desc};
-  $('#seatSelInfo').innerHTML = `已选：<b>${esc(state.selected.area)} · ${esc(state.selected.no)}</b>${state.selected.desc?` <span class="muted">（${esc(state.selected.desc)}）</span>`:''}`;
-  syncSeatConfirm();
+/* ---- 换座：确认 ---- */
+function renderChangeConfirm(body, foot){
+  const sel = WIZ.data.selected;
+  body.innerHTML = `
+    <div class="hint" style="margin-bottom:10px">请确认换座信息</div>
+    <div class="wiz-confirm">
+      <div class="list-row"><div>当前签到ID</div><div><b>${esc(state.userSignId)}</b></div></div>
+      <div class="list-row"><div>目标座位</div><div><b>${sel?`${esc(sel.area)} · ${esc(sel.no)}`:'未选择'}</b></div></div>
+      <div class="list-row"><div>门店</div><div>${esc(state.venueName||state.venueId||'—')}</div></div>
+    </div>`;
+  foot.innerHTML = `<div class="spacer"></div>${footPrev()}<button class="btn primary" id="btnWizChangeDo">确认换座</button>`;
+  wirePrev();
+  $('#btnWizChangeDo').addEventListener('click', doChangeConfirm);
 }
 
-function syncSeatConfirm(){
-  const btn=$('#btnSeatConfirm');
-  btn.disabled = !state.selected || state.submitting;
-  btn.title = (btn.disabled && !state.submitting) ? '请先在座位图中选择一个座位' : '';
-}
-
-async function openSignSeat(){
-  state.changeMode=false;
-  state.selected=null;
-  $('#seatTitle').textContent='签到选座';
-  $('#signFields').style.display='';
-  $('#qrCode').value='';
-  $('#pkgId').value = state.packageId || '';
-  $('#pkgHint').textContent = state.packageId
-    ? `默认使用当前套餐：${state.packageName||state.packageId}`
-    : '每日签到按套餐扣费，请填写用户套餐ID';
-  $('#seatLegend').hidden=true;
-  $('#seatMapHint').textContent='填写门店二维码后加载座位图';
-  $('#seatAreas').innerHTML='<div class="placeholder">填写信息后点击「加载座位」</div>';
-  $('#btnSeatConfirm').textContent='确认入座';
-  clearSeatSelection();
-  $('#seatMask').classList.add('show');
-  setTimeout(()=>$('#qrCode').focus(),50);
-}
-
-async function openChangeSeat(){
-  if(!state.userSignId)return toast('未获取到当前签到ID',false);
-  state.changeMode=true;
-  state.selected=null;
-  $('#seatTitle').textContent=`换座（当前签到 ${state.userSignId}）`;
-  $('#signFields').style.display='none';
-  $('#seatLegend').hidden=true;
-  $('#seatMapHint').textContent='加载中…';
-  $('#seatAreas').innerHTML='<div class="loading">加载座位图</div>';
-  $('#btnSeatConfirm').textContent='确认换座';
-  clearSeatSelection();
-  $('#seatMask').classList.add('show');
-  await loadSeats();
-}
-
-async function loadSeats(){
-  const isChange=state.changeMode;
-  let body;
-  if(isChange){
-    if(!state.userSignId)return toast('未获取到当前签到ID',false);
-    body={userSignId:Number(state.userSignId)};
-  }else{
-    const qrCode=$('#qrCode').value.trim();
-    if(!qrCode){ toast('请填写门店二维码内容',false); $('#qrCode').focus(); return; }
-    const pkg=$('#pkgId').value.trim();
-    body={qrCode, signAnotherFlag: 0};
-    if(pkg)body.signInUserPackageId=Number(pkg);
-  }
-  const restore = setBusy($('#btnLoadSeats'), '加载中…');
-  clearSeatSelection();
-  $('#seatAreas').innerHTML='<div class="loading">加载座位图</div>';
-  $('#seatLegend').hidden=true;
-  $('#seatMapHint').textContent='加载中…';
-  $('#btnSeatConfirm').disabled=true;
+async function doChangeConfirm(){
+  if(WIZ.submitting) return;
+  const sel = WIZ.data.selected;
+  if(!sel) return toast('请先选择座位',false);
+  WIZ.submitting=true;
+  const restore = setBusy($('#btnWizChangeDo'), '提交中…');
+  const loc = await resolveSignLocation();
+  if(!loc){ WIZ.submitting=false; restore(); return; }
   try{
-    const map=await api(isChange?'sign/change/seat/list':'sign/seat/list',{method:'POST',body});
-    // 存在待签到预约时，上游直接完成签到，data 为整数 1
-    if(!isChange && (map===1 || (map&&Number(map.signInFlag)===1))){
-      toast('预约座位签到成功');
-      closeSeatModal(true);
-      await loadIndex();
-      return;
-    }
-    if(map && map.userSignId){ state.userSignId=map.userSignId; }
-    if(map && map.signInUserPackage && map.signInUserPackage.id){
-      state.packageId=map.signInUserPackage.id;
-      state.packageName=map.signInUserPackage.packageName||'';
-      if(!isChange) $('#pkgId').value=state.packageId;
-    }
-    clearSeatSelection();
-    renderSeats(map);
+    await api('sign/change/seat/confirm',{method:'POST',body:{
+      seatId:sel.id, userSignId:Number(state.userSignId), currentLng:loc.lng, currentLat:loc.lat
+    }});
+    WIZ.data.result = { ok:true, title:'换座成功', hero:{ one:`${sel.area} · ${sel.no}`, cap:'已换至' } };
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
+    await loadIndex();
   }catch(e){
-    $('#seatAreas').innerHTML=`<div class="empty-box">加载失败：${esc(e.message)}<br><button class="btn sm" data-retry="1" style="margin-top:10px">重试</button></div>`;
-    $('#seatMapHint').textContent='加载失败';
+    WIZ.data.result = { ok:false, title:'换座失败', sub:e.message };
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
   }finally{
+    WIZ.submitting=false;
     restore();
   }
 }
 
-function closeSeatModal(force=false){
-  if(state.submitting && !force) return;
-  $('#seatMask').classList.remove('show');
+/* ---- 签退：确认（/sign/out，按 qrCodeNeedSignOut 分流） ---- */
+function renderSignOutConfirm(body, foot){
+  const needQr = String(state.qrCodeNeedSignOut)==='true';
+  const pkgName = state.packageName||state.packageId;
+  body.innerHTML = `
+    <div class="hint" style="margin-bottom:10px">确认签退信息，签退后按当前套餐扣费结算</div>
+    <div class="wiz-confirm">
+      <div class="list-row"><div>当前签到ID</div><div><b>${esc(state.userSignId)}</b></div></div>
+      <div class="list-row"><div>结算套餐</div><div>${esc(pkgName)}<span class="muted">（id ${esc(state.packageId)}）</span></div></div>
+      <div class="list-row"><div>扫码签退</div><div>${needQr?'<span class="tag err">需座位二维码</span>':'<span class="tag ok">否（直接签退）</span>'}</div></div>
+    </div>
+    ${needQr?`<div class="field" style="margin-top:14px"><label for="wizSignOutQr">座位二维码内容 <span class="req">*</span></label><input type="text" id="wizSignOutQr" placeholder="座位二维码内容" value="${esc(WIZ.data.qrCode||'')}"><div class="hint block">场馆开启扫码签退（qrCodeNeedSignOut=true），需提供座位二维码</div></div>`:''}`;
+  foot.innerHTML = `<div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button><button class="btn danger" id="btnWizSignOutDo">确认签退</button>`;
+  $('#btnWizCancel').addEventListener('click', closeWizard);
+  $('#btnWizSignOutDo').addEventListener('click', doSignOut);
+  if(needQr) setTimeout(()=>$('#wizSignOutQr').focus(),50);
 }
 
-async function confirmSeat(){
-  if(state.submitting) return;
-  const sel=state.selected;
-  if(!sel) return toast('请先选择一个座位',false);
-  const isChange=state.changeMode;
-  let body;
-  if(isChange){
-    if(!state.userSignId)return toast('未获取到当前签到ID',false);
-    body={seatId:sel.id,userSignId:Number(state.userSignId)};
-  }else{
-    const pkg=$('#pkgId').value.trim();
-    if(!pkg) return toast('请填写扣费套餐ID',false);
-    body={seatId:sel.id,signInUserPackageId:Number(pkg),signAnotherFlag:0};
+async function doSignOut(){
+  if(WIZ.submitting) return;
+  if(!state.packageId) return toast('未获取到结算套餐，无法签退',false);
+  const needQr = String(state.qrCodeNeedSignOut)==='true';
+  let qrCode='';
+  if(needQr){
+    qrCode = ($('#wizSignOutQr').value||'').trim();
+    if(!qrCode){ toast('请填写座位二维码内容',false); $('#wizSignOutQr').focus(); return; }
+    WIZ.data.qrCode = qrCode;
   }
-  state.submitting=true;
-  const restore = setBusy($('#btnSeatConfirm'), '提交中…');
+  WIZ.submitting=true;
+  const restore = setBusy($('#btnWizSignOutDo'), '签退中…');
+  const loc = await resolveSignLocation();
+  if(!loc){ WIZ.submitting=false; restore(); return; }
   try{
-    if(isChange){
-      await api('sign/change/seat/confirm',{method:'POST',body});
-      toast(`已换至 ${sel.area} · ${sel.no}`);
-    }else{
-      const d=await api('sign/seat/confirm',{method:'POST',body});
-      toast((d&&d.studyTipText)||`签到成功：${sel.area} · ${sel.no}`);
-    }
-    closeSeatModal(true);
-    await loadIndex();
-  }catch(e){ toast('操作失败：'+e.message,false); }
-  finally{
-    state.submitting=false;
-    restore();
-    syncSeatConfirm();
-  }
-}
-
-function usablePkg(p){ return p.canNotUse!==1 && p.canUsePay!==0; }
-
-async function openSettlement(){
-  if(!state.userSignId)return toast('未获取到当前签到ID',false);
-  state.settlement=null;
-  state.submitting=false;
-  $('#btnSettleConfirm').disabled=true;
-  $('#settleHint').textContent='签退后按所选套餐扣费';
-  $('#settleMask').classList.add('show');
-  $('#settleData').innerHTML='<div class="loading">加载结算信息</div>';
-  $('#settlePkgs').innerHTML='';
-  try{
-    const d=await api('sign/settlement',{method:'POST',body:{userSignId:Number(state.userSignId)}});
-    state.settlement=d||{};
-    const sd=(d&&d.settleData)||{};
+    const d = await api('sign/out',{method:'POST',body:{
+      qrCode,
+      currentLng:loc.lng, currentLat:loc.lat,
+      settleUserPackageId:Number(state.packageId),
+      userSignId:Number(state.userSignId)
+    }});
+    // 结算收据：学习时长与扣费作主角数字，其余作明细
+    const nums = [];
+    if(d && (d.studyHours!=null || d.studyMinutes!=null)) nums.push([duration(d.studyHours, d.studyMinutes), '本次学习时长']);
+    if(d && d.payPriceYuan!=null) nums.push([`¥ ${d.payPriceYuan}`, '本次扣费']);
     const rows=[
-      d&&d.venueName?['门店',d.venueName]:null,
-      ['结算时长',dash(sd.settleTimeStr)],
-      ['学习时长',dash(sd.studyTimeDesc||sd.studyMinuteDesc)],
-      ['已用',dash(sd.usedTimeStr)]
+      d&&d.packageName?['扣费套餐', d.packageName]:null,
+      d&&d.settleHourStr?['结算时长', d.settleHourStr]:null,
+      d&&d.signOutTimeStr?['签退时间', d.signOutTimeStr]:null,
+      d&&d.studyTipText?['提示', d.studyTipText]:null
     ].filter(Boolean);
-    let html=rows.map(([k,v])=>`<div class="list-row"><div>${esc(k)}</div><div>${esc(v)}</div></div>`).join('');
-    if(d&&d.studyTipText) html+=`<div class="list-row"><div>提示</div><div>${esc(d.studyTipText)}</div></div>`;
-    if(d&&Number(d.needBuyPackage)===1) html+=`<div class="list-row"><div>提示</div><div class="tag err">需要购买套餐</div></div>`;
-    $('#settleData').innerHTML=html;
-
-    const pkgs=(d&&d.userPackageList)||[];
-    const usableList=pkgs.filter(usablePkg);
-    if(!pkgs.length){
-      $('#settlePkgs').innerHTML='<div class="empty-box">无可选结算套餐</div>';
-      $('#settleHint').textContent='暂无可用于签退的套餐';
-      return;
-    }
-    let checkedId=null;
-    const auto=pkgs.find(p=>usablePkg(p)&&Number(p.autoSelected)===1)||usableList[0];
-    if(auto) checkedId=auto.id;
-    $('#settlePkgs').innerHTML=pkgs.map(p=>{
-      const usable=usablePkg(p);
-      const checked=String(p.id)===String(checkedId);
-      return `<label class="radio-row ${usable?'':'disabled'} ${checked?'selected':''}">
-        <input type="radio" name="settlePkg" value="${esc(p.id)}" ${usable?'':'disabled'} ${checked?'checked':''}>
-        <div>
-          <div class="t">${esc(dash(p.packageName))} ${usable?'<span class="tag ok">可用</span>':'<span class="tag err">不可用</span>'}</div>
-          <div class="d">剩余 ${esc(dash(p.restTimeStr||p.restNum))}${p.settleHourStr?` · ${esc(p.settleHourStr)}`:''}${(!usable&&p.canNotUsePayDesc)?` · ${esc(p.canNotUsePayDesc)}`:''}</div>
-        </div>
-      </label>`;
-    }).join('');
-    $('#settleHint').textContent = usableList.length ? '选择结算套餐后确认签退' : '没有可用于签退的套餐';
-    syncSettleConfirm();
-  }catch(e){
-    $('#settleData').innerHTML=`<div class="empty-box" style="color:var(--err)">加载失败：${esc(e.message)}</div>`;
-  }
-}
-
-function syncSettleConfirm(){
-  const sel=document.querySelector('input[name=settlePkg]:checked');
-  const btn=$('#btnSettleConfirm');
-  btn.disabled = !sel || state.submitting;
-  btn.title = (btn.disabled && !state.submitting) ? '请选择可用的结算套餐' : '';
-}
-
-async function confirmSettlement(){
-  const sel=document.querySelector('input[name=settlePkg]:checked');
-  if(!sel)return toast('请选择结算套餐',false);
-  if(state.submitting) return;
-  state.submitting=true;
-  const restore = setBusy($('#btnSettleConfirm'), '提交中…');
-  try{
-    const d=await api('sign/user-package/confirm',{method:'POST',body:{userSignId:Number(state.userSignId),userPackageId:Number(sel.value)}});
-    toast((d&&d.studyTipText)||'签退成功');
-    $('#settleMask').classList.remove('show');
+    WIZ.data.result = { ok:true, title:'签退成功', nums, rows };
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
     await loadIndex();
-  }catch(e){ toast('签退失败：'+e.message,false); }
-  finally{
-    state.submitting=false;
+  }catch(e){
+    WIZ.data.result = { ok:false, title:'签退失败', sub:e.message };
+    WIZ.step = WIZ.steps.findIndex(s=>s.key==='done');
+    renderWiz();
+  }finally{
+    WIZ.submitting=false;
     restore();
-    syncSettleConfirm();
   }
 }
 
-$('#btnRefresh').addEventListener('click',()=>loadIndex(true));
-$('#btnRetryLoc').addEventListener('click',()=>loadIndex(true));
-$('#btnSignIn').addEventListener('click',openSignSeat);
-$('#btnChange').addEventListener('click',openChangeSeat);
-$('#btnSignOut').addEventListener('click',openSettlement);
-$('#btnLoadSeats').addEventListener('click',loadSeats);
-$('#btnSeatClose').addEventListener('click',()=>closeSeatModal());
-$('#btnSeatConfirm').addEventListener('click',confirmSeat);
-$('#btnSettleClose').addEventListener('click',()=>{ if(!state.submitting) $('#settleMask').classList.remove('show'); });
-$('#btnSettleConfirm').addEventListener('click',confirmSettlement);
-$('#seatAreas').addEventListener('click',e=>{
-  if(e.target.closest('[data-retry]')){ loadSeats(); return; }
-  const s=e.target.closest('.seat[data-seat]');
-  if(s && !s.disabled) selectSeat(s);
+/* ---- 完成 / 结果步 ---- */
+function renderDone(body, foot){
+  const r = WIZ.data.result || { ok:false, title:'—' };
+  let html = `<div class="wiz-result ${r.ok?'':'err'}"><div class="status">${esc(r.title||(r.ok?'已完成':'操作失败'))}</div>`;
+  if(r.ok){
+    if(r.hero){
+      html += `<div class="nums one"><div><div class="n">${esc(r.hero.one)}</div><div class="c">${esc(r.hero.cap)}</div></div></div>`;
+    } else if(r.nums && r.nums.length){
+      const cells = r.nums.filter(Boolean).map(([n,c])=>`<div><div class="n">${esc(n)}</div><div class="c">${esc(c)}</div></div>`).join('');
+      const cls = r.nums.filter(Boolean).length===1?'one':'';
+      html += `<div class="nums ${cls}">${cells}</div>`;
+    }
+    if(r.rows && r.rows.length){
+      html += `<div class="detail">${r.rows.map(([k,v])=>`<div class="list-row"><div class="muted">${esc(k)}</div><div>${esc(v)}</div></div>`).join('')}</div>`;
+    }
+  } else if(r.sub){
+    html += `<div class="hint block" style="margin-top:12px">${esc(r.sub)}</div>`;
+  }
+  html += `</div>`;
+  body.innerHTML = html;
+  if(r.ok){
+    foot.innerHTML = `<div class="spacer"></div><button class="btn primary" id="btnWizFinish">完成</button>`;
+    $('#btnWizFinish').addEventListener('click', closeWizard);
+  } else {
+    foot.innerHTML = `<div class="spacer"></div>${footPrev('返回重试')}<button class="btn" id="btnWizFinish">关闭</button>`;
+    wirePrev();
+    $('#btnWizFinish').addEventListener('click', closeWizard);
+  }
+}
+
+/* ========================= 事件绑定 ========================= */
+$('#btnRefresh').addEventListener('click',()=>loadIndex());
+// 未在座时切换门店：记住所选门店并重新加载，使其坐标/venueId 生效
+$('#venueSelect').addEventListener('change',async e=>{
+  const id = Number(e.target.value);
+  if(!id) return;
+  state.pinnedVenueId = id;
+  // 若该门店尚未缓存坐标，先取详情，避免下次请求缺坐标
+  if(!venueLocCache.has(id)){
+    e.target.disabled = true;
+    try{ await getVenueLocation(id); }catch(err){ toast('获取门店信息失败：'+err.message,false); }
+    finally{ e.target.disabled = false; }
+  }
+  loadIndex();
+});
+// 重试门店坐标：清缓存后整体重载
+$('#btnRetryLoc').addEventListener('click',()=>{ venueLocCache.clear(); loadIndex(); });
+$('#btnSignIn').addEventListener('click',()=>openWizard('sign'));
+$('#btnChange').addEventListener('click',()=>openWizard('change'));
+$('#btnSignOut').addEventListener('click',()=>openWizard('signout'));
+$('#btnWizClose').addEventListener('click', closeWizard);
+$('#wizMask').addEventListener('click', e=>{ if(e.target===e.currentTarget && !(WIZ&&WIZ.submitting)) closeWizard(); });
+$('#wizBody').addEventListener('click', e=>{
+  if(e.target.closest('[data-retry]')){ loadChangeSeats(); return; }
+  const s = e.target.closest('.seat[data-seat]');
+  if(s && !s.disabled) wizSelectSeat(s);
 });
 $('#lightBox').addEventListener('click',e=>{const b=e.target.closest('[data-light]');if(b)turnLight(b.dataset.seat,b.dataset.light,b);});
-$('#settlePkgs').addEventListener('change',e=>{
-  if(e.target.name!=='settlePkg')return;
-  document.querySelectorAll('#settlePkgs .radio-row').forEach(r=>{
-    r.classList.toggle('selected', !!r.querySelector('input:checked'));
-  });
-  syncSettleConfirm();
-});
-['#qrCode','#pkgId'].forEach(sel=>$(sel).addEventListener('keydown',e=>{
-  if(e.key==='Enter'){ e.preventDefault(); loadSeats(); }
-}));
-document.querySelectorAll('.modal-mask').forEach(m=>m.addEventListener('click',e=>{
-  if(e.target===m && !state.submitting) m.classList.remove('show');
-}));
 document.addEventListener('keydown',e=>{
-  if(e.key!=='Escape' || state.submitting) return;
-  if($('#settleMask').classList.contains('show')) $('#settleMask').classList.remove('show');
-  else if($('#seatMask').classList.contains('show')) $('#seatMask').classList.remove('show');
+  if(e.key!=='Escape') return;
+  if($('#wizMask').classList.contains('show')) closeWizard();
+});
+$('#wizBody').addEventListener('keydown',e=>{
+  const id = e.target.id;
+  if(e.key==='Enter' && (id==='wizSignOutQr')){ e.preventDefault(); doSignOut(); }
 });
 
 StudyTokenGuard.ensure(loadIndex);

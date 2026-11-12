@@ -59,7 +59,7 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
         try {
             FilterResultDTO<?> filterResultDTO = filterChain.doFilter(context);
             if (!filterResultDTO.isSuccess()) {
-                log.info("自动预约任务被过滤，taskId={}，triggerType={}, context={}", taskId, triggerType, GsonUtils.toJson(context));
+                log.info("自动预约任务被过滤，taskId={}，triggerType={}, context={}，过滤原因={}", taskId, triggerType, GsonUtils.toJson(context), filterResultDTO.getErrorMsg());
                 StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO = this.buildTaskRecordDTO(context, StudyRoomAutoReserveTaskRecordStatusEnum.SKIPPED, filterResultDTO.getErrorMsg());
                 recordService.saveRecord(taskRecordDTO);
                 return;

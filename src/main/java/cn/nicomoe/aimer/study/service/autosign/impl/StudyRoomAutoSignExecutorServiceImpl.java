@@ -45,7 +45,7 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
         try {
             FilterResultDTO<?> filterResultDTO = filterChain.doFilter(context);
             if (!filterResultDTO.isSuccess()) {
-                log.info("自动签到执行被过滤，userId={}，context={}", userId, GsonUtils.toJson(context));
+                log.info("自动签到执行被过滤，userId={}，context={}，过滤原因={}", userId, GsonUtils.toJson(context), filterResultDTO.getErrorMsg());
                 return;
             }
 
