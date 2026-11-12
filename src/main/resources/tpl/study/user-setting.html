@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<base href="${base}/">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用户设置</title>
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div class="wrap wrap-setting">
+  <div class="page-head">
+    <div class="titles">
+      <h1>用户设置</h1>
+      <div class="desc">绑定小程序凭据，设置放号时刻与自动签到</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hd">
+      <img class="avatar" id="avatar" alt="">
+      <div>
+        <div class="name" id="nick">账号信息</div>
+        <div class="sub" id="mobile">加载中…</div>
+      </div>
+    </div>
+    <div class="bd pad">
+      <div class="kv">
+        <div class="item"><div class="k">累计学习时长</div><div class="v" id="studyTime">—</div></div>
+        <div class="item"><div class="k">累计签到次数</div><div class="v" id="signNum">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hd"><h3>自习室配置</h3></div>
+    <div class="bd pad">
+      <div class="field">
+        <label>放号时刻<span class="hint">每天放号的时间点，默认 20:00:00</span></label>
+        <input type="time" id="releaseTime" step="1">
+      </div>
+      <div class="field">
+        <label>自动签到</label>
+        <label class="switch">
+          <input type="checkbox" id="signInEnable">
+          <span class="track"></span>
+          <span id="signInText" class="state">关闭</span>
+        </label>
+      </div>
+      <div class="field">
+        <label>小程序 Token<span class="hint">微信小程序登录凭据（JWT），保存时服务端会校验有效性</span></label>
+        <div class="inline">
+          <input type="password" id="token" placeholder="粘贴小程序 token" autocomplete="off">
+          <button class="btn" id="btnToggle" type="button">显示</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <button class="btn" id="btnReload">重新加载</button>
+      <button class="btn primary" id="btnSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const TOKEN = (() => {
+  try { if (parent && parent.getAppToken) { const t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}
+  return new URLSearchParams(location.search).get('_token') || '';
+})();
+const BASE = document.baseURI;
+
+async function api(path, { method = 'GET', query, body } = {}) {
+  const url = new URL('erupt-api/study/' + String(path).replace(/^\//, ''), BASE);
+  if (query) for (const [k, v] of Object.entries(query)) {
+    if (v !== '' && v !== null && v !== undefined) url.searchParams.set(k, v);
+  }
+  const headers = { token: TOKEN };
+  const init = { method, headers };
+  if (body !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
+  const res = await fetch(url, init);
+  if (res.status === 401) { try { parent.location.reload(); } catch (e) { location.reload(); } throw new Error('登录已失效'); }
+  if (res.status === 403) throw new Error('无权限：请为该菜单授权');
+  const json = await res.json().catch(() => null);
+  if (res.status >= 500) throw new Error((json && (json.message || json.error)) || ('服务异常 ' + res.status));
+  if (json && json.success === false) throw new Error(json.message || '操作失败');
+  return json ? json.data : null;
+}
+
+const $ = (s, r = document) => r.querySelector(s);
+const dash = v => (v === 0 || v === null || v === undefined || v === '') ? '—' : v;
+
+function toast(msg, ok = true) {
+  const box = document.getElementById('toast');
+  const el = document.createElement('div');
+  el.className = 'toast' + (ok ? '' : ' err');
+  el.textContent = msg;
+  box.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+/* 归一化 LocalTime：HH:mm -> HH:mm:00 */
+function normTime(v) {
+  if (!v) return '20:00:00';
+  const s = String(v);
+  if (s.length === 5) return s + ':00';
+  return s.slice(0, 8);
+}
+
+async function loadProfile() {
+  try {
+    const u = await api('user/index');
+    if (u) {
+      $('#nick').textContent = u.nickName || u.userName || '未命名';
+      $('#mobile').textContent = u.mobile ? ('手机号 ' + u.mobile) : '未绑定手机号';
+      $('#studyTime').textContent = dash(u.studyTotalTimeStr);
+      $('#signNum').textContent = dash(u.signTotalNum);
+      if (u.headImg) { $('#avatar').src = u.headImg; }
+    }
+  } catch (e) {
+    $('#nick').textContent = '尚未绑定';
+    $('#mobile').textContent = '保存小程序 Token 后将自动加载账号信息';
+  }
+}
+
+async function loadSetting() {
+  const data = await api('user-setting/me');
+  const cfg = (data && data.config) || {};
+  $('#releaseTime').value = normTime(cfg.releaseTime);
+  $('#signInEnable').checked = Number(cfg.signInEnable) === 1;
+  $('#token').value = cfg.token || '';
+  syncSignInText();
+}
+
+function syncSignInText() {
+  $('#signInText').textContent = $('#signInEnable').checked ? '开启' : '关闭';
+}
+
+async function save() {
+  const payload = {
+    releaseTime: normTime($('#releaseTime').value),
+    signInEnable: $('#signInEnable').checked ? 1 : 0,
+    token: $('#token').value.trim()
+  };
+  if (!payload.token) { toast('请先填写小程序 Token', false); return; }
+  const btn = $('#btnSave');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const label = btn.textContent;
+  btn.textContent = '保存中…';
+  try {
+    await api('user-setting/me', { method: 'PUT', body: payload });
+    toast('已保存');
+    loadProfile();
+  } catch (e) {
+    toast(e.message || '保存失败', false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+}
+
+$('#signInEnable').addEventListener('change', syncSignInText);
+$('#btnToggle').addEventListener('click', () => {
+  const t = $('#token');
+  const isPwd = t.type === 'password';
+  t.type = isPwd ? 'text' : 'password';
+  $('#btnToggle').textContent = isPwd ? '隐藏' : '显示';
+});
+$('#btnSave').addEventListener('click', save);
+$('#btnReload').addEventListener('click', () => { loadProfile(); loadSetting(); });
+$('#token').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); save(); } });
+
+loadProfile();
+loadSetting();
+</script>
+</body>
+</html>

@@ -75,19 +75,8 @@ public class StudyRoomAutoReserveTaskRecordServiceImpl implements StudyRoomAutoR
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateRecord(StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO) {
-        StudyRoomAutoReserveTaskRecordDO recordDO = recordRepository.findById(taskRecordDTO.getId()).orElseThrow(() -> new EruptWebApiRuntimeException("未查询到任务记录数据"));
-
-        StudyRoomAutoReserveTaskRecordDetailBO detailBO = MapstructUtils.convert(taskRecordDTO, StudyRoomAutoReserveTaskRecordDetailBO.class);
-        recordDO.setStatus(taskRecordDTO.getStatus());
-        recordDO.setDetailJson(GsonUtils.toJson(detailBO));
-        recordRepository.save(recordDO);
-    }
-
-    @Override
-    public List<StudyRoomAutoReserveTaskRecordInfoDTO> listByTaskIdAndCreateDate(Long taskId, LocalDate createDate) {
-        List<StudyRoomAutoReserveTaskRecordDO> recordList = recordRepository.findByTaskIdAndCreateTimeGreaterThanEqualAndCreateTimeLessThan(taskId, createDate.atStartOfDay(), createDate.plusDays(1).atStartOfDay());
+    public List<StudyRoomAutoReserveTaskRecordInfoDTO> listByTaskIdAndTargetDate(Long taskId, LocalDate targetDate) {
+        List<StudyRoomAutoReserveTaskRecordDO> recordList = recordRepository.findByTaskIdAndTargetDate(taskId, targetDate);
         return recordList.stream().map(this::toInfoDTO).toList();
     }
 

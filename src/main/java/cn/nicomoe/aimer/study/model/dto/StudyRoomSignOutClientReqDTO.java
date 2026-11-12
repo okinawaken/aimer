@@ -12,7 +12,8 @@ import lombok.Data;
 public class StudyRoomSignOutClientReqDTO {
 
     /**
-     * 门店前台签退码内容（必填）
+     * 签退二维码内容：场馆 {@code qrCodeNeedSignOut=true} 时为座位扫码结果（必填），
+     * 否则传空串 {@code ""}
      */
     private String qrCode;
 

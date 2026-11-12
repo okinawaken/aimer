@@ -1,8 +1,12 @@
 package cn.nicomoe.aimer.study.service.client.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.nicomoe.aimer.study.client.http.v1.StudyRoomReserveClient;
 import cn.nicomoe.aimer.study.client.http.v2.StudyRoomReserveV2Client;
+import cn.nicomoe.aimer.study.enums.StudyRoomUserReserveStatusEnum;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomClientResult;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveAnotherCheckClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveCheckClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveConfirmClientReqDTO;
@@ -19,6 +23,8 @@ import cn.nicomoe.aimer.study.service.client.StudyRoomReserveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -135,15 +141,6 @@ public class StudyRoomReserveServiceImpl implements StudyRoomReserveService {
     }
 
     @Override
-    public StudyRoomUserReserveListClientRespDTO userReserveList() {
-        StudyRoomClientResult<StudyRoomUserReserveListClientRespDTO> result = reserveClient.userReserveList();
-        if (Objects.isNull(result)) {
-            return null;
-        }
-        return result.getData();
-    }
-
-    @Override
     public StudyRoomUserReserveListClientRespDTO userReserveList(Long userId) {
         StudyRoomClientResult<StudyRoomUserReserveListClientRespDTO> result = reserveV2Client.userReserveList(userId);
         if (Objects.isNull(result)) {
@@ -168,5 +165,44 @@ public class StudyRoomReserveServiceImpl implements StudyRoomReserveService {
             return null;
         }
         return result.getData();
+    }
+
+    @Override
+    public List<String> userReserveStatusList() {
+        return Arrays.stream(StudyRoomUserReserveStatusEnum.values())
+                .map(StudyRoomUserReserveStatusEnum::getDescription)
+                .toList();
+    }
+
+    @Override
+    public StudyRoomUserReserveListClientRespDTO userReserveList(String statusDesc) {
+        StudyRoomClientResult<StudyRoomUserReserveListClientRespDTO> result = reserveClient.userReserveList();
+        if (Objects.isNull(result) || Objects.isNull(result.getData())) {
+            return null;
+        }
+        StudyRoomUserReserveListClientRespDTO reserveListDTO = result.getData();
+        reserveListDTO.setList(this.filterByStatusDesc(reserveListDTO.getList(), statusDesc));
+        return reserveListDTO;
+    }
+
+    /**
+     * 按状态描述筛选预约记录：状态为空时剔除已取消（含爽约系统取消），否则只保留匹配描述的记录。
+     *
+     * @param reserveList 上游返回的全部预约记录
+     * @param statusDesc  状态描述
+     * @return 筛选后的预约记录
+     */
+    private List<StudyRoomUserReserveClientRespDTO> filterByStatusDesc(List<StudyRoomUserReserveClientRespDTO> reserveList, String statusDesc) {
+        if (CollUtil.isEmpty(reserveList)) {
+            return reserveList;
+        }
+        if (StrUtil.isBlank(statusDesc)) {
+            return reserveList.stream()
+                    .filter(reserve -> !StudyRoomUserReserveStatusEnum.isCancelled(reserve.getReserveStatusDesc()))
+                    .toList();
+        }
+        return reserveList.stream()
+                .filter(reserve -> Objects.equals(statusDesc, reserve.getReserveStatusDesc()))
+                .toList();
     }
 }

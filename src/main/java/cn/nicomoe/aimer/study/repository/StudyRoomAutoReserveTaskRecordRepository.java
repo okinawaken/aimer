@@ -3,7 +3,7 @@ package cn.nicomoe.aimer.study.repository;
 import cn.nicomoe.aimer.study.model.entity.StudyRoomAutoReserveTaskRecordDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -22,12 +22,11 @@ public interface StudyRoomAutoReserveTaskRecordRepository extends JpaRepository<
     void deleteByTaskId(Long taskId);
 
     /**
-     * 查询任务在指定时间区间内的执行记录。
+     * 查询任务在指定目标日期的执行记录。
      *
-     * @param taskId    任务 ID
-     * @param startTime 起始时间（含）
-     * @param endTime   结束时间（不含）
+     * @param taskId     任务 ID
+     * @param targetDate 目标预约日期
      * @return 记录列表
      */
-    List<StudyRoomAutoReserveTaskRecordDO> findByTaskIdAndCreateTimeGreaterThanEqualAndCreateTimeLessThan(Long taskId, LocalDateTime startTime, LocalDateTime endTime);
+    List<StudyRoomAutoReserveTaskRecordDO> findByTaskIdAndTargetDate(Long taskId, LocalDate targetDate);
 }

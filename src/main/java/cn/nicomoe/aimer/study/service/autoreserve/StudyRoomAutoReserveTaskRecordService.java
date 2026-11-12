@@ -45,18 +45,11 @@ public interface StudyRoomAutoReserveTaskRecordService {
     void saveRecord(StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO);
 
     /**
-     * 按主键更新一条执行记录。
-     *
-     * @param taskRecordDTO 任务记录
-     */
-    void updateRecord(StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO);
-
-    /**
-     * 查询任务在指定日期的全部执行记录。
+     * 查询任务在指定目标日期的全部执行记录。
      *
      * @param taskId     任务 ID
-     * @param createDate 创建日期
+     * @param targetDate 目标预约日期
      * @return 列表数据
      */
-    List<StudyRoomAutoReserveTaskRecordInfoDTO> listByTaskIdAndCreateDate(Long taskId, LocalDate createDate);
+    List<StudyRoomAutoReserveTaskRecordInfoDTO> listByTaskIdAndTargetDate(Long taskId, LocalDate targetDate);
 }

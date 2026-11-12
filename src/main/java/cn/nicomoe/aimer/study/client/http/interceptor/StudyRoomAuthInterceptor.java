@@ -10,6 +10,7 @@ import com.dtflys.forest.http.ForestRequest;
 import com.dtflys.forest.interceptor.ForestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 import xyz.erupt.upms.service.EruptUserService;
 
 import java.util.Objects;
@@ -40,6 +41,9 @@ public class StudyRoomAuthInterceptor implements ForestInterceptor {
                 if (Objects.nonNull(configBO)) {
                     request.addHeader(StudyRoomApiConstants.Header.HEADER_TOKEN, configBO.getToken());
                 }
+            }
+            if (StrUtil.isEmpty(request.getHeaderValue(StudyRoomApiConstants.Header.HEADER_TOKEN))) {
+                throw new EruptWebApiRuntimeException("未绑定小程序 token，请先前往「用户设置」绑定");
             }
         }
         return true;

@@ -33,6 +33,8 @@ import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
 
+import java.util.List;
+
 /**
  * 自习室预约域接口：座位图、下单、我的预约、取消
  *
@@ -145,14 +147,27 @@ public class StudyRoomReserveController {
     }
 
     /**
-     * 我的预约列表（一次性返回全部，无分页）
+     * 我的预约状态选项（枚举取值来自真实接口数据，供页面筛选项渲染）
      *
      * @return 响应数据
      */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
+    @GetMapping(value = "/status/list")
+    public R<List<String>> userReserveStatusList() {
+        List<String> statusList = reserveService.userReserveStatusList();
+        return R.ok(statusList);
+    }
+
+    /**
+     * 我的预约列表（一次性返回全部，无分页）
+     *
+     * @param status 预约状态描述，为空时默认不展示已取消的预约
+     * @return 响应数据
+     */
+    @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/user/list")
-    public R<StudyRoomUserReserveListVO> userReserveList() {
-        StudyRoomUserReserveListClientRespDTO reserveListDTO = reserveService.userReserveList();
+    public R<StudyRoomUserReserveListVO> userReserveList(@RequestParam(value = "status", required = false) String status) {
+        StudyRoomUserReserveListClientRespDTO reserveListDTO = reserveService.userReserveList(status);
         StudyRoomUserReserveListVO reserveListVO = MapstructUtils.convert(reserveListDTO, StudyRoomUserReserveListVO.class);
         return R.ok(reserveListVO);
     }

@@ -1,5 +1,6 @@
 package cn.nicomoe.aimer.study.service.autoreserve;
 
+import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveSeatOptionDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskInfoDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskReqDTO;
 import cn.nicomoe.aimer.study.model.query.StudyRoomAutoReserveTaskQuery;
@@ -90,4 +91,12 @@ public interface StudyRoomAutoReserveTaskService {
      * @param targetDate 目标预约日期
      */
     void advanceLastMaxReserveDate(Long taskId, LocalDate targetDate);
+
+    /**
+     * 查询指定门店的区域 / 座位下拉选项。
+     *
+     * @param venueId 门店 ID
+     * @return 座位选项列表（一行一个座位，含区域信息）
+     */
+    List<StudyRoomAutoReserveSeatOptionDTO> listSeatOptions(Integer venueId);
 }

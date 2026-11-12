@@ -2,17 +2,20 @@ package cn.nicomoe.aimer.study.service.client.impl;
 
 import cn.nicomoe.aimer.study.client.http.v1.StudyRoomVenueClient;
 import cn.nicomoe.aimer.study.client.http.v2.StudyRoomVenueV2Client;
+import cn.nicomoe.aimer.study.constant.StudyRoomVenueConstants;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAreaSelectClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomClientResult;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomDouYinVenueSelectClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveIndexClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueSelectClientRespDTO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueSimpleClientRespDTO;
 import cn.nicomoe.aimer.study.model.query.StudyRoomReserveIndexQuery;
 import cn.nicomoe.aimer.study.service.client.StudyRoomVenueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,10 +34,17 @@ public class StudyRoomVenueServiceImpl implements StudyRoomVenueService {
     @Override
     public StudyRoomVenueSelectClientRespDTO venueSelect(Double currentLng, Double currentLat) {
         StudyRoomClientResult<StudyRoomVenueSelectClientRespDTO> result = venueClient.venueSelect(currentLng, currentLat);
-        if (Objects.isNull(result)) {
+        if (Objects.isNull(result)){
             return null;
         }
-        return result.getData();
+        StudyRoomVenueSelectClientRespDTO clientRespDTO = result.getData();
+        List<StudyRoomVenueSimpleClientRespDTO> clientRespDTOList = clientRespDTO.getVenueList()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(venue -> !Objects.equals(StudyRoomVenueConstants.DEPOSIT_ONLY_VENUE_NAME, venue.getVenueName()))
+                .toList();
+        clientRespDTO.setVenueList(clientRespDTOList);
+        return clientRespDTO;
     }
 
     @Override
@@ -43,7 +53,14 @@ public class StudyRoomVenueServiceImpl implements StudyRoomVenueService {
         if (Objects.isNull(result)) {
             return null;
         }
-        return result.getData();
+        StudyRoomVenueSelectClientRespDTO clientRespDTO = result.getData();
+        List<StudyRoomVenueSimpleClientRespDTO> clientRespDTOList = clientRespDTO.getVenueList()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(venue -> !Objects.equals(StudyRoomVenueConstants.DEPOSIT_ONLY_VENUE_NAME, venue.getVenueName()))
+                .toList();
+        clientRespDTO.setVenueList(clientRespDTOList);
+        return clientRespDTO;
     }
 
     @Override

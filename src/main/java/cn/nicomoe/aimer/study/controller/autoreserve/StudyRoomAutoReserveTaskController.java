@@ -1,8 +1,10 @@
 package cn.nicomoe.aimer.study.controller.autoreserve;
 
+import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveSeatOptionDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskInfoDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskReqDTO;
 import cn.nicomoe.aimer.study.model.query.StudyRoomAutoReserveTaskQuery;
+import cn.nicomoe.aimer.study.model.vo.StudyRoomAutoReserveSeatOptionVO;
 import cn.nicomoe.aimer.study.model.vo.StudyRoomAutoReserveTaskInfoVO;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskService;
 import cn.nicomoe.aimer.util.MapstructUtils;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
@@ -139,5 +142,19 @@ public class StudyRoomAutoReserveTaskController {
     public R<Void> execute(@PathVariable(value = "id") Long id) {
         taskService.executeTask(id);
         return R.ok();
+    }
+
+    /**
+     * 查询指定门店的区域 / 座位下拉选项。
+     *
+     * @param venueId 门店 ID
+     * @return 座位选项列表
+     */
+    @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
+    @GetMapping(value = "/seat/options")
+    public R<List<StudyRoomAutoReserveSeatOptionVO>> seatOptions(@RequestParam(value = "venueId") Integer venueId) {
+        List<StudyRoomAutoReserveSeatOptionDTO> seatOptionListDTO = taskService.listSeatOptions(venueId);
+        List<StudyRoomAutoReserveSeatOptionVO> seatOptionListVO = MapstructUtils.convert(seatOptionListDTO, StudyRoomAutoReserveSeatOptionVO.class);
+        return R.ok(seatOptionListVO);
     }
 }

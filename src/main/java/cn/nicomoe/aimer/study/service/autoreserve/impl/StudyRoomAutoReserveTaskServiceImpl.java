@@ -4,8 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import cn.nicomoe.aimer.study.enums.StudyRoomAutoReserveTaskEnableStatusEnum;
 import cn.nicomoe.aimer.study.enums.StudyRoomAutoReserveTriggerTypeEnum;
 import cn.nicomoe.aimer.study.model.bo.StudyRoomAutoReserveTaskConfigBO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveSeatOptionDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskInfoDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskReqDTO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomSeatAreaClientRespDTO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomSeatClientRespDTO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomSeatMapClientRespDTO;
+import cn.nicomoe.aimer.study.model.dto.StudyRoomSeatQueryClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
 import cn.nicomoe.aimer.study.model.entity.StudyRoomAutoReserveTaskDO;
 import cn.nicomoe.aimer.study.model.event.StudyRoomAutoReserveExecuteEvent;
@@ -13,6 +18,7 @@ import cn.nicomoe.aimer.study.model.query.StudyRoomAutoReserveTaskQuery;
 import cn.nicomoe.aimer.study.repository.StudyRoomAutoReserveTaskRepository;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskRecordService;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskService;
+import cn.nicomoe.aimer.study.service.client.StudyRoomReserveService;
 import cn.nicomoe.aimer.study.service.client.StudyRoomVenueService;
 import cn.nicomoe.aimer.util.CheckUtils;
 import cn.nicomoe.aimer.util.GsonUtils;
@@ -26,6 +32,7 @@ import xyz.erupt.jpa.dao.EruptDao;
 import xyz.erupt.upms.service.EruptUserService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +49,7 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
     private final StudyRoomAutoReserveTaskRepository taskRepository;
     private final StudyRoomAutoReserveTaskRecordService recordService;
     private final StudyRoomVenueService venueService;
+    private final StudyRoomReserveService reserveService;
     private final ApplicationEventPublisher eventPublisher;
     private final EruptUserService eruptUserService;
     private final EruptDao eruptDao;
@@ -60,7 +68,7 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
 
     @Override
     public StudyRoomAutoReserveTaskInfoDTO get(Long id) {
-        return toInfoDTO(this.getTaskDo(id));
+        return this.toInfoDTO(this.getTaskDo(id));
     }
 
     @Override
@@ -131,8 +139,7 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
 
     @Override
     public List<StudyRoomAutoReserveTaskInfoDTO> listEnabledTasks() {
-        return taskRepository
-                .findByEnableStatus(StudyRoomAutoReserveTaskEnableStatusEnum.ENABLED.getValue())
+        return taskRepository.findByEnableStatus(StudyRoomAutoReserveTaskEnableStatusEnum.ENABLED.getValue())
                 .stream()
                 .map(this::toInfoDTO)
                 .toList();
@@ -142,6 +149,30 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
     @Transactional(rollbackFor = Exception.class)
     public void advanceLastMaxReserveDate(Long taskId, LocalDate targetDate) {
         taskRepository.advanceLastMaxReserveDate(taskId, targetDate);
+    }
+
+    @Override
+    public List<StudyRoomAutoReserveSeatOptionDTO> listSeatOptions(Integer venueId) {
+        StudyRoomSeatQueryClientReqDTO seatQuery = new StudyRoomSeatQueryClientReqDTO();
+        seatQuery.setVenueId(venueId);
+        seatQuery.setReserveDateStr(LocalDate.now());
+        seatQuery.setReserveAnotherFlag(0);
+        StudyRoomSeatMapClientRespDTO seatMapDTO = reserveService.reserveV2SeatList(seatQuery);
+        CheckUtils.throwIfNull(seatMapDTO, "未查询到门店座位信息");
+        List<StudyRoomAutoReserveSeatOptionDTO> seatOptionList = new ArrayList<>();
+        for (StudyRoomSeatAreaClientRespDTO seatAreaDTO : seatMapDTO.getVenueAreaList()) {
+            for (StudyRoomSeatClientRespDTO seatDTO : seatAreaDTO.getVenueAreaSeatList()) {
+                StudyRoomAutoReserveSeatOptionDTO seatOptionDTO = new StudyRoomAutoReserveSeatOptionDTO();
+                seatOptionDTO.setAreaId(seatAreaDTO.getId());
+                seatOptionDTO.setAreaName(seatAreaDTO.getAreaName());
+                seatOptionDTO.setSeatId(seatDTO.getId());
+                seatOptionDTO.setSeatNumber(seatDTO.getSeatNumber());
+                seatOptionDTO.setSeatReserveState(seatDTO.getSeatReserveState());
+                seatOptionDTO.setSeatReserveDesc(seatDTO.getSeatReserveDesc());
+                seatOptionList.add(seatOptionDTO);
+            }
+        }
+        return seatOptionList;
     }
 
     private StudyRoomAutoReserveTaskDO getTaskDo(Long id) {

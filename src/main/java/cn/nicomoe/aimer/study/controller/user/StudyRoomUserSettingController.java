@@ -7,7 +7,6 @@ import cn.nicomoe.aimer.study.service.user.StudyRoomUserSettingService;
 import cn.nicomoe.aimer.util.MapstructUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
+import xyz.erupt.upms.service.EruptUserService;
 
 /**
  * 用户设置 API：小程序 token、放号时刻与自动签到开关。
@@ -31,32 +31,37 @@ import xyz.erupt.core.view.R;
 public class StudyRoomUserSettingController {
 
     private final StudyRoomUserSettingService settingService;
+    private final EruptUserService eruptUserService;
 
     /**
-     * 查询用户设置。
+     * 查询当前登录用户的设置。
+     * <p>
+     * tpl 页面无法从浏览器侧取得当前用户 ID，故提供服务端解析登录态的便捷入口。
+     * 字面量 {@code /me} 优先于 {@code /{id}} 匹配。
+     * </p>
      *
-     * @param id 用户 ID
      * @return 详情数据
      */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
-    @GetMapping(value = "/{id}")
-    public R<StudyRoomUserConfigVO> get(@PathVariable(value = "id") Long id) {
-        StudyRoomUserConfigDTO userConfigDTO = settingService.get(id);
+    @GetMapping(value = "/me")
+    public R<StudyRoomUserConfigVO> me() {
+        Long currentUid = eruptUserService.getCurrentUid();
+        StudyRoomUserConfigDTO userConfigDTO = settingService.get(currentUid);
         StudyRoomUserConfigVO userConfigVO = MapstructUtils.convert(userConfigDTO, StudyRoomUserConfigVO.class);
         return R.ok(userConfigVO);
     }
 
     /**
-     * 修改用户设置。
+     * 修改当前登录用户的设置。
      *
-     * @param id  用户 ID
      * @param req 请求参数
      * @return 无数据响应
      */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
-    @PutMapping(value = "/{id}")
-    public R<Void> update(@PathVariable(value = "id") Long id, @RequestBody StudyRoomUserSettingReqDTO req) {
-        settingService.update(req, id);
+    @PutMapping(value = "/me")
+    public R<Void> updateMe(@RequestBody StudyRoomUserSettingReqDTO req) {
+        Long currentUid = eruptUserService.getCurrentUid();
+        settingService.update(req, currentUid);
         return R.ok();
     }
 }

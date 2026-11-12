@@ -22,34 +22,29 @@ public enum StudyRoomAutoReserveFilterOrderEnum implements BaseEnum<Integer> {
     ENABLED(100, "启用状态校验"),
 
     /**
-     * 当日已执行校验
+     * 目标日期计算与当日已执行校验
      */
-    EXECUTED(200, "当日已执行校验"),
-
-    /**
-     * 预约门店校验
-     */
-    VENUE(300, "预约门店校验"),
-
-    /**
-     * 目标日期计算
-     */
-    TARGET_DATE(400, "目标日期计算"),
+    TARGET_DATE(200, "目标日期计算与当日已执行校验"),
 
     /**
      * 执行星期校验
      */
-    WEEKDAY(500, "执行星期校验"),
+    WEEKDAY(300, "执行星期校验"),
+
+    /**
+     * 预约门店校验
+     */
+    VENUE(400, "预约门店校验"),
 
     /**
      * 座位选择
      */
-    SEAT(600, "座位选择"),
+    SEAT(500, "座位选择"),
 
     /**
      * 预约资格校验
      */
-    ELIGIBILITY(700, "预约资格校验");
+    ELIGIBILITY(600, "预约资格校验");
 
     /**
      * 枚举值，值越小越先执行

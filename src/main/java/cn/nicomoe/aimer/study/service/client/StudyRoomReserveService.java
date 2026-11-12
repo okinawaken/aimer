@@ -13,6 +13,8 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveCancelClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveCancelTipClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveListClientRespDTO;
 
+import java.util.List;
+
 /**
  * 自习室预约域服务。
  *
@@ -113,13 +115,6 @@ public interface StudyRoomReserveService {
     StudyRoomReserveAnotherCheckClientRespDTO reserveAnotherCheck(Long userReserveId);
 
     /**
-     * 我的预约列表。
-     *
-     * @return 预约列表数据
-     */
-    StudyRoomUserReserveListClientRespDTO userReserveList();
-
-    /**
      * 我的预约列表（指定用户）。
      *
      * @param userId 用户 ID
@@ -142,4 +137,23 @@ public interface StudyRoomReserveService {
      * @return 处理结果
      */
     Integer userReserveCancel(StudyRoomUserReserveCancelClientReqDTO form);
+
+    /**
+     * 我的预约状态选项。
+     *
+     * @return 状态描述列表（取自 {@code StudyRoomUserReserveStatusEnum}）
+     */
+    List<String> userReserveStatusList();
+
+    /**
+     * 我的预约列表。
+     * <p>
+     * 上游接口一次返回全部预约、不支持条件查询，故按状态在服务层筛选：
+     * 未指定状态时剔除已取消（含爽约系统取消），指定时只保留该状态的记录。
+     * </p>
+     *
+     * @param statusDesc 预约状态描述，为空表示默认（不含已取消）
+     * @return 预约列表数据
+     */
+    StudyRoomUserReserveListClientRespDTO userReserveList(String statusDesc);
 }

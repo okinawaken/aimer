@@ -66,13 +66,15 @@ public class StudyRoomSignController {
 
     /**
      * 签到首页：当前签到信息、附近门店、可选套餐
+     * <p>
+     * {@code currentLng}、{@code currentLat}（当前经纬度）为必传参数。
      *
      * @param form 请求参数
      * @return 响应数据
      */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/index")
-    public R<StudyRoomIndexVO> studyIndex(StudyRoomIndexClientReqDTO form) {
+    public R<StudyRoomIndexVO> studyIndex(@Valid StudyRoomIndexClientReqDTO form) {
         StudyRoomIndexClientRespDTO studyIndexDTO = signService.studyIndex(form);
         StudyRoomIndexVO studyIndexVO = MapstructUtils.convert(studyIndexDTO, StudyRoomIndexVO.class);
         return R.ok(studyIndexVO);

@@ -51,8 +51,7 @@ public class StudyRoomAutoSignPendingReserveFilter implements StudyRoomAutoSignF
                 .filter(reserve -> Objects.equals(reserve.getReserveDateStr(), LocalDate.now()))
                 .filter(reserve -> {
                     LocalTime currentTime = LocalTime.now();
-                    String[] reserveTimeStrArray =
-                            StrUtil.splitToArray(reserve.getReserveTimeStr(), '-');
+                    String[] reserveTimeStrArray = StrUtil.splitToArray(reserve.getReserveTimeStr(), '-');
                     LocalTime beginTime = LocalTime.parse(reserveTimeStrArray[0]);
                     LocalTime endTime = LocalTime.parse(reserveTimeStrArray[1]);
                     return !currentTime.isBefore(beginTime) && !currentTime.isAfter(endTime);

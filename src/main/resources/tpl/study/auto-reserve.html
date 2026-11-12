@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<base href="${base}/">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自动预约</title>
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head">
+    <div class="titles">
+      <h1>自动预约</h1>
+      <div class="desc">按门店、时段与星期自动抢座，可随时暂停或查看执行记录</div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="btnNew">＋ 新建任务</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <select id="fVenue"><option value="">全部门店</option></select>
+    <select id="fStatus">
+      <option value="">全部状态</option>
+      <option value="1">启用</option>
+      <option value="0">暂停</option>
+    </select>
+    <button class="btn" id="btnRefresh">刷新</button>
+    <button class="btn danger" id="btnBatchDel" disabled>批量删除</button>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:34px"><input type="checkbox" id="checkAll"></th>
+          <th>门店</th><th>区域 / 座位</th><th>时段</th><th>星期</th>
+          <th>状态</th><th>最近可约日</th><th>创建时间</th><th style="width:230px">操作</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr><td class="empty" colspan="9">加载中…</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- 新建/编辑弹窗 -->
+<div class="mask" id="mask">
+  <div class="modal narrow" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">新建任务</h3>
+    <div class="body">
+      <input type="hidden" id="taskId">
+      <div class="field">
+        <label>门店 <span class="req">*</span></label>
+        <select id="venueId" style="width:100%"><option value="">请选择门店</option></select>
+      </div>
+      <div class="field">
+        <label>偏好区域<span class="hint">选择门店后可下拉该门店的区域</span></label>
+        <select id="areaId" style="width:100%"><option value="0">不限</option></select>
+      </div>
+      <div class="field">
+        <label>偏好座位<span class="hint">按所选区域联动，不选区域则展示该门店全部座位</span></label>
+        <select id="seatId" style="width:100%"><option value="0">不限</option></select>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>开始时间 <span class="req">*</span></label>
+          <input type="time" id="reserveStartTime" step="60" style="width:100%">
+        </div>
+        <div class="field">
+          <label>结束时间 <span class="req">*</span></label>
+          <input type="time" id="reserveEndTime" step="60" style="width:100%">
+        </div>
+      </div>
+      <div class="field">
+        <label>执行星期 <span class="req">*</span></label>
+        <div class="weeks" id="weeks"></div>
+      </div>
+    </div>
+    <div class="foot">
+      <button class="btn" id="btnCancel">取消</button>
+      <button class="btn primary" id="btnSubmit">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 执行记录抽屉 -->
+<div class="drawer-mask" id="drawerMask"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="执行记录">
+  <div class="head">
+    <h3>执行记录</h3>
+    <span class="spacer"></span>
+    <select id="recStatus">
+      <option value="">全部状态</option>
+      <option value="1">成功</option>
+      <option value="0">跳过</option>
+      <option value="2">失败</option>
+    </select>
+    <input type="date" id="recDate">
+    <button class="btn sm" id="btnCloseDrawer">关闭</button>
+  </div>
+  <div class="list">
+    <table>
+      <thead><tr><th>触发</th><th>目标日期</th><th>状态</th><th>座位</th><th>时段</th><th>说明</th><th>时间</th></tr></thead>
+      <tbody id="recBody"><tr><td class="empty" colspan="7">加载中…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="study-token-guard.js"></script>
+<script>
+/* ===== 通用助手（与 user-setting/dashboard 保持一致） ===== */
+const TOKEN = (() => {
+  try { if (parent && parent.getAppToken) { const t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}
+  return new URLSearchParams(location.search).get('_token') || '';
+})();
+const BASE = document.baseURI;
+
+function toast(msg, ok = true) {
+  const box = document.getElementById('toast');
+  const el = document.createElement('div');
+  el.className = 'toast' + (ok ? '' : ' err');
+  el.textContent = msg;
+  box.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+async function api(path, { method = 'GET', query, body } = {}) {
+  const url = new URL('erupt-api/study/' + String(path).replace(/^\//, ''), BASE);
+  if (query) for (const [k, v] of Object.entries(query)) {
+    if (v !== '' && v !== null && v !== undefined) url.searchParams.set(k, v);
+  }
+  const headers = { token: TOKEN };
+  const init = { method, headers };
+  if (body !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
+  const res = await fetch(url, init);
+  if (res.status === 401) { try { parent.location.reload(); } catch (e) { location.reload(); } throw new Error('登录已失效'); }
+  if (res.status === 403) throw new Error('无权限：请为该菜单授权');
+  const json = await res.json().catch(() => null);
+  if (res.status >= 500) throw new Error((json && (json.message || json.error)) || ('服务异常 ' + res.status));
+  if (json && json.success === false) throw new Error(json.message || '操作失败');
+  return json ? json.data : null;
+}
+
+const $ = (s, r = document) => r.querySelector(s);
+const WEEK_NAMES = ['周一','周二','周三','周四','周五','周六','周日'];
+function weekText(arr) { return (arr || []).map(d => WEEK_NAMES[d - 1] || d).join('、') || '—'; }
+function dash(v) { return (v === 0 || v === null || v === undefined || v === '') ? '—' : v; }
+function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ===== 页面逻辑 ===== */
+let venueList = [];
+let seatOptions = [];
+let rows = [];
+
+function initWeeks() {
+  $('#weeks').innerHTML = WEEK_NAMES.map((n, i) =>
+    `<label><input type="checkbox" value="${i + 1}">${n}</label>`).join('');
+}
+
+async function loadVenues() {
+  try {
+    const data = await api('venue/reserve/select');
+    venueList = (data && data.venueList) || [];
+    const opts = venueList.map(v => `<option value="${v.id}">${esc(v.venueName)}</option>`).join('');
+    $('#fVenue').insertAdjacentHTML('beforeend', opts);
+    $('#venueId').insertAdjacentHTML('beforeend', opts);
+  } catch (e) { toast('门店加载失败：' + e.message, false); }
+}
+
+/* 门店座位信息：一行一个座位，含区域信息，用于联动的区域 / 座位下拉 */
+async function loadSeatOptions(venueId) {
+  seatOptions = [];
+  if (!venueId) { renderAreaOptions(0); renderSeatOptions(0); return; }
+  try {
+    const list = await api('auto-reserve/task/seat/options', { query: { venueId } });
+    seatOptions = Array.isArray(list) ? list : [];
+  } catch (e) {
+    toast('座位信息加载失败：' + e.message, false);
+  }
+  renderAreaOptions(0);
+  renderSeatOptions(0);
+}
+
+function renderAreaOptions(selectedAreaId) {
+  const areaMap = new Map();
+  seatOptions.forEach(o => { if (o.areaId && !areaMap.has(o.areaId)) areaMap.set(o.areaId, o.areaName); });
+  const opts = ['<option value="0">不限</option>']
+    .concat(Array.from(areaMap, ([id, name]) => `<option value="${id}">${esc(name)}</option>`));
+  $('#areaId').innerHTML = opts.join('');
+  const has = areaMap.has(Number(selectedAreaId));
+  $('#areaId').value = has ? String(selectedAreaId) : '0';
+}
+
+function renderSeatOptions(selectedSeatId) {
+  const areaId = Number($('#areaId').value) || 0;
+  const list = areaId ? seatOptions.filter(o => Number(o.areaId) === areaId) : seatOptions;
+  const opts = ['<option value="0">不限</option>'].concat(list.map(o =>
+    `<option value="${esc(o.seatId)}" data-number="${esc(o.seatNumber)}">${esc(o.seatNumber)}</option>`));
+  $('#seatId').innerHTML = opts.join('');
+  const has = list.some(o => String(o.seatId) === String(selectedSeatId));
+  $('#seatId').value = has ? String(selectedSeatId) : '0';
+}
+
+async function loadTasks() {
+  const tbody = $('#tbody');
+  tbody.innerHTML = '<tr><td class="empty" colspan="9">加载中…</td></tr>';
+  try {
+    rows = await api('auto-reserve/task', { query: { venueId: $('#fVenue').value, enableStatus: $('#fStatus').value } }) || [];
+    renderTasks();
+  } catch (e) {
+    tbody.innerHTML = `<tr><td class="empty" colspan="9">加载失败：${esc(e.message)}</td></tr>`;
+  }
+}
+
+function renderTasks() {
+  const tbody = $('#tbody');
+  if (!rows.length) { tbody.innerHTML = '<tr><td class="empty" colspan="9">暂无任务</td></tr>'; return; }
+  tbody.innerHTML = rows.map(t => {
+    const status = t.enableStatus === 1
+      ? `<span class="tag ok">启用</span>`
+      : `<span class="tag pause" title="${esc(t.pauseReason || '')}">暂停</span>`;
+    const seat = [t.areaName, t.seatNumber].filter(Boolean).join(' / ');
+    const time = `${dash(t.reserveStartTime)} - ${dash(t.reserveEndTime)}`;
+    return `<tr>
+      <td><input type="checkbox" class="rowCheck" value="${t.id}"></td>
+      <td>${esc(t.venueName)}</td>
+      <td>${esc(dash(seat))}</td>
+      <td>${esc(time)}</td>
+      <td>${esc(weekText(t.weekDays))}</td>
+      <td>${status}</td>
+      <td>${esc(dash(t.lastMaxReserveDate))}</td>
+      <td>${esc(dash(String(t.createTime || '').replace('T', ' ')))}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn sm" data-act="edit" data-id="${t.id}">编辑</button>
+          <button class="btn sm" data-act="${t.enableStatus === 1 ? 'pause' : 'resume'}" data-id="${t.id}">${t.enableStatus === 1 ? '暂停' : '恢复'}</button>
+          <button class="btn sm" data-act="execute" data-id="${t.id}">立即执行</button>
+          <button class="btn sm" data-act="records" data-id="${t.id}">记录</button>
+          <button class="btn sm danger" data-act="del" data-id="${t.id}">删除</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  syncBatchBtn();
+}
+
+function selectedIds() { return Array.from(document.querySelectorAll('.rowCheck:checked')).map(c => Number(c.value)); }
+function syncBatchBtn() { $('#btnBatchDel').disabled = selectedIds().length === 0; }
+
+/* ---- 弹窗 ---- */
+async function openModal(task) {
+  $('#modalTitle').textContent = task ? '编辑任务' : '新建任务';
+  $('#taskId').value = task ? task.id : '';
+  $('#venueId').value = task ? task.venueId : '';
+  $('#reserveStartTime').value = task && task.reserveStartTime ? String(task.reserveStartTime).slice(0, 5) : '08:00';
+  $('#reserveEndTime').value = task && task.reserveEndTime ? String(task.reserveEndTime).slice(0, 5) : '22:00';
+  const set = new Set(task && task.weekDays ? task.weekDays : [1,2,3,4,5,6,7]);
+  document.querySelectorAll('#weeks input').forEach(cb => cb.checked = set.has(Number(cb.value)));
+  $('#mask').classList.add('show');
+
+  await loadSeatOptions(task ? task.venueId : null);
+  if (task) {
+    renderAreaOptions(task.areaId || 0);
+    renderSeatOptions(task.seatId || 0);
+  }
+}
+function closeModal() { $('#mask').classList.remove('show'); }
+
+async function submitTask() {
+  const id = $('#taskId').value;
+  const weekDays = Array.from(document.querySelectorAll('#weeks input:checked')).map(c => Number(c.value));
+  const areaId = $('#areaId').value ? Number($('#areaId').value) : 0;
+  const seatId = $('#seatId').value ? Number($('#seatId').value) : 0;
+  const seatOption = seatId ? $('#seatId').selectedOptions[0] : null;
+  const payload = {
+    venueId: $('#venueId').value ? Number($('#venueId').value) : null,
+    areaId,
+    areaName: areaId ? (($('#areaId').selectedOptions[0] || {}).text || '') : '',
+    seatId,
+    seatNumber: seatOption ? (seatOption.dataset.number || '') : null,
+    reserveStartTime: $('#reserveStartTime').value,
+    reserveEndTime: $('#reserveEndTime').value,
+    weekDays
+  };
+  if (!payload.venueId) return toast('请选择门店', false);
+  if (!payload.reserveStartTime || !payload.reserveEndTime) return toast('请选择开始与结束时间', false);
+  if (!weekDays.length) return toast('请至少选择一个星期', false);
+  const btn = $('#btnSubmit');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const label = btn.textContent;
+  btn.textContent = '保存中…';
+  try {
+    if (id) await api('auto-reserve/task/' + id, { method: 'PUT', body: payload });
+    else await api('auto-reserve/task', { method: 'POST', body: payload });
+    toast('保存成功');
+    closeModal();
+    loadTasks();
+  } catch (e) { toast('保存失败：' + e.message, false); }
+  finally { btn.disabled = false; btn.textContent = label; }
+}
+
+/* ---- 行操作 ---- */
+async function onRowAction(act, id) {
+  try {
+    if (act === 'edit') {
+      const t = await api('auto-reserve/task/' + id);
+      openModal(t);
+    } else if (act === 'pause' || act === 'resume') {
+      await api(`auto-reserve/task/${id}/${act}`, { method: 'POST' });
+      toast(act === 'pause' ? '已暂停' : '已恢复');
+      loadTasks();
+    } else if (act === 'execute') {
+      if (!confirm('确认立即执行一次该任务？')) return;
+      await api(`auto-reserve/task/${id}/execute`, { method: 'POST' });
+      toast('已触发执行');
+      setTimeout(loadTasks, 800);
+    } else if (act === 'records') {
+      openDrawer(id);
+    } else if (act === 'del') {
+      if (!confirm('确认删除该任务？执行记录将一并删除。')) return;
+      await api('auto-reserve/task', { method: 'DELETE', body: [Number(id)] });
+      toast('已删除');
+      loadTasks();
+    }
+  } catch (e) { toast(e.message, false); }
+}
+
+/* ---- 执行记录 ---- */
+let currentTaskId = null;
+async function openDrawer(taskId) {
+  currentTaskId = taskId;
+  $('#recStatus').value = '';
+  $('#recDate').value = '';
+  $('#drawerMask').classList.add('show');
+  $('#drawer').classList.add('show');
+  await loadRecords();
+}
+function closeDrawer() {
+  $('#drawerMask').classList.remove('show');
+  $('#drawer').classList.remove('show');
+}
+async function loadRecords() {
+  const tbody = $('#recBody');
+  tbody.innerHTML = '<tr><td class="empty" colspan="7">加载中…</td></tr>';
+  try {
+    const list = await api('auto-reserve/task/record', {
+      query: { taskId: currentTaskId, status: $('#recStatus').value, targetDate: $('#recDate').value }
+    }) || [];
+    if (!list.length) { tbody.innerHTML = '<tr><td class="empty" colspan="7">暂无记录</td></tr>'; return; }
+    tbody.innerHTML = list.map(r => {
+      const st = r.status === 1 ? '<span class="tag ok">成功</span>'
+        : r.status === 2 ? '<span class="tag err">失败</span>' : '<span class="tag warn">跳过</span>';
+      return `<tr>
+        <td>${r.triggerType === 1 ? '手动' : '定时'}</td>
+        <td>${esc(dash(r.targetDate))}</td>
+        <td>${st}</td>
+        <td>${esc(dash(r.seatNumber))}</td>
+        <td>${esc(dash(r.timeRange))}</td>
+        <td><div class="ellipsis" title="${esc(r.failMsg || '')}">${esc(dash(r.failMsg))}</div></td>
+        <td>${esc(dash(String(r.createTime || '').replace('T', ' ')))}</td>
+      </tr>`;
+    }).join('');
+  } catch (e) {
+    tbody.innerHTML = `<tr><td class="empty" colspan="7">加载失败：${esc(e.message)}</td></tr>`;
+  }
+}
+
+/* ===== 事件绑定 ===== */
+initWeeks();
+$('#btnRefresh').addEventListener('click', loadTasks);
+$('#fVenue').addEventListener('change', loadTasks);
+$('#fStatus').addEventListener('change', loadTasks);
+$('#btnNew').addEventListener('click', () => openModal(null));
+$('#venueId').addEventListener('change', () => loadSeatOptions($('#venueId').value));
+$('#areaId').addEventListener('change', () => renderSeatOptions(0));
+$('#btnCancel').addEventListener('click', closeModal);
+$('#btnSubmit').addEventListener('click', submitTask);
+$('#mask').addEventListener('click', e => { if (e.target === $('#mask')) closeModal(); });
+$('#checkAll').addEventListener('change', e => {
+  document.querySelectorAll('.rowCheck').forEach(c => c.checked = e.target.checked);
+  syncBatchBtn();
+});
+$('#tbody').addEventListener('change', e => { if (e.target.classList.contains('rowCheck')) syncBatchBtn(); });
+$('#tbody').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]');
+  if (btn) onRowAction(btn.dataset.act, btn.dataset.id);
+});
+$('#btnBatchDel').addEventListener('click', async () => {
+  const ids = selectedIds();
+  if (!ids.length) return;
+  if (!confirm(`确认删除选中的 ${ids.length} 个任务？`)) return;
+  try {
+    await api('auto-reserve/task', { method: 'DELETE', body: ids });
+    toast('已删除');
+    $('#checkAll').checked = false;
+    loadTasks();
+  } catch (e) { toast(e.message, false); }
+});
+$('#btnCloseDrawer').addEventListener('click', closeDrawer);
+$('#drawerMask').addEventListener('click', closeDrawer);
+$('#recStatus').addEventListener('change', loadRecords);
+$('#recDate').addEventListener('change', loadRecords);
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if ($('#drawer').classList.contains('show')) { closeDrawer(); return; }
+  if ($('#mask').classList.contains('show')) closeModal();
+});
+
+StudyTokenGuard.ensure(() => { loadVenues().then(loadTasks); });
+</script>
+</body>
+</html>

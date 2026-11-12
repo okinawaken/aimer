@@ -6,6 +6,6 @@ window.eruptSiteConfig = {
     logoText: "APP",
     faviconPath: null,
     theme: {
-        primaryColor: "#1677FF"
+        primaryColor: "#2B6350"
     },
 };
