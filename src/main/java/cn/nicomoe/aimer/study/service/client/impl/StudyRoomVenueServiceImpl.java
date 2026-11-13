@@ -34,7 +34,7 @@ public class StudyRoomVenueServiceImpl implements StudyRoomVenueService {
     @Override
     public StudyRoomVenueSelectClientRespDTO venueSelect(Double currentLng, Double currentLat) {
         StudyRoomClientResult<StudyRoomVenueSelectClientRespDTO> result = venueClient.venueSelect(currentLng, currentLat);
-        if (Objects.isNull(result)){
+        if (Objects.isNull(result)) {
             return null;
         }
         StudyRoomVenueSelectClientRespDTO clientRespDTO = result.getData();

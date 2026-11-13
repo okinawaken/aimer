@@ -8,7 +8,13 @@
     'use strict';
 
     var TOKEN = (function () {
-        try { if (parent && parent.getAppToken) { var t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}
+        try {
+            if (parent && parent.getAppToken) {
+                var t = parent.getAppToken();
+                if (t && t.token) return t.token;
+            }
+        } catch (e) {
+        }
         return new URLSearchParams(location.search).get('_token') || '';
     })();
     var BASE = document.baseURI;
@@ -21,12 +27,18 @@
 
     function fetchSetting() {
         var url = new URL('erupt-api/study/user-setting/me', BASE);
-        return fetch(url, { headers: { token: TOKEN } }).then(function (res) {
+        return fetch(url, {headers: {token: TOKEN}}).then(function (res) {
             if (res.status === 401) {
-                try { parent.location.reload(); } catch (e) { location.reload(); }
+                try {
+                    parent.location.reload();
+                } catch (e) {
+                    location.reload();
+                }
                 throw new Error('登录已失效');
             }
-            return res.json().catch(function () { return null; });
+            return res.json().catch(function () {
+                return null;
+            });
         }).then(function (json) {
             return (json && json.success) ? json.data : null;
         });
@@ -38,10 +50,10 @@
         var goUrl = userSettingUrl();
         mask.innerHTML =
             '<div class="token-guard-card">' +
-              '<div class="tg-icon" aria-hidden="true">未绑定</div>' +
-              '<h2>尚未绑定小程序 Token</h2>' +
-              '<p>使用自习室功能前，需要先在「用户设置」中绑定微信小程序登录凭据（Token），绑定完成后回到本页面刷新即可。</p>' +
-              '<a class="btn primary" href="' + goUrl + '">前往用户设置</a>' +
+            '<div class="tg-icon" aria-hidden="true">未绑定</div>' +
+            '<h2>尚未绑定小程序 Token</h2>' +
+            '<p>使用自习室功能前，需要先在「用户设置」中绑定微信小程序登录凭据（Token），绑定完成后回到本页面刷新即可。</p>' +
+            '<a class="btn primary" href="' + goUrl + '">前往用户设置</a>' +
             '</div>';
         document.body.innerHTML = '';
         document.body.appendChild(mask);

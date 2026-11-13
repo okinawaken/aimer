@@ -22,5 +22,5 @@ public class StudyRoomUserFeeVO {
     /**
      * 当前签到ID，0 表示未签到
      */
-    private Integer userSignId;
+    private Long userSignId;
 }

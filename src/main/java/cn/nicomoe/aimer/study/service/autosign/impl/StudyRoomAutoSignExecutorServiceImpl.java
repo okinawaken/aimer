@@ -5,13 +5,11 @@ import cn.nicomoe.aimer.study.constant.StudyRoomCacheConstants;
 import cn.nicomoe.aimer.study.filter.FilterResultDTO;
 import cn.nicomoe.aimer.study.filter.autosign.StudyRoomAutoSignFilterChain;
 import cn.nicomoe.aimer.study.model.context.StudyRoomAutoSignContext;
-import cn.nicomoe.aimer.study.model.dto.StudyRoomSignSeatListClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomSignSeatQueryClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserPackageClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveClientRespDTO;
 import cn.nicomoe.aimer.study.service.autosign.StudyRoomAutoSignExecutorService;
 import cn.nicomoe.aimer.study.service.client.StudyRoomSignService;
-import cn.nicomoe.aimer.util.CheckUtils;
 import cn.nicomoe.aimer.util.GsonUtils;
 import cn.nicomoe.aimer.util.RedisLockUtils;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +55,7 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
             reqDTO.setVenueId(reserveRespDTO.getVenueId());
             reqDTO.setSignInUserPackageId(userPackageRespDTO.getSignInUserPackageId());
             reqDTO.setSignAnotherFlag(0);
-            StudyRoomSignSeatListClientRespDTO signSeatListClientRespDTO = signService.studySeatList(reqDTO, userId);
-            CheckUtils.throwIfNull(signSeatListClientRespDTO, "签到结果返回为空");
-            if (!signSeatListClientRespDTO.isSignInSuccess()) {
-                log.info("签到失败，可能已签到过");
-            }
+            signService.studySeatList(reqDTO, userId);
         } catch (Exception e) {
             log.error("自动签到执行失败，userId={}，context={}", userId, GsonUtils.toJson(context), e);
         } finally {

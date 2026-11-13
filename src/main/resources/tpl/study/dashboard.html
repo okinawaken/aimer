@@ -1,213 +1,284 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<base href="${base}/">
-<meta http-equiv="Cache-Control" content="no-store">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>运营看板</title>
-<link rel="stylesheet" href="study/css/study.css">
+    <meta charset="UTF-8">
+    <base href="${base}/">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>运营看板</title>
+    <link rel="stylesheet" href="study/css/study.css">
 </head>
 <body>
 <div class="wrap">
-  <div class="page-head">
-    <div class="titles">
-      <h1>运营看板</h1>
-      <div class="desc">学习时长、预约与签到记录的当日概览</div>
-    </div>
-    <div class="actions">
-      <button class="btn" id="btnRefreshAll">刷新全部</button>
-    </div>
-  </div>
-
-  <div class="kpis ledger">
-    <div class="kpi"><div class="k">昵称</div><div class="v small" id="kNick">—</div></div>
-    <div class="kpi"><div class="k">手机号</div><div class="v small" id="kMobile">—</div></div>
-    <div class="kpi"><div class="k">累计学习时长</div><div class="v small" id="kStudy">—</div></div>
-    <div class="kpi"><div class="k">累计签到次数</div><div class="v" id="kSign">—</div></div>
-    <div class="kpi"><div class="k">费用状态</div><div class="v small" id="kFee">—</div></div>
-  </div>
-
-  <div class="grid">
-    <div class="card full">
-      <div class="hd"><h3>我的预约</h3><span class="spacer"></span>
-        <select id="reserveStatus" title="预约状态筛选"><option value="">全部（不含已取消）</option></select>
-        <button class="btn" data-refresh="reserve">刷新</button>
-      </div>
-      <div class="bd"><table><thead><tr><th>日期</th><th>门店</th><th>座位</th><th>时段</th><th>状态</th><th>操作</th></tr></thead><tbody id="tbReserve"></tbody></table></div>
+    <div class="page-head">
+        <div class="titles">
+            <h1>运营看板</h1>
+            <div class="desc">学习时长、预约与签到记录的当日概览</div>
+        </div>
+        <div class="actions">
+            <button class="btn" id="btnRefreshAll">刷新全部</button>
+        </div>
     </div>
 
-    <div class="card full">
-      <div class="hd"><h3>签到记录</h3><span class="spacer"></span><button class="btn" data-refresh="sign">刷新</button></div>
-      <div class="bd"><table><thead><tr><th>日期</th><th>门店</th><th>签到</th><th>签退</th><th>时长</th></tr></thead><tbody id="tbSign"></tbody></table></div>
+    <div class="kpis ledger">
+        <div class="kpi">
+            <div class="k">昵称</div>
+            <div class="v small" id="kNick">—</div>
+        </div>
+        <div class="kpi">
+            <div class="k">手机号</div>
+            <div class="v small" id="kMobile">—</div>
+        </div>
+        <div class="kpi">
+            <div class="k">累计学习时长</div>
+            <div class="v small" id="kStudy">—</div>
+        </div>
+        <div class="kpi">
+            <div class="k">累计签到次数</div>
+            <div class="v" id="kSign">—</div>
+        </div>
     </div>
-  </div>
+
+    <div class="grid">
+        <div class="card full">
+            <div class="hd"><h3>我的预约</h3><span class="spacer"></span>
+                <select id="reserveStatus" title="预约状态筛选">
+                    <option value="">全部（不含已取消）</option>
+                </select>
+                <button class="btn" data-refresh="reserve">刷新</button>
+            </div>
+            <div class="bd">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>门店</th>
+                        <th>座位</th>
+                        <th>时段</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbReserve"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card full">
+            <div class="hd"><h3>签到记录</h3><span class="spacer"></span>
+                <button class="btn" data-refresh="sign">刷新</button>
+            </div>
+            <div class="bd">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>门店</th>
+                        <th>签到</th>
+                        <th>签退</th>
+                        <th>时长</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbSign"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="study/js/study-token-guard.js"></script>
 <script>
-const TOKEN = (() => {
-  try { if (parent && parent.getAppToken) { const t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}
-  return new URLSearchParams(location.search).get('_token') || '';
-})();
-const BASE = document.baseURI;
+    const TOKEN = (() => {
+        try {
+            if (parent && parent.getAppToken) {
+                const t = parent.getAppToken();
+                if (t && t.token) return t.token;
+            }
+        } catch (e) {
+        }
+        return new URLSearchParams(location.search).get('_token') || '';
+    })();
+    const BASE = document.baseURI;
 
-function toast(msg, ok = true) {
-  const box = document.getElementById('toast');
-  const el = document.createElement('div');
-  el.className = 'toast' + (ok ? '' : ' err');
-  el.textContent = msg;
-  box.appendChild(el);
-  setTimeout(() => el.remove(), 2600);
-}
+    function toast(msg, ok = true) {
+        const box = document.getElementById('toast');
+        const el = document.createElement('div');
+        el.className = 'toast' + (ok ? '' : ' err');
+        el.textContent = msg;
+        box.appendChild(el);
+        setTimeout(() => el.remove(), 2600);
+    }
 
-async function api(path, { method = 'GET', query, body } = {}) {
-  const url = new URL('erupt-api/study/' + String(path).replace(/^\//, ''), BASE);
-  if (query) for (const [k, v] of Object.entries(query)) {
-    if (v !== '' && v !== null && v !== undefined) url.searchParams.set(k, v);
-  }
-  const headers = { token: TOKEN };
-  const init = { method, headers };
-  if (body !== undefined) { headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
-  const res = await fetch(url, init);
-  if (res.status === 401) { try { parent.location.reload(); } catch (e) { location.reload(); } throw new Error('登录已失效'); }
-  if (res.status === 403) throw new Error('无权限：请为该菜单授权');
-  const json = await res.json().catch(() => null);
-  if (res.status >= 500) throw new Error((json && (json.message || json.error)) || ('服务异常 ' + res.status));
-  if (json && json.success === false) throw new Error(json.message || '操作失败');
-  return json ? json.data : null;
-}
+    async function api(path, {method = 'GET', query, body} = {}) {
+        const url = new URL('erupt-api/study/' + String(path).replace(/^\//, ''), BASE);
+        if (query) for (const [k, v] of Object.entries(query)) {
+            if (v !== '' && v !== null && v !== undefined) url.searchParams.set(k, v);
+        }
+        const headers = {token: TOKEN};
+        const init = {method, headers};
+        if (body !== undefined) {
+            headers['Content-Type'] = 'application/json';
+            init.body = JSON.stringify(body);
+        }
+        const res = await fetch(url, init);
+        if (res.status === 401) {
+            try {
+                parent.location.reload();
+            } catch (e) {
+                location.reload();
+            }
+            throw new Error('登录已失效');
+        }
+        if (res.status === 403) throw new Error('无权限：请为该菜单授权');
+        const json = await res.json().catch(() => null);
+        if (res.status >= 500) throw new Error((json && (json.message || json.error)) || ('服务异常 ' + res.status));
+        if (json && json.success === false) throw new Error(json.message || '操作失败');
+        return json ? json.data : null;
+    }
 
-const $ = (s, r = document) => r.querySelector(s);
-const dash = v => (v === 0 || v === null || v === undefined || v === '') ? '—' : v;
-function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function setEmpty(tbodyId, colspan, text) {
-  $('#' + tbodyId).innerHTML = `<tr><td class="empty" colspan="${colspan}">${esc(text)}</td></tr>`;
-}
-function setError(tbodyId, colspan, msg) {
-  $('#' + tbodyId).innerHTML = `<tr><td class="empty" colspan="${colspan}"><span class="err-line">${esc(msg)}</span></td></tr>`;
-}
-/* 按钮忙碌态：返回还原函数 */
-function setBusy(btn, text) {
-  if (!btn || btn.dataset.busy === '1') return () => {};
-  btn.dataset.busy = '1';
-  btn.dataset.text = btn.textContent;
-  if (text) btn.textContent = text;
-  btn.disabled = true;
-  return () => { btn.dataset.busy = ''; btn.textContent = btn.dataset.text; btn.disabled = false; };
-}
+    const $ = (s, r = document) => r.querySelector(s);
+    const dash = v => (v === 0 || v === null || v === undefined || v === '') ? '—' : v;
 
-const PENDING_SIGN_STATUS = '待签到';
+    function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[c]));
+    }
 
-/* 顶部 KPI */
-async function loadKpi() {
-  const [u, f] = await Promise.allSettled([api('user/index'), api('user/fee')]);
-  if (u.status === 'fulfilled' && u.value) {
-    const v = u.value;
-    $('#kNick').textContent = v.nickName || v.userName || '—';
-    $('#kMobile').textContent = dash(v.mobile);
-    $('#kStudy').textContent = dash(v.studyTotalTimeStr);
-    $('#kSign').textContent = dash(v.signTotalNum);
-  }
-  if (f.status === 'fulfilled' && f.value) {
-    const v = f.value;
-    $('#kFee').innerHTML = Number(v.hasOwnFee) === 1
-      ? '<span class="tag err">有欠费</span>'
-      : `<span class="tag ok">无欠费</span> <span class="muted">签到ID ${esc(dash(v.userSignId))}</span>`;
-  } else {
-    $('#kFee').textContent = '—';
-  }
-}
+    function setEmpty(tbodyId, colspan, text) {
+        $('#' + tbodyId).innerHTML = `<tr><td class="empty" colspan="${colspan}">${esc(text)}</td></tr>`;
+    }
 
-async function loadReserve() {
-  try {
-    const status = $('#reserveStatus').value;
-    const data = await api('reserve/user/list', { query: { status } });
-    const list = (data && data.list) || [];
-    if (!list.length) return setEmpty('tbReserve', 6, status ? `暂无${status}预约` : '暂无预约');
-    $('#tbReserve').innerHTML = list.map(r => {
-      const canCancel = r.reserveStatusDesc === PENDING_SIGN_STATUS;
-      return `<tr>
+    function setError(tbodyId, colspan, msg) {
+        $('#' + tbodyId).innerHTML = `<tr><td class="empty" colspan="${colspan}"><span class="err-line">${esc(msg)}</span></td></tr>`;
+    }
+
+    /* 按钮忙碌态：返回还原函数 */
+    function setBusy(btn, text) {
+        if (!btn || btn.dataset.busy === '1') return () => {
+        };
+        btn.dataset.busy = '1';
+        btn.dataset.text = btn.textContent;
+        if (text) btn.textContent = text;
+        btn.disabled = true;
+        return () => {
+            btn.dataset.busy = '';
+            btn.textContent = btn.dataset.text;
+            btn.disabled = false;
+        };
+    }
+
+    const PENDING_SIGN_STATUS = '待签到';
+
+    /* 顶部 KPI */
+    async function loadKpi() {
+        const u = await api('user/index');
+        const v = u || {};
+        $('#kNick').textContent = v.nickName || v.userName || '—';
+        $('#kMobile').textContent = dash(v.mobile);
+        $('#kStudy').textContent = dash(v.studyTotalTimeStr);
+        $('#kSign').textContent = dash(v.signTotalNum);
+    }
+
+    async function loadReserve() {
+        try {
+            const status = $('#reserveStatus').value;
+            const data = await api('reserve/user/list', {query: {status}});
+            const list = (data && data.list) || [];
+            if (!list.length) return setEmpty('tbReserve', 6, status ? `暂无${status}预约` : '暂无预约');
+            $('#tbReserve').innerHTML = list.map(r => {
+                const canCancel = r.reserveStatusDesc === PENDING_SIGN_STATUS;
+                return `<tr>
       <td class="nw">${esc(dash(r.reserveDateStr))}<span class="muted"> ${esc(r.reserveWeekStr || '')}</span></td>
       <td>${esc(dash(r.venueName))}</td>
       <td>${esc(dash([r.areaName, r.seatNumber].filter(Boolean).join(' / ')))}</td>
       <td class="nw">${esc(dash(r.reserveTimeStr))}</td>
       <td class="nw">${esc(dash(r.reserveStatusDesc))}</td>
       <td class="nw">${canCancel
-        ? `<button class="btn sm danger" data-cancel="${esc(r.id)}">取消预约</button>`
-        : '<span class="muted">—</span>'}</td>
+                    ? `<button class="btn sm danger" data-cancel="${esc(r.id)}">取消预约</button>`
+                    : '<span class="muted">—</span>'}</td>
     </tr>`;
-    }).join('');
-  } catch (e) { setError('tbReserve', 6, e.message); }
-}
+            }).join('');
+        } catch (e) {
+            setError('tbReserve', 6, e.message);
+        }
+    }
 
-async function cancelReserve(userReserveId, btn) {
-  const restore = setBusy(btn, '取消中…');
-  try {
-    const tip = await api('reserve/user/cancel/tip', { query: { userReserveId } });
-    const tipDesc = (tip && tip.tipDesc) || '确认取消该预约？';
-    if (!confirm(tipDesc)) return;
-    await api('reserve/user/cancel', { method: 'POST', body: { userReserveId: Number(userReserveId) } });
-    toast('预约已取消');
-    loadReserve();
-  } catch (e) {
-    toast('取消失败：' + e.message, false);
-  } finally {
-    restore();
-  }
-}
+    async function cancelReserve(userReserveId, btn) {
+        const restore = setBusy(btn, '取消中…');
+        try {
+            const tip = await api('reserve/user/cancel/tip', {query: {userReserveId}});
+            const tipDesc = (tip && tip.tipDesc) || '确认取消该预约？';
+            if (!confirm(tipDesc)) return;
+            await api('reserve/user/cancel', {method: 'POST', body: {userReserveId: Number(userReserveId)}});
+            toast('预约已取消');
+            loadReserve();
+        } catch (e) {
+            toast('取消失败：' + e.message, false);
+        } finally {
+            restore();
+        }
+    }
 
-async function loadSign() {
-  try {
-    const data = await api('user/sign/list', { query: { id: 0 } });
-    const list = (data && data.list) || [];
-    if (!list.length) return setEmpty('tbSign', 5, '暂无签到记录');
-    $('#tbSign').innerHTML = list.map(r => `<tr>
+    async function loadSign() {
+        try {
+            const data = await api('user/sign/list', {query: {id: 0}});
+            const list = (data && data.list) || [];
+            if (!list.length) return setEmpty('tbSign', 5, '暂无签到记录');
+            $('#tbSign').innerHTML = list.map(r => `<tr>
       <td>${esc(dash(r.signDateStr))}</td>
       <td>${esc(dash(r.venue && r.venue.venueName))}</td>
       <td>${esc(dash(r.signInTimeStr))}</td>
       <td>${esc(dash(r.signOutTimeStr))}</td>
       <td>${esc(dash(r.studyMinuteStr))}</td>
     </tr>`).join('');
-  } catch (e) { setError('tbSign', 5, e.message); }
-}
+        } catch (e) {
+            setError('tbSign', 5, e.message);
+        }
+    }
 
-async function loadReserveStatus() {
-  try {
-    const list = (await api('reserve/status/list')) || [];
-    $('#reserveStatus').insertAdjacentHTML('beforeend',
-      list.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join(''));
-  } catch (e) { /* 状态下拉非必需 */ }
-}
+    async function loadReserveStatus() {
+        try {
+            const list = (await api('reserve/status/list')) || [];
+            $('#reserveStatus').insertAdjacentHTML('beforeend',
+                list.map(s => `<option value="${esc(s)}">${esc(s)}</option>`).join(''));
+        } catch (e) { /* 状态下拉非必需 */
+        }
+    }
 
-function loadAll() {
-  setEmpty('tbReserve', 6, '加载中…');
-  setEmpty('tbSign', 5, '加载中…');
-  loadKpi();
-  loadReserve();
-  loadSign();
-}
+    function loadAll() {
+        setEmpty('tbReserve', 6, '加载中…');
+        setEmpty('tbSign', 5, '加载中…');
+        loadKpi();
+        loadReserve();
+        loadSign();
+    }
 
-document.querySelectorAll('[data-refresh]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const m = { reserve: loadReserve, sign: loadSign };
-    (m[btn.dataset.refresh] || (() => {}))();
-  });
-});
-$('#btnRefreshAll').addEventListener('click', loadAll);
-$('#reserveStatus').addEventListener('change', loadReserve);
-$('#tbReserve').addEventListener('click', e => {
-  const btn = e.target.closest('[data-cancel]');
-  if (!btn) return;
-  cancelReserve(btn.dataset.cancel, btn);
-});
+    document.querySelectorAll('[data-refresh]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const m = {reserve: loadReserve, sign: loadSign};
+            (m[btn.dataset.refresh] || (() => {
+            }))();
+        });
+    });
+    $('#btnRefreshAll').addEventListener('click', loadAll);
+    $('#reserveStatus').addEventListener('change', loadReserve);
+    $('#tbReserve').addEventListener('click', e => {
+        const btn = e.target.closest('[data-cancel]');
+        if (!btn) return;
+        cancelReserve(btn.dataset.cancel, btn);
+    });
 
-StudyTokenGuard.ensure(() => {
-  loadReserveStatus();
-  loadAll();
-});
+    StudyTokenGuard.ensure(() => {
+        loadReserveStatus();
+        loadAll();
+    });
 </script>
 </body>
 </html>

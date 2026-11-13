@@ -2,6 +2,7 @@ package cn.nicomoe.aimer.study.filter.autosign.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.nicomoe.aimer.study.enums.StudyRoomAutoSignFilterOrderEnum;
+import cn.nicomoe.aimer.study.enums.StudyRoomUserReserveStatusEnum;
 import cn.nicomoe.aimer.study.filter.FilterResultDTO;
 import cn.nicomoe.aimer.study.filter.autosign.StudyRoomAutoSignFilter;
 import cn.nicomoe.aimer.study.model.context.StudyRoomAutoSignContext;
@@ -47,7 +48,7 @@ public class StudyRoomAutoSignPendingReserveFilter implements StudyRoomAutoSignF
         StudyRoomUserReserveListClientRespDTO userReserveListClientRespDTO = reserveService.userReserveList(userId);
         CheckUtils.throwIfNull(userReserveListClientRespDTO, "我的预约返回为空");
         return userReserveListClientRespDTO.getList().stream()
-                .filter(reserve -> Objects.equals(reserve.getReserveStatusDesc(), "待签到"))
+                .filter(reserve -> Objects.equals(reserve.getReserveStatusDesc(), StudyRoomUserReserveStatusEnum.PENDING_SIGN.getValue()))
                 .filter(reserve -> Objects.equals(reserve.getReserveDateStr(), LocalDate.now()))
                 .filter(reserve -> {
                     LocalTime currentTime = LocalTime.now();

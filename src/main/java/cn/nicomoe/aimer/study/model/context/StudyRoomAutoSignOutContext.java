@@ -1,13 +1,10 @@
 package cn.nicomoe.aimer.study.model.context;
 
-import cn.nicomoe.aimer.study.model.bo.StudyRoomAutoSignOutSessionBO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomIndexClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 /**
  * 自动签退执行上下文
@@ -38,9 +35,4 @@ public class StudyRoomAutoSignOutContext {
      * 签到首页响应，承载全部在座签到记录
      */
     private StudyRoomIndexClientRespDTO indexClientRespDTO;
-
-    /**
-     * 待签退的在座会话执行计划
-     */
-    private List<StudyRoomAutoSignOutSessionBO> sessionBOList;
 }

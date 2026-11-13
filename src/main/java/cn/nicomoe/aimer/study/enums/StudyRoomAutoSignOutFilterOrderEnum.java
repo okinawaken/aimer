@@ -31,12 +31,7 @@ public enum StudyRoomAutoSignOutFilterOrderEnum implements BaseEnum<Integer> {
     /**
      * 在座签到记录查询
      */
-    SESSION(300, "在座签到记录查询"),
-
-    /**
-     * 签退套餐解析
-     */
-    SETTLE_PACKAGE(400, "签退套餐解析");
+    SESSION(300, "在座签到记录查询");
 
     /**
      * 枚举值，值越小越先执行

@@ -46,7 +46,7 @@ public class StudyRoomIndexClientRespDTO {
     /**
      * 当前签到ID
      */
-    private Integer userSignId;
+    private Long userSignId;
 
     /**
      * 当前签到信息（无座时为 null）
