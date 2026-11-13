@@ -1,5 +1,6 @@
 package cn.nicomoe.aimer.study.service.autosignout.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.nicomoe.aimer.study.constant.StudyRoomCacheConstants;
 import cn.nicomoe.aimer.study.filter.FilterResultDTO;
 import cn.nicomoe.aimer.study.filter.autosignout.StudyRoomAutoSignOutFilterChain;
@@ -7,12 +8,14 @@ import cn.nicomoe.aimer.study.model.context.StudyRoomAutoSignOutContext;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomIndexClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomSignOutClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
+import cn.nicomoe.aimer.study.model.event.StudyRoomBarkNotifyEvent;
 import cn.nicomoe.aimer.study.service.autosignout.StudyRoomAutoSignOutExecutorService;
 import cn.nicomoe.aimer.study.service.client.StudyRoomSignService;
 import cn.nicomoe.aimer.util.GsonUtils;
 import cn.nicomoe.aimer.util.RedisLockUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,6 +34,7 @@ public class StudyRoomAutoSignOutExecutorServiceImpl implements StudyRoomAutoSig
 
     private final StudyRoomSignService signService;
     private final StudyRoomAutoSignOutFilterChain filterChain;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public void execute(Long userId) {
@@ -59,8 +63,11 @@ public class StudyRoomAutoSignOutExecutorServiceImpl implements StudyRoomAutoSig
             reqDTO.setSettleUserPackageId(indexClientRespDTO.getSignInUserPackage().getSignInUserPackageId());
             reqDTO.setUserSignId(indexClientRespDTO.getUserSignId());
             signService.studySignOut(reqDTO, userId);
+            String successBody = StrUtil.format("门店：{}", venueClientRespDTO.getVenueName());
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签退成功", successBody));
         } catch (Exception e) {
             log.error("自动签退执行失败，userId={}，context={}", userId, GsonUtils.toJson(context), e);
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签退失败", e.getMessage()));
         } finally {
             RedisLockUtils.unlock(lockKey);
         }

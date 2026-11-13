@@ -43,7 +43,7 @@ public class StudyRoomAutoSignOutActiveSessionFilter implements StudyRoomAutoSig
         CheckUtils.throwIfNull(indexClientRespDTO, "签到首页返回为空");
 
         if (!Objects.equals(indexClientRespDTO.getHasSeat(), 1)
-                || Objects.isNull(indexClientRespDTO.getUserSignId())) {
+                || Objects.isNull(indexClientRespDTO.getUserSign())) {
             return FilterResultDTO.fail("当前无在座签到记录");
         }
         if (Objects.isNull(indexClientRespDTO.getSignInUserPackage())) {

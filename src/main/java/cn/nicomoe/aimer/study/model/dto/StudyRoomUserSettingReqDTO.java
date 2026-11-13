@@ -47,4 +47,10 @@ public class StudyRoomUserSettingReqDTO {
      */
     @Size(max = 1024, message = "小程序 token 长度不能超过{max}个字符")
     private String token;
+
+    /**
+     * Bark 推送地址，形如 {@code https://api.day.app/{key}}，留空则不推送。
+     */
+    @Size(max = 512, message = "Bark 推送地址长度不能超过{max}个字符")
+    private String barkUrl;
 }

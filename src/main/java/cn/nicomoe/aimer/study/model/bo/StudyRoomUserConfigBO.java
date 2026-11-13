@@ -50,4 +50,11 @@ public class StudyRoomUserConfigBO {
      */
     @ToString.Exclude
     private String token;
+
+    /**
+     * Bark 推送地址，形如 {@code https://api.day.app/{key}}，留空则不推送。
+     * <p>属于凭据，禁止输出到日志。</p>
+     */
+    @ToString.Exclude
+    private String barkUrl;
 }

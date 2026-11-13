@@ -8,12 +8,14 @@ import cn.nicomoe.aimer.study.model.context.StudyRoomAutoSignContext;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomSignSeatQueryClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserPackageClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveClientRespDTO;
+import cn.nicomoe.aimer.study.model.event.StudyRoomBarkNotifyEvent;
 import cn.nicomoe.aimer.study.service.autosign.StudyRoomAutoSignExecutorService;
 import cn.nicomoe.aimer.study.service.client.StudyRoomSignService;
 import cn.nicomoe.aimer.util.GsonUtils;
 import cn.nicomoe.aimer.util.RedisLockUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +31,7 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
 
     private final StudyRoomSignService signService;
     private final StudyRoomAutoSignFilterChain filterChain;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public void execute(Long userId) {
@@ -56,8 +59,11 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
             reqDTO.setSignInUserPackageId(userPackageRespDTO.getSignInUserPackageId());
             reqDTO.setSignAnotherFlag(0);
             signService.studySeatList(reqDTO, userId);
+            String successBody = StrUtil.format("门店：{}\n座位：{}", reserveRespDTO.getVenueName(), reserveRespDTO.getSeatNumber());
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签到成功", successBody));
         } catch (Exception e) {
             log.error("自动签到执行失败，userId={}，context={}", userId, GsonUtils.toJson(context), e);
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签到失败", e.getMessage()));
         } finally {
             RedisLockUtils.unlock(lockKey);
         }

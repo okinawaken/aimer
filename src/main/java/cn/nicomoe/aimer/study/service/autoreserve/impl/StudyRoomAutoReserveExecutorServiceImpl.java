@@ -12,6 +12,7 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveConfirmClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveConfirmClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomSeatClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
+import cn.nicomoe.aimer.study.model.event.StudyRoomBarkNotifyEvent;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveExecutorService;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskRecordService;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskService;
@@ -21,6 +22,7 @@ import cn.nicomoe.aimer.util.GsonUtils;
 import cn.nicomoe.aimer.util.RedisLockUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,7 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
     private final StudyRoomAutoReserveTaskService taskService;
     private final StudyRoomAutoReserveTaskRecordService recordService;
     private final StudyRoomAutoReserveFilterChain filterChain;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -84,10 +87,13 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
             StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO = this.buildTaskRecordDTO(context, StudyRoomAutoReserveTaskRecordStatusEnum.SUCCESS, StrUtil.EMPTY);
             recordService.saveRecord(taskRecordDTO);
             taskService.advanceLastMaxReserveDate(taskId, context.getTargetDate());
+            String successBody = StrUtil.format("日期：{}\n门店：{}\n座位：{}\n时段：{}-{}", context.getTargetDate(), taskInfoDTO.getVenueName(), seatRespDTO.getSeatNumber(), taskInfoDTO.getReserveStartTime(), taskInfoDTO.getReserveEndTime());
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(taskInfoDTO.getUserId(), "自动预约成功", successBody));
         } catch (Exception e) {
             log.error("自动预约任务执行失败，taskId={}，triggerType={}, context={}", taskId, triggerType, GsonUtils.toJson(context), e);
             StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO = this.buildTaskRecordDTO(context, StudyRoomAutoReserveTaskRecordStatusEnum.FAILED, e.getMessage());
             recordService.saveRecord(taskRecordDTO);
+            eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(taskInfoDTO.getUserId(), "自动预约失败", e.getMessage()));
         } finally {
             RedisLockUtils.unlock(lockKey);
         }

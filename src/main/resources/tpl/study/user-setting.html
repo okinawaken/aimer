@@ -13,7 +13,7 @@
     <div class="page-head">
         <div class="titles">
             <h1>用户设置</h1>
-            <div class="desc">绑定小程序凭据，设置放号时刻、自动签到与自动签退</div>
+            <div class="desc">绑定小程序凭据，设置放号时刻、自动签到、自动签退与 Bark 推送</div>
         </div>
     </div>
 
@@ -61,6 +61,10 @@
                     <span class="track"></span>
                     <span id="signOutText" class="state">关闭</span>
                 </label>
+            </div>
+            <div class="field">
+                <label>Bark 推送地址<span class="hint">自动预约/签到/签退结果推送到 Bark，形如 https://api.day.app/{key}，留空则不推送</span></label>
+                <input type="text" id="barkUrl" placeholder="https://api.day.app/XXXXXXXX" autocomplete="off">
             </div>
             <div class="field">
                 <label>小程序 Token<span class="hint">微信小程序登录凭据（JWT），保存时服务端会校验有效性</span></label>
@@ -164,6 +168,7 @@
         $('#signInEnable').checked = Number(cfg.signInEnable) === 1;
         $('#signOutEnable').checked = Number(cfg.signOutEnable) === 1;
         $('#token').value = cfg.token || '';
+        $('#barkUrl').value = cfg.barkUrl || '';
         syncSignInText();
         syncSignOutText();
     }
@@ -181,7 +186,8 @@
             releaseTime: normTime($('#releaseTime').value),
             signInEnable: $('#signInEnable').checked ? 1 : 0,
             signOutEnable: $('#signOutEnable').checked ? 1 : 0,
-            token: $('#token').value.trim()
+            token: $('#token').value.trim(),
+            barkUrl: $('#barkUrl').value.trim()
         };
         if (!payload.token) {
             toast('请先填写小程序 Token', false);
