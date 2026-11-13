@@ -25,13 +25,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class StudyRoomBarkNotifyServiceImpl implements StudyRoomBarkNotifyService {
 
-    /**
-     * 推送分组名，便于在 Bark 客户端按来源聚合
-     */
-    private static final String DEFAULT_GROUP = "自习室";
-
-    private final StudyRoomUserSettingService settingService;
     private final BarkClient barkClient;
+    private final StudyRoomUserSettingService settingService;
+
+    private static final String DEFAULT_GROUP = "自习室";
 
     @Override
     public void send(Long userId, String title, String body) {

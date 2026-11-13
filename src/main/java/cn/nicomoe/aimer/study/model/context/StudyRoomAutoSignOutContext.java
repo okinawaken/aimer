@@ -1,7 +1,6 @@
 package cn.nicomoe.aimer.study.model.context;
 
 import cn.nicomoe.aimer.study.model.dto.StudyRoomIndexClientRespDTO;
-import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveClientRespDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomVenueClientRespDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +21,12 @@ public class StudyRoomAutoSignOutContext {
     private final Long userId;
 
     /**
-     * 今日已到期的已签到预约
-     */
-    private StudyRoomUserReserveClientRespDTO expiredReserveClientRespDTO;
-
-    /**
-     * 已到期预约所在门店，其经纬度作为签到首页的当前定位
-     */
-    private StudyRoomVenueClientRespDTO venueClientRespDTO;
-
-    /**
-     * 签到首页响应，承载全部在座签到记录
+     * 签到首页响应
      */
     private StudyRoomIndexClientRespDTO indexClientRespDTO;
+
+    /**
+     * 所在门店
+     */
+    private StudyRoomVenueClientRespDTO venueClientRespDTO;
 }

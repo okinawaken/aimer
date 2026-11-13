@@ -38,4 +38,9 @@ public class StudyRoomIndexClientReqDTO {
      * SSID
      */
     private String ssid;
+
+    public StudyRoomIndexClientReqDTO() {
+        this.currentLng = 0D;
+        this.currentLat = 0D;
+    }
 }
