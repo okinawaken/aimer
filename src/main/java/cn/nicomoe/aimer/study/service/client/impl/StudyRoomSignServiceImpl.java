@@ -102,6 +102,16 @@ public class StudyRoomSignServiceImpl implements StudyRoomSignService {
     }
 
     @Override
+    public List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(
+            StudyRoomSettlePackageClientReqDTO form, Long userId) {
+        StudyRoomClientResult<List<StudyRoomSettlePackageClientRespDTO>> result = signV2Client.studySettlePackageSelect(form, userId);
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return result.getData();
+    }
+
+    @Override
     public StudyRoomSignAnotherCheckClientRespDTO studySignAnotherCheck(Integer venueId) {
         StudyRoomClientResult<StudyRoomSignAnotherCheckClientRespDTO> result = signClient.studySignAnotherCheck(venueId);
         if (Objects.isNull(result)) {
@@ -113,6 +123,15 @@ public class StudyRoomSignServiceImpl implements StudyRoomSignService {
     @Override
     public StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form) {
         StudyRoomClientResult<StudyRoomSignOutClientRespDTO> result = signClient.studySignOut(form);
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return result.getData();
+    }
+
+    @Override
+    public StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form, Long userId) {
+        StudyRoomClientResult<StudyRoomSignOutClientRespDTO> result = signV2Client.studySignOut(form, userId);
         if (Objects.isNull(result)) {
             return null;
         }

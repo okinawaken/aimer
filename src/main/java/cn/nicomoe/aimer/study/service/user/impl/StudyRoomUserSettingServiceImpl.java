@@ -2,6 +2,7 @@ package cn.nicomoe.aimer.study.service.user.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.nicomoe.aimer.study.enums.StudyRoomAutoSignInEnableEnum;
+import cn.nicomoe.aimer.study.enums.StudyRoomAutoSignOutEnableEnum;
 import cn.nicomoe.aimer.study.model.bo.StudyRoomUserConfigBO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserConfigDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomUserSettingReqDTO;
@@ -86,6 +87,7 @@ public class StudyRoomUserSettingServiceImpl implements StudyRoomUserSettingServ
         StudyRoomUserConfigBO configBO = new StudyRoomUserConfigBO();
         configBO.setReleaseTime(LocalTime.of(20, 0, 0));
         configBO.setSignInEnable(StudyRoomAutoSignInEnableEnum.DISABLED.getValue());
+        configBO.setSignOutEnable(StudyRoomAutoSignOutEnableEnum.DISABLED.getValue());
         configBO.setToken(StrUtil.EMPTY);
         return configBO;
     }

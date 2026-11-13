@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-store">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>签到签退</title>
-<link rel="stylesheet" href="css/study.css">
+<link rel="stylesheet" href="study/css/study.css">
 </head>
 <body>
 <div class="wrap">
@@ -64,7 +64,7 @@
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
-<script src="js/study-token-guard.js"></script>
+<script src="study/js/study-token-guard.js"></script>
 <script>
 const TOKEN = (() => {
   try { if (parent && parent.getAppToken) { const t = parent.getAppToken(); if (t && t.token) return t.token; } } catch (e) {}

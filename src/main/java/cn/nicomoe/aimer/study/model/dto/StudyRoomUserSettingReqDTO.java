@@ -36,6 +36,13 @@ public class StudyRoomUserSettingReqDTO {
     private Integer signInEnable;
 
     /**
+     * 是否启用自动签退：0 关闭，1 开启
+     */
+    @Min(value = 0, message = "自动签退开关取值不合法")
+    @Max(value = 1, message = "自动签退开关取值不合法")
+    private Integer signOutEnable;
+
+    /**
      * 微信小程序 token（JWT）
      */
     @Size(max = 1024, message = "小程序 token 长度不能超过{max}个字符")

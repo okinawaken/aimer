@@ -85,6 +85,15 @@ public interface StudyRoomSignService {
     List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form);
 
     /**
+     * 签退可选结算套餐（指定用户）。
+     *
+     * @param form   请求参数
+     * @param userId 用户 ID
+     * @return 结算套餐列表数据
+     */
+    List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form, Long userId);
+
+    /**
      * 是否可再签一个座位。
      *
      * @param venueId 门店 ID
@@ -99,6 +108,15 @@ public interface StudyRoomSignService {
      * @return 签退结果数据
      */
     StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form);
+
+    /**
+     * 签退（指定用户）。
+     *
+     * @param form   请求参数
+     * @param userId 用户 ID
+     * @return 签退结果数据
+     */
+    StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form, Long userId);
 
     /**
      * 学习排行榜。
