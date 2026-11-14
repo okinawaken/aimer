@@ -6,23 +6,14 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 套餐标签 / 座位区域筛选项（/mp/buy/v2/package/label/selectList）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 套餐标签 / 座位区域筛选项（/mp/buy/v2/package/label/selectList） */
 @Data
 @AutoMapper(target = StudyRoomBuyV2PackageLabelClientRespDTO.class)
 public class StudyRoomBuyV2PackageLabelVO {
 
-    /**
-     * 套餐标签
-     */
+    /** 套餐标签 */
     private List<StudyRoomIdNameVO> packageLabelList;
 
-    /**
-     * 座位区域
-     */
+    /** 座位区域 */
     private List<StudyRoomIdNameVO> seatAreaList;
 }

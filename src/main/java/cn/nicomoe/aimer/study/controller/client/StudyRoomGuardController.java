@@ -18,12 +18,7 @@ import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
 
-/**
- * 自习室门禁域接口：门禁区域列表、开门
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室门禁域接口：门禁区域列表、开门 */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -32,12 +27,7 @@ public class StudyRoomGuardController {
 
     private final StudyRoomGuardService guardService;
 
-    /**
-     * 门店门禁区域列表
-     *
-     * @param venueId 门店 ID
-     * @return 响应数据
-     */
+    /** 门店门禁区域列表 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/select")
     public R<StudyRoomGuardListVO> guardSelect(
@@ -47,12 +37,7 @@ public class StudyRoomGuardController {
         return R.ok(guardListVO);
     }
 
-    /**
-     * 门禁开门（服务端校验/记录）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 门禁开门（服务端校验/记录） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/open")
     public R<Void> guardOpen(@Valid @RequestBody StudyRoomGuardOpenClientReqDTO form) {

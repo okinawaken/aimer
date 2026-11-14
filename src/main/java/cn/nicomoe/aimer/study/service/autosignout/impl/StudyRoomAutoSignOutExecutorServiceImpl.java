@@ -18,15 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-/**
- * 自动签退执行器实现。
- * <p>
- * 过滤器链负责判断「是否到期、签哪几条、用什么套餐和坐标」，执行器只负责逐条发起签退请求，
- * 单条失败不影响其余记录。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 按过滤器链给出的会话逐条签退；单条失败不影响其余记录。 */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,7 +31,7 @@ public class StudyRoomAutoSignOutExecutorServiceImpl implements StudyRoomAutoSig
     @Override
     public void execute(Long userId) {
         String lockKey = StudyRoomCacheConstants.AUTO_SIGN_OUT_EXECUTE_LOCK + userId;
-        if (!RedisLockUtils.tryLock(lockKey)) {
+        if (!RedisLockUtils.Locks.tryLock(lockKey)) {
             log.error("自动签退正在执行中，加锁失败，忽略，userId={}", userId);
             return;
         }
@@ -69,7 +61,7 @@ public class StudyRoomAutoSignOutExecutorServiceImpl implements StudyRoomAutoSig
             log.error("自动签退执行失败，userId={}，context={}", userId, GsonUtils.toJson(context), e);
             eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签退失败", e.getMessage()));
         } finally {
-            RedisLockUtils.unlock(lockKey);
+            RedisLockUtils.Locks.unlock(lockKey);
         }
     }
 }

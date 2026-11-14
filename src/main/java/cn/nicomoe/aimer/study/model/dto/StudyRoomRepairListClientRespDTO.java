@@ -5,18 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 报修列表（/mp/userRepair/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 报修列表（/mp/userRepair/list） */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomRepairListClientRespDTO {
 
-    /**
-     * 报修单列表
-     */
+    /** 报修单列表 */
     private List<StudyRoomRepairClientRespDTO> list;
 }

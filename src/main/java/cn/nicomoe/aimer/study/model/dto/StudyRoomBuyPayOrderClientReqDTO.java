@@ -2,20 +2,11 @@ package cn.nicomoe.aimer.study.model.dto;
 
 import lombok.Data;
 
-/**
- * 微信支付下单（/mp/buy/package/payOrder）
- * <p>
- * 字段与小程序源码保持一致。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 微信支付下单（{@code /mp/buy/package/payOrder}）。 */
 @Data
 public class StudyRoomBuyPayOrderClientReqDTO {
 
-    /**
-     * 用户订单ID（必填，取自确认下单返回的 userOrderId）
-     */
+    /** 用户订单ID（必填，取自确认下单返回的 userOrderId） */
     private Long userOrderId;
 
 }

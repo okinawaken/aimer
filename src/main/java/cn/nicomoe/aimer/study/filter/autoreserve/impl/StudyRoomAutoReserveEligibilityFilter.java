@@ -12,12 +12,7 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * 预约资格校验过滤器
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 预约资格校验过滤器 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveEligibilityFilter implements StudyRoomAutoReserveFilter {

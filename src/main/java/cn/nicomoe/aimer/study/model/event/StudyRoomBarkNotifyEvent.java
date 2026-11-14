@@ -7,13 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 
-/**
- * Bark 通知事件。
- * <p>由自动预约 / 签到 / 签退执行器在终态发布，解耦执行器与推送链路。</p>
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** Bark 通知事件：执行器在终态发布，用来解耦推送链路。 */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

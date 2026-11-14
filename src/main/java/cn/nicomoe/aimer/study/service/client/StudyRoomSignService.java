@@ -25,143 +25,54 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomUserPackageConfirmClientRespDTO
 
 import java.util.List;
 
-/**
- * 自习室签到域服务。
- *
- * @author bixiu
- * @since 4.2.0
- */
 public interface StudyRoomSignService {
 
-    /**
-     * 签到首页。
-     *
-     * @param form 请求参数
-     * @return 签到首页数据
-     */
+    /** 签到首页。 */
     StudyRoomIndexClientRespDTO studyIndex(StudyRoomIndexClientReqDTO form);
 
-    /**
-     * 签到首页（指定用户）。
-     *
-     * @param form   请求参数
-     * @param userId 用户 ID
-     * @return 签到首页数据
-     */
+    /** 签到首页（指定用户）。 */
     StudyRoomIndexClientRespDTO studyIndex(StudyRoomIndexClientReqDTO form, Long userId);
 
-    /**
-     * 签到选座座位图。
-     *
-     * @param form 请求参数
-     * @return 座位列表数据
-     */
+    /** 签到选座座位图。 */
     StudyRoomSignSeatListClientRespDTO studySeatList(StudyRoomSignSeatQueryClientReqDTO form);
 
-    /**
-     * 签到选座座位图（指定用户）。
-     *
-     * @param form   请求参数
-     * @param userId 用户 ID
-     * @return 座位列表数据
-     */
+    /** 签到选座座位图（指定用户）。 */
     StudyRoomSignSeatListClientRespDTO studySeatList(
             StudyRoomSignSeatQueryClientReqDTO form, Long userId);
 
-    /**
-     * 换座座位图。
-     *
-     * @param form 请求参数
-     * @return 座位图数据
-     */
+    /** 换座座位图。 */
     StudyRoomSignSeatMapClientRespDTO studyChangeSeatList(StudyRoomChangeSeatClientReqDTO form);
 
-    /**
-     * 签退可选结算套餐。
-     *
-     * @param form 请求参数
-     * @return 结算套餐列表数据
-     */
+    /** 签退可选结算套餐。 */
     List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form);
 
-    /**
-     * 签退可选结算套餐（指定用户）。
-     *
-     * @param form   请求参数
-     * @param userId 用户 ID
-     * @return 结算套餐列表数据
-     */
+    /** 签退可选结算套餐（指定用户）。 */
     List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form, Long userId);
 
-    /**
-     * 是否可再签一个座位。
-     *
-     * @param venueId 门店 ID
-     * @return 校验数据
-     */
+    /** 是否可再签一个座位。 */
     StudyRoomSignAnotherCheckClientRespDTO studySignAnotherCheck(Integer venueId);
 
-    /**
-     * 签退。
-     *
-     * @param form 请求参数
-     * @return 签退结果数据
-     */
+    /** 签退。 */
     StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form);
 
-    /**
-     * 签退（指定用户）。
-     *
-     * @param form   请求参数
-     * @param userId 用户 ID
-     * @return 签退结果数据
-     */
+    /** 签退（指定用户）。 */
     StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form, Long userId);
 
-    /**
-     * 学习排行榜。
-     *
-     * @param form 请求参数
-     * @return 排行榜数据
-     */
+    /** 学习排行榜。 */
     StudyRoomRankClientRespDTO studyRank(StudyRoomRankClientReqDTO form);
 
-    /**
-     * 签到选座确认。
-     *
-     * @param form 请求参数
-     * @return 入座结果数据
-     */
+    /** 签到选座确认。 */
     StudyRoomSeatConfirmClientRespDTO studySeatConfirm(StudyRoomSeatConfirmClientReqDTO form);
 
-    /**
-     * 换座确认。
-     *
-     * @param form 请求参数
-     * @return 换座结果数据
-     */
+    /** 换座确认。 */
     StudyRoomChangeSeatConfirmClientRespDTO studyChangeSeatConfirm(StudyRoomChangeSeatConfirmClientReqDTO form);
 
-    /**
-     * 进入签退结算。
-     *
-     * @param form 请求参数
-     * @return 结算数据
-     */
+    /** 进入签退结算。 */
     StudyRoomSettlementClientRespDTO studySettlement(StudyRoomSettlementClientReqDTO form);
 
-    /**
-     * 确认签退结算套餐。
-     *
-     * @param form 请求参数
-     * @return 结算结果数据
-     */
+    /** 确认签退结算套餐。 */
     StudyRoomUserPackageConfirmClientRespDTO studyUserPackageConfirm(StudyRoomUserPackageConfirmClientReqDTO form);
 
-    /**
-     * 座位灯控。
-     *
-     * @param form 请求参数
-     */
+    /** 座位灯控。 */
     void espLightTurn(StudyRoomEspLightTurnClientReqDTO form);
 }

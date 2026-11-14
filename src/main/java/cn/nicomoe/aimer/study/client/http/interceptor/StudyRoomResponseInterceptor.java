@@ -12,12 +12,7 @@ import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 
 import java.util.Objects;
 
-/**
- * 自习室响应拦截器
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室响应拦截器 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomResponseInterceptor implements ForestInterceptor {

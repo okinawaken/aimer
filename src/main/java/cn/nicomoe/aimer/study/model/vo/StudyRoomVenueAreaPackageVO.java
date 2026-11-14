@@ -6,28 +6,17 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 按区域分组的套餐（/mp/buy/package/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 按区域分组的套餐（/mp/buy/package/list） */
 @Data
 @AutoMapper(target = StudyRoomVenueAreaPackageClientRespDTO.class)
 public class StudyRoomVenueAreaPackageVO {
 
-    /**
-     * 区域名称
-     */
+    /** 区域名称 */
     private String areaName;
 
-    /**
-     * 区域图片
-     */
+    /** 区域图片 */
     private String areaImgUrl;
 
-    /**
-     * 套餐列表
-     */
+    /** 套餐列表 */
     private List<StudyRoomPackageItemVO> packageList;
 }

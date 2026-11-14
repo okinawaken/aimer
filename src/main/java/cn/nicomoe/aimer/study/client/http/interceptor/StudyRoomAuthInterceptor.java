@@ -15,12 +15,7 @@ import xyz.erupt.upms.service.EruptUserService;
 
 import java.util.Objects;
 
-/**
- * 小程序鉴权拦截器
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 小程序鉴权拦截器 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAuthInterceptor implements ForestInterceptor {

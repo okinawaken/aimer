@@ -9,83 +9,50 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * 自动预约执行记录数据传输对象。
- * <p>
- * 由执行记录 DO 与 {@code detail_json} 明细合并而来，供 Service、过滤器链与执行器跨层传输使用。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动预约执行记录（记录行 + {@code detail_json} 明细），在 Service、过滤器链与执行器之间传递。 */
 @Data
 @AutoMapper(target = StudyRoomAutoReserveTaskRecordDetailBO.class)
 public class StudyRoomAutoReserveTaskRecordInfoDTO {
 
-    /**
-     * 主键
-     */
+    /** 主键 */
     private Long id;
 
-    /**
-     * 任务 ID
-     */
+    /** 任务 ID */
     private Long taskId;
 
-    /**
-     * 系统用户 ID
-     */
+    /** 系统用户 ID */
     private Long userId;
 
-    /**
-     * 触发方式：0 定时，1 手动
-     */
+    /** 触发方式：0 定时，1 手动 */
     private Integer triggerType;
 
-    /**
-     * 目标预约日期
-     */
+    /** 目标预约日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate targetDate;
 
-    /**
-     * 执行状态：0 跳过，1 成功，2 失败
-     */
+    /** 执行状态：0 跳过，1 成功，2 失败 */
     private Integer status;
 
-    /**
-     * 座位ID（成功时为实际预约座位，跳过时可能只是选中的座位）
-     */
+    /** 座位ID（成功时为实际预约座位，跳过时可能只是选中的座位） */
     private Long seatId;
 
-    /**
-     * 座位编号（成功时为实际预约座位，跳过时可能只是选中的座位）
-     */
+    /** 座位编号（成功时为实际预约座位，跳过时可能只是选中的座位） */
     private String seatNumber;
 
-    /**
-     * 任务期望预约时段 {@code HH:mm-HH:mm}
-     */
+    /** 任务期望预约时段 {@code HH:mm-HH:mm} */
     private String timeRange;
 
-    /**
-     * 上游预约单ID
-     */
+    /** 上游预约单ID */
     private Long userReserveId;
 
-    /**
-     * 跳过或失败原因描述
-     */
+    /** 跳过或失败原因描述 */
     private String failMsg;
 
-    /**
-     * 创建时间
-     */
+    /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    /**
-     * 执行明细 JSON，仅用于数据填充，不对外输出
-     */
+    /** 执行明细 JSON，仅用于数据填充，不对外输出 */
     @JsonIgnore
     private String detailJson;
 }

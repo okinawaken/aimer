@@ -18,12 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-/**
- * 自动签到执行器实现。
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -36,7 +30,7 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
     @Override
     public void execute(Long userId) {
         String lockKey = StudyRoomCacheConstants.AUTO_SIGN_EXECUTE_LOCK + userId;
-        if (!RedisLockUtils.tryLock(lockKey)) {
+        if (!RedisLockUtils.Locks.tryLock(lockKey)) {
             log.error("自动签到正在执行中，加锁失败，忽略，userId={}", userId);
             return;
         }
@@ -65,7 +59,7 @@ public class StudyRoomAutoSignExecutorServiceImpl implements StudyRoomAutoSignEx
             log.error("自动签到执行失败，userId={}，context={}", userId, GsonUtils.toJson(context), e);
             eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(userId, "自动签到失败", e.getMessage()));
         } finally {
-            RedisLockUtils.unlock(lockKey);
+            RedisLockUtils.Locks.unlock(lockKey);
         }
     }
 }

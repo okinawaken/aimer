@@ -9,13 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-/**
- * Bark 通知事件监听器。
- * <p>异步监听 {@link StudyRoomBarkNotifyEvent}，转交通知服务推送，避免阻塞执行器。</p>
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** Bark 通知事件监听器：异步推送，避免阻塞执行器。 */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -23,11 +17,7 @@ public class StudyRoomBarkNotifyListener {
 
     private final StudyRoomBarkNotifyService barkNotifyService;
 
-    /**
-     * 处理 Bark 通知事件。
-     *
-     * @param event 通知事件
-     */
+    /** 处理 Bark 通知事件。 */
     @Async
     @EventListener
     public void onNotifyEvent(StudyRoomBarkNotifyEvent event) {

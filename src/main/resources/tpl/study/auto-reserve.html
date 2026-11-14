@@ -16,7 +16,12 @@
             <div class="desc">按门店、时段与星期自动抢座，可随时暂停或查看执行记录</div>
         </div>
         <div class="actions">
-            <button class="btn primary" id="btnNew">＋ 新建任务</button>
+            <button class="btn primary" id="btnNew">
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                新建任务
+            </button>
         </div>
     </div>
 
@@ -46,7 +51,7 @@
                     <th>状态</th>
                     <th>最近可约日</th>
                     <th>创建时间</th>
-                    <th style="width:230px">操作</th>
+                    <th style="width:260px">操作</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
@@ -147,15 +152,47 @@
 <script src="study/js/study-token-guard.js"></script>
 <script>
     /* ===== 通用助手（与 user-setting/dashboard 保持一致） ===== */
+    function saveToken(token) {
+        if (!token) return;
+        try {
+            sessionStorage.setItem('study_token', token);
+        } catch (e) {
+        }
+    }
+
+    function readStoredToken() {
+        try {
+            return sessionStorage.getItem('study_token') || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /* token 只从 URL 读取一次，写回 sessionStorage 后立即从地址栏移除，避免进入历史与日志 */
+    function readTokenParam() {
+        const fromUrl = new URLSearchParams(location.search).get('_token') || '';
+        if (fromUrl) {
+            saveToken(fromUrl);
+            const u = new URL(location.href);
+            u.searchParams.delete('_token');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        }
+        return fromUrl;
+    }
+
     const TOKEN = (() => {
+        const fromUrl = readTokenParam();
         try {
             if (parent && parent.getAppToken) {
                 const t = parent.getAppToken();
-                if (t && t.token) return t.token;
+                if (t && t.token) {
+                    saveToken(t.token);
+                    return t.token;
+                }
             }
         } catch (e) {
         }
-        return new URLSearchParams(location.search).get('_token') || '';
+        return readStoredToken() || fromUrl;
     })();
     const BASE = document.baseURI;
 
@@ -304,12 +341,15 @@
             const status = t.enableStatus === 1
                 ? `<span class="tag ok">启用</span>`
                 : `<span class="tag pause" title="${esc(t.pauseReason || '')}">暂停</span>`;
-            const seat = [t.areaName, t.seatNumber].filter(Boolean).join(' / ');
+            const seatParts = [];
+            if (t.areaName) seatParts.push(`<span class="muted">${esc(t.areaName)}</span>`);
+            if (t.seatNumber) seatParts.push(`<span class="seat-no">${esc(t.seatNumber)}</span>`);
+            const seat = seatParts.length ? seatParts.join(' / ') : '—';
             const time = `${dash(t.reserveStartTime)} - ${dash(t.reserveEndTime)}`;
             return `<tr>
       <td><input type="checkbox" class="rowCheck" value="${t.id}"></td>
       <td>${esc(t.venueName)}</td>
-      <td>${esc(dash(seat))}</td>
+      <td>${seat}</td>
       <td>${esc(time)}</td>
       <td>${esc(weekText(t.weekDays))}</td>
       <td>${status}</td>
@@ -319,7 +359,7 @@
         <div class="row-actions">
           <button class="btn sm" data-act="edit" data-id="${t.id}">编辑</button>
           <button class="btn sm" data-act="${t.enableStatus === 1 ? 'pause' : 'resume'}" data-id="${t.id}">${t.enableStatus === 1 ? '暂停' : '恢复'}</button>
-          <button class="btn sm" data-act="execute" data-id="${t.id}">立即执行</button>
+          <button class="btn sm" data-act="execute" data-id="${t.id}" title="立即执行一次">执行</button>
           <button class="btn sm" data-act="records" data-id="${t.id}">记录</button>
           <button class="btn sm danger" data-act="del" data-id="${t.id}">删除</button>
         </div>

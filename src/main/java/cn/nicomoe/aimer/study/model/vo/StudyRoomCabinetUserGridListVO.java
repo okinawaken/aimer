@@ -6,19 +6,12 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 我的柜格列表（/mp/cabinetGrip/v2/user/cabinet/grid/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 我的柜格列表（/mp/cabinetGrip/v2/user/cabinet/grid/list） */
 @Data
 @AutoMapper(target = StudyRoomCabinetUserGridListClientRespDTO.class)
 public class StudyRoomCabinetUserGridListVO {
 
-    /**
-     * 我的柜格
-     */
+    /** 我的柜格 */
     private List<StudyRoomCabinetUserGridVO> list;
 
 }

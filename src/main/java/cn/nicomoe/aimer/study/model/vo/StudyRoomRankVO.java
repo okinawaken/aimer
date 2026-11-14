@@ -6,18 +6,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 学习排行榜（/mp/study/rank/index）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 学习排行榜（/mp/study/rank/index） */
 @Data
 @AutoMapper(target = StudyRoomRankClientRespDTO.class)
 public class StudyRoomRankVO {
 
-    /**
-     * 排行列表
-     */
+    /** 排行列表 */
     private List<StudyRoomRankUserVO> rankUserList;
 }

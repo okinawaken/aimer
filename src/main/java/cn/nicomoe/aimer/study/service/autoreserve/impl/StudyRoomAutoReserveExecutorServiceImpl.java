@@ -24,17 +24,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * 自动预约执行器实现。
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -47,12 +40,11 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void execute(Long taskId, Integer triggerType) {
-        StudyRoomAutoReserveTaskInfoDTO taskInfoDTO = taskService.get(taskId);
+        StudyRoomAutoReserveTaskInfoDTO taskInfoDTO = taskService.getById(taskId);
 
         String lockKey = StudyRoomCacheConstants.AUTO_RESERVE_EXECUTE_LOCK + taskId;
-        if (!RedisLockUtils.tryLock(lockKey)) {
+        if (!RedisLockUtils.Locks.tryLock(lockKey)) {
             log.error("自动预约任务正在执行中，加锁失败，忽略，taskId={}，triggerType={}", taskId, triggerType);
             return;
         }
@@ -95,18 +87,11 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
             recordService.saveRecord(taskRecordDTO);
             eventPublisher.publishEvent(new StudyRoomBarkNotifyEvent(taskInfoDTO.getUserId(), "自动预约失败", e.getMessage()));
         } finally {
-            RedisLockUtils.unlock(lockKey);
+            RedisLockUtils.Locks.unlock(lockKey);
         }
     }
 
-    /**
-     * 构建执行记录响应对象。
-     *
-     * @param context    执行上下文
-     * @param statusEnum 终态
-     * @param errorMsg   失败或跳过原因
-     * @return 执行记录
-     */
+    /** 构建执行记录响应对象。 */
     private StudyRoomAutoReserveTaskRecordInfoDTO buildTaskRecordDTO(StudyRoomAutoReserveContext context, StudyRoomAutoReserveTaskRecordStatusEnum statusEnum, String errorMsg) {
         StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO = new StudyRoomAutoReserveTaskRecordInfoDTO();
         taskRecordDTO.setTriggerType(context.getTriggerType());

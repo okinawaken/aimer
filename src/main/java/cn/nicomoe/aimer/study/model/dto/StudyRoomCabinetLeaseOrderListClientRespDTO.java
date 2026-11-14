@@ -5,18 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 储物柜租赁订单列表（/mp/cabinetGrip/v2/lease/order/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 储物柜租赁订单列表（/mp/cabinetGrip/v2/lease/order/list） */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomCabinetLeaseOrderListClientRespDTO {
 
-    /**
-     * 订单列表
-     */
+    /** 订单列表 */
     private List<StudyRoomCabinetLeaseOrderClientRespDTO> list;
 }

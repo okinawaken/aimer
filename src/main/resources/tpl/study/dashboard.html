@@ -90,15 +90,47 @@
 
 <script src="study/js/study-token-guard.js"></script>
 <script>
+    function saveToken(token) {
+        if (!token) return;
+        try {
+            sessionStorage.setItem('study_token', token);
+        } catch (e) {
+        }
+    }
+
+    function readStoredToken() {
+        try {
+            return sessionStorage.getItem('study_token') || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /* token 只从 URL 读取一次，写回 sessionStorage 后立即从地址栏移除，避免进入历史与日志 */
+    function readTokenParam() {
+        const fromUrl = new URLSearchParams(location.search).get('_token') || '';
+        if (fromUrl) {
+            saveToken(fromUrl);
+            const u = new URL(location.href);
+            u.searchParams.delete('_token');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        }
+        return fromUrl;
+    }
+
     const TOKEN = (() => {
+        const fromUrl = readTokenParam();
         try {
             if (parent && parent.getAppToken) {
                 const t = parent.getAppToken();
-                if (t && t.token) return t.token;
+                if (t && t.token) {
+                    saveToken(t.token);
+                    return t.token;
+                }
             }
         } catch (e) {
         }
-        return new URLSearchParams(location.search).get('_token') || '';
+        return readStoredToken() || fromUrl;
     })();
     const BASE = document.baseURI;
 
@@ -194,10 +226,13 @@
             if (!list.length) return setEmpty('tbReserve', 6, status ? `暂无${status}预约` : '暂无预约');
             $('#tbReserve').innerHTML = list.map(r => {
                 const canCancel = r.reserveStatusDesc === PENDING_SIGN_STATUS;
+                const seatParts = [];
+                if (r.areaName) seatParts.push(`<span class="muted">${esc(r.areaName)}</span>`);
+                if (r.seatNumber) seatParts.push(`<span class="seat-no">${esc(r.seatNumber)}</span>`);
                 return `<tr>
       <td class="nw">${esc(dash(r.reserveDateStr))}<span class="muted"> ${esc(r.reserveWeekStr || '')}</span></td>
       <td>${esc(dash(r.venueName))}</td>
-      <td>${esc(dash([r.areaName, r.seatNumber].filter(Boolean).join(' / ')))}</td>
+      <td>${seatParts.length ? seatParts.join(' / ') : '—'}</td>
       <td class="nw">${esc(dash(r.reserveTimeStr))}</td>
       <td class="nw">${esc(dash(r.reserveStatusDesc))}</td>
       <td class="nw">${canCancel

@@ -4,24 +4,15 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomCabinetLeaseOverduePayClientRes
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
-/**
- * 储物柜逾期支付（/mp/cabinetGrip/v2/lease/overdue/pay）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 储物柜逾期支付（/mp/cabinetGrip/v2/lease/overdue/pay） */
 @Data
 @AutoMapper(target = StudyRoomCabinetLeaseOverduePayClientRespDTO.class)
 public class StudyRoomCabinetLeaseOverduePayVO {
 
-    /**
-     * 支付单ID
-     */
+    /** 支付单ID */
     private Long payId;
 
-    /**
-     * 微信支付参数
-     */
+    /** 微信支付参数 */
     private StudyRoomWxPayParamVO payParam;
 
 }

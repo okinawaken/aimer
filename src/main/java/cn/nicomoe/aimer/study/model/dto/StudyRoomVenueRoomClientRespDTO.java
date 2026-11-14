@@ -5,28 +5,17 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 门店区域介绍
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 门店区域介绍 */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomVenueRoomClientRespDTO {
 
-    /**
-     * 区域名称
-     */
+    /** 区域名称 */
     private String title;
 
-    /**
-     * 区域图片
-     */
+    /** 区域图片 */
     private String imagePath;
 
-    /**
-     * 区域须知
-     */
+    /** 区域须知 */
     private List<StudyRoomAreaTipClientRespDTO> areaTipsList;
 }

@@ -20,15 +20,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * 目标日期与放号基线过滤器
- * <p>
- * 计算可预约的最大目标日期，并校验当日是否已执行、是否放出新日期。
- * 合并自原 {@code TARGET_DATE} 与 {@code EXECUTED} 两步校验，因已执行校验依赖目标日期计算结果。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 计算最大可预约日期，并校验当天是否已执行、是否放出新日期。 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveTargetDateFilter implements StudyRoomAutoReserveFilter {

@@ -1,0 +1,30 @@
+package cn.nicomoe.aimer.aliyu.model.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+import java.util.List;
+
+/** 项目所在城市（{@code GET /region/getProjectCityList}）。 */
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProjectCityListRespDTO {
+
+    /** 地区 ID（筛选项 value） */
+    private String areaId;
+
+    /** 地区名称（筛选项文案） */
+    private String areaName;
+
+    /** 地区类型（行政区划级别） */
+    private Object areaType;
+
+    /** 英文名称 */
+    private Object enName;
+
+    /** 父级地区 ID */
+    private String parentId;
+
+    /** 下级城市列表 */
+    private List<ProjectCityListRespDTO> cityList;
+}

@@ -5,18 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 我的订单（/mp/user/userOrder/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 我的订单（/mp/user/userOrder/list） */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomUserOrderListClientRespDTO {
 
-    /**
-     * 订单列表
-     */
+    /** 订单列表 */
     private List<StudyRoomUserOrderClientRespDTO> list;
 }

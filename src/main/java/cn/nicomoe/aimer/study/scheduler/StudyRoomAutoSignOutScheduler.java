@@ -13,14 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 自动签退调度器。
- * <p>
- * 扫描已开启自动签退的用户并发布执行事件，具体到期判断与签退在过滤器和执行器中完成。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动签退调度器：扫描开启自动签退的用户并发布执行事件，到期判断在过滤器里。 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignOutScheduler {
@@ -28,9 +21,7 @@ public class StudyRoomAutoSignOutScheduler {
     private final StudyRoomUserSettingService settingService;
     private final ApplicationEventPublisher eventPublisher;
 
-    /**
-     * 扫描已开启自动签退的用户并发布执行事件。
-     */
+    /** 扫描已开启自动签退的用户并发布执行事件。 */
     @Scheduled(cron = "0 0/10 * * * ?")
     public void scan() {
         List<StudyRoomUserConfigDTO> userConfigDTOList = settingService.listAllConfigs();

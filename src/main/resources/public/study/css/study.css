@@ -1,7 +1,9 @@
 /* ==========================================================================
    自习室 · 共享样式
    设计方向「安静书房」：玄青纸质底色、墨色正文、松绿主色、宋体标题与数字。
-   八个 tpl 页面统一引用，页面只负责结构与少量局部样式。
+   全站唯一的签名细节：座位号（A-14）一律用宋体排印，像馆内的座位铭牌。
+   四个 tpl 页面统一引用，页面只负责结构与少量局部样式。
+   间距落在 4px 网格；圆角 6 / 8 / 12 / 16；一套缓动曲线 --ease。
    ========================================================================== */
 
 :root {
@@ -12,6 +14,7 @@
     --ink: #1b221d;
     --ink-2: #47524b;
     --muted: #616b63;
+    --muted-2: #8b958c;
     --line: #e2e7e0;
     --line-strong: #ccd5cc;
 
@@ -31,8 +34,12 @@
     --err-soft: #fbeae8;
     --err-line: #f0cdc9;
 
-    --r: 12px;
+    /* 圆角：小标签 6，控件 8，卡片 12，弹层 16；内层 = 外层 - 间距 */
+    --r-xs: 6px;
     --r-sm: 8px;
+    --r: 12px;
+    --r-lg: 16px;
+    --ease: cubic-bezier(.22, 1, .36, 1);
     --shadow-1: 0 1px 2px rgba(27, 34, 29, .05);
     --shadow-2: 0 18px 44px -12px rgba(27, 34, 29, .28);
 
@@ -96,7 +103,7 @@ h1, h2, h3, h4, p {
 .wrap {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 22px 26px 52px;
+    padding: 24px 32px 56px;
 }
 
 /* 统一的页头：标题 + 一句用途说明 + 主要操作 */
@@ -106,8 +113,8 @@ h1, h2, h3, h4, p {
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
     border-bottom: 1px solid var(--line);
 }
 
@@ -116,15 +123,14 @@ h1, h2, h3, h4, p {
 }
 
 .page-head h1 {
-    font: 600 22px/1.22 var(--font-display);
-    letter-spacing: .01em;
+    font: 600 24px/1.25 var(--font-display);
     color: var(--ink);
 }
 
 .page-head .desc {
     color: var(--muted);
     font-size: 13px;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .page-head .actions {
@@ -147,17 +153,17 @@ h1, h2, h3, h4, p {
 }
 
 .card .hd {
-    padding: 14px 18px;
+    padding: 16px 20px;
     border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     background: var(--surface);
 }
 
 .card .hd h3 {
-    font: 600 15px/1.35 var(--font-ui);
+    font: 600 15px/1.4 var(--font-ui);
     white-space: nowrap;
 }
 
@@ -167,10 +173,10 @@ h1, h2, h3, h4, p {
 
 /* 卡片头的筛选控件：与按钮同高、可压缩、不换行，避免挤成两行 */
 .card .hd > select {
-    height: 34px;
+    height: 36px;
     flex: 0 1 auto;
     min-width: 0;
-    max-width: 190px;
+    max-width: 200px;
     text-overflow: ellipsis;
 }
 
@@ -181,6 +187,7 @@ h1, h2, h3, h4, p {
 .card .hd > .avatar {
     width: 44px;
     height: 44px;
+    font-size: 18px;
 }
 
 .card .hd .name {
@@ -205,7 +212,7 @@ h1, h2, h3, h4, p {
 }
 
 .card .bd.pad {
-    padding: 18px 20px;
+    padding: 20px;
 }
 
 .card .bd.scroll {
@@ -214,13 +221,13 @@ h1, h2, h3, h4, p {
 }
 
 .card .foot {
-    padding: 14px 18px;
+    padding: 16px 20px;
     border-top: 1px solid var(--line);
     background: var(--surface-2);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 8px;
 }
 
 /* ---------- 按钮 ---------- */
@@ -229,8 +236,8 @@ h1, h2, h3, h4, p {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    height: 34px;
-    padding: 0 14px;
+    height: 36px;
+    padding: 0 16px;
     border: 1px solid var(--line-strong);
     background: var(--surface);
     color: var(--ink);
@@ -238,7 +245,7 @@ h1, h2, h3, h4, p {
     font: 500 13px/1 var(--font-ui);
     cursor: pointer;
     white-space: nowrap;
-    transition: background .15s, border-color .15s, color .15s, box-shadow .15s;
+    transition: background .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease);
 }
 
 .btn:hover:not(:disabled) {
@@ -274,6 +281,19 @@ h1, h2, h3, h4, p {
     color: var(--err);
 }
 
+/* 破坏性主操作：填色，保证确认步骤里它是唯一最重的按钮 */
+.btn.danger-solid {
+    background: var(--err);
+    border-color: var(--err);
+    color: #fff;
+}
+
+.btn.danger-solid:hover:not(:disabled) {
+    background: #94302a;
+    border-color: #94302a;
+    color: #fff;
+}
+
 .btn.ghost {
     border-color: transparent;
     background: transparent;
@@ -289,12 +309,21 @@ h1, h2, h3, h4, p {
     height: 28px;
     padding: 0 10px;
     font-size: 12px;
-    border-radius: 6px;
+    border-radius: var(--r-xs);
 }
 
 .btn:disabled {
-    opacity: .5;
+    opacity: .55;
     cursor: not-allowed;
+}
+
+/* 禁用的主按钮退回中性面，不再留一块发暗的绿 */
+.btn.primary:disabled,
+.btn.danger-solid:disabled {
+    background: var(--surface-2);
+    border-color: var(--line);
+    color: var(--muted);
+    opacity: 1;
 }
 
 .btn[data-busy="1"] {
@@ -305,15 +334,26 @@ h1, h2, h3, h4, p {
 .tag {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 9px;
-    border-radius: 999px;
+    gap: 6px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: var(--r-xs);
     font-size: 12px;
-    line-height: 18px;
+    font-weight: 500;
     background: var(--surface-2);
     color: var(--ink-2);
     border: 1px solid var(--line);
     white-space: nowrap;
+}
+
+/* 状态标签带一个小圆点，颜色只表示状态 */
+.tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex: none;
 }
 
 .tag.ok {
@@ -340,6 +380,45 @@ h1, h2, h3, h4, p {
     border-color: var(--line);
 }
 
+/* 座位铭牌：中性底，宋体排座位号，不带状态色 */
+.seat-tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: var(--r-xs);
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.seat-tag .no {
+    font: 600 14px/1 var(--font-display);
+    color: var(--ink);
+}
+
+/* 行内座位号：表格、详情里统一宋体，像馆内座位铭牌 */
+.seat-no {
+    font: 600 14px/1.2 var(--font-display);
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* 行内图标：统一 16px、1.5 描边、继承文字颜色 */
+.i {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
 .muted {
     color: var(--muted);
 }
@@ -352,7 +431,7 @@ h1, h2, h3, h4, p {
 
 .hint.block {
     display: block;
-    margin: 6px 0 0;
+    margin: 8px 0 0;
 }
 
 .req {
@@ -375,7 +454,7 @@ table {
 }
 
 th, td {
-    padding: 11px 16px;
+    padding: 12px 16px;
     text-align: left;
     border-bottom: 1px solid var(--line);
     font-size: 13px;
@@ -385,9 +464,20 @@ th, td {
 th {
     background: var(--surface-2);
     color: var(--muted);
-    font-weight: 600;
+    font-weight: 500;
     font-size: 12px;
     white-space: nowrap;
+}
+
+td input[type=checkbox],
+th input[type=checkbox],
+.rowCheck {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: var(--accent);
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 tr:last-child td {
@@ -395,7 +485,7 @@ tr:last-child td {
 }
 
 tbody tr {
-    transition: background .12s;
+    transition: background .16s var(--ease);
 }
 
 tbody tr:hover td {
@@ -411,7 +501,7 @@ tbody tr:hover td {
 .empty {
     text-align: center;
     color: var(--muted);
-    padding: 34px 16px;
+    padding: 32px 16px;
     font-size: 13px;
 }
 
@@ -425,24 +515,25 @@ tbody tr:hover td {
 .kpi {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 14px 16px;
+    border-radius: var(--r);
+    padding: 16px 20px;
     min-width: 0;
 }
 
 .kpi .k {
     color: var(--muted);
     font-size: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .kpi .v {
-    font: 600 22px/1.15 var(--font-display);
+    font: 600 24px/1.2 var(--font-display);
     color: var(--ink);
+    font-variant-numeric: tabular-nums;
 }
 
 .kpi .v.small {
-    font: 600 16px/1.3 var(--font-ui);
+    font: 600 16px/1.35 var(--font-ui);
     word-break: break-all;
 }
 
@@ -453,14 +544,14 @@ tbody tr:hover td {
     border: 1px solid var(--line);
     border-radius: var(--r);
     overflow: hidden;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
 
 .kpis.ledger .kpi {
     border: 0;
     border-radius: 0;
     border-right: 1px solid var(--line);
-    padding: 16px 18px;
+    padding: 16px 20px;
 }
 
 .kpis.ledger .kpi:last-child {
@@ -469,7 +560,7 @@ tbody tr:hover td {
 
 /* ---------- 表单 ---------- */
 .field {
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 .field:last-child {
@@ -478,22 +569,24 @@ tbody tr:hover td {
 
 .field > label:not(.switch), .field > .label {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     color: var(--ink-2);
     font-size: 13px;
     font-weight: 500;
 }
 
+/* 说明另起一行，标签本身不被说明文字拉长 */
 .field .hint {
-    margin-left: 6px;
+    display: block;
+    margin: 4px 0 0;
     font-weight: 400;
-    display: inline;
+    line-height: 1.6;
 }
 
 input[type=text], input[type=number], input[type=time], input[type=date],
 input[type=password], select {
     height: 36px;
-    padding: 0 11px;
+    padding: 0 12px;
     border: 1px solid var(--line-strong);
     border-radius: var(--r-sm);
     background: var(--surface);
@@ -501,7 +594,7 @@ input[type=password], select {
     font: inherit;
     font-size: 13px;
     outline: none;
-    transition: border-color .15s, box-shadow .15s;
+    transition: border-color .16s var(--ease), box-shadow .16s var(--ease);
 }
 
 input:focus, select:focus {
@@ -510,7 +603,7 @@ input:focus, select:focus {
 }
 
 input::placeholder {
-    color: #a3ada4;
+    color: var(--muted-2);
 }
 
 select {
@@ -560,7 +653,7 @@ select {
     align-items: center;
     gap: 8px;
     height: 36px;
-    padding: 0 11px;
+    padding: 0 12px;
     border: 1px solid var(--line-strong);
     border-radius: var(--r-sm);
     background: var(--surface);
@@ -582,7 +675,7 @@ select {
 .switch {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     position: relative;
     cursor: pointer;
     user-select: none;
@@ -606,7 +699,7 @@ select {
     height: 24px;
     border-radius: 12px;
     background: #d4dad3;
-    transition: background .2s;
+    transition: background .18s var(--ease);
 }
 
 .switch .track::after {
@@ -618,7 +711,7 @@ select {
     height: 20px;
     border-radius: 50%;
     background: #fff;
-    transition: transform .2s;
+    transition: transform .18s var(--ease);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
 }
 
@@ -636,47 +729,67 @@ select {
 
 .switch .state {
     color: var(--muted);
-    transition: color .2s;
+    transition: color .18s var(--ease);
 }
 
 .switch input:checked ~ .state {
     color: var(--accent);
 }
 
-/* 星期多选胶囊 */
+/* 星期多选：七等分的方格，一周排一行，不折成 6+1 */
 .weeks {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 8px;
-    flex-wrap: wrap;
 }
 
 .weeks label {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
+    justify-content: center;
+    gap: 4px;
+    height: 36px;
+    padding: 0 8px;
     border: 1px solid var(--line-strong);
-    border-radius: 999px;
+    border-radius: var(--r-sm);
     cursor: pointer;
     color: var(--ink-2);
     font-size: 13px;
-    transition: border-color .15s, background .15s, color .15s;
+    background: var(--surface);
+    transition: border-color .16s var(--ease), background .16s var(--ease), color .16s var(--ease);
 }
 
 .weeks label:hover {
     border-color: var(--accent);
 }
 
+/* 勾选状态交给方格的描边与底纹，原生复选框只留给键盘与读屏 */
 .weeks input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
     margin: 0;
-    accent-color: var(--accent);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .weeks label:has(input:checked) {
     border-color: var(--accent);
     background: var(--accent-soft);
     color: var(--accent-ink);
-    font-weight: 600;
+    font-weight: 500;
+}
+
+.weeks label:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .weeks {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 }
 
 /* 单选行 */
@@ -689,7 +802,7 @@ select {
     border-radius: var(--r-sm);
     margin-bottom: 10px;
     cursor: pointer;
-    transition: border-color .15s, background .15s;
+    transition: border-color .16s var(--ease), background .16s var(--ease);
 }
 
 .radio-row:hover {
@@ -725,10 +838,10 @@ select {
 /* ---------- 工具条与提示条 ---------- */
 .toolbar {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .toolbar .spacer {
@@ -738,12 +851,12 @@ select {
 .loc-warn {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: var(--warn-soft);
     border: 1px solid var(--warn-line);
     color: var(--warn);
     border-radius: var(--r-sm);
-    padding: 9px 13px;
+    padding: 12px 16px;
     font-size: 13px;
     margin-bottom: 16px;
 }
@@ -755,8 +868,8 @@ select {
 .venue-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 9px 13px;
+    gap: 8px;
+    padding: 12px 16px;
     margin-bottom: 16px;
     border: 1px solid var(--line);
     border-radius: var(--r-sm);
@@ -778,7 +891,7 @@ select {
 
 .venue-select {
     max-width: 52%;
-    padding: 5px 8px;
+    padding: 0 8px;
     font-size: 13px;
     color: var(--ink);
     background: var(--surface);
@@ -791,7 +904,7 @@ select {
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    padding: 11px 0;
+    padding: 12px 0;
     border-bottom: 1px dashed var(--line);
     font-size: 13px;
 }
@@ -801,11 +914,18 @@ select {
 }
 
 .tips {
-    margin-top: 14px;
-    padding-top: 14px;
+    margin-top: 16px;
+    padding-top: 16px;
     border-top: 1px dashed var(--line);
     color: var(--muted);
     font-size: 12px;
+}
+
+/* 座位信息：铭牌与状态说明成组靠左，不被拉到行尾 */
+.seat-row {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
 }
 
 /* ---------- 弹层 ---------- */
@@ -833,32 +953,32 @@ select {
     max-height: 92vh;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: var(--r-lg);
     box-shadow: var(--shadow-2);
     overflow: hidden;
 }
 
 .modal h3 {
-    padding: 17px 22px;
+    padding: 20px 24px;
     border-bottom: 1px solid var(--line);
-    font: 600 16px/1.35 var(--font-ui);
+    font: 600 16px/1.4 var(--font-ui);
 }
 
 .modal .body {
-    padding: 18px 22px;
+    padding: 24px;
     overflow: auto;
     flex: 1 1 auto;
     min-height: 0;
 }
 
 .modal .foot {
-    padding: 14px 22px;
+    padding: 16px 24px;
     border-top: 1px solid var(--line);
     background: var(--surface-2);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
@@ -904,12 +1024,12 @@ select {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 780px;
+    width: 900px;
     max-width: 96vw;
     background: var(--surface);
     box-shadow: -12px 0 40px rgba(20, 28, 22, .18);
     transform: translateX(100%);
-    transition: transform .24s cubic-bezier(.22, .61, .36, 1);
+    transition: transform .24s var(--ease);
     z-index: 61;
     display: flex;
     flex-direction: column;
@@ -920,17 +1040,17 @@ select {
 }
 
 .drawer .head {
-    padding: 17px 22px;
+    padding: 16px 24px;
     border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     background: var(--surface);
 }
 
 .drawer .head h3 {
-    font: 600 16px/1.35 var(--font-ui);
+    font: 600 16px/1.4 var(--font-ui);
 }
 
 .drawer .head .spacer {
@@ -939,7 +1059,21 @@ select {
 
 .drawer .list {
     overflow: auto;
-    padding: 4px 22px 22px;
+    padding: 0 24px 24px;
+}
+
+/* 记录表列多，时间与日期不折行，说明列收成省略号 */
+.drawer table {
+    min-width: 760px;
+}
+
+.drawer th, .drawer td {
+    padding: 10px 12px;
+    white-space: nowrap;
+}
+
+.drawer td .ellipsis {
+    max-width: 220px;
 }
 
 /* ---------- 加载与占位 ---------- */
@@ -993,14 +1127,14 @@ select {
 }
 
 .toast {
-    padding: 10px 16px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: var(--r-sm);
     background: var(--ink);
     color: #fff;
     font-size: 13px;
     box-shadow: var(--shadow-2);
     border-left: 3px solid var(--ok);
-    animation: fade .2s ease;
+    animation: fade .2s var(--ease);
 }
 
 .toast.err {
@@ -1023,7 +1157,7 @@ select {
 .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
 }
 
 .grid > * {
@@ -1048,20 +1182,32 @@ select {
 
 /* 看板卡片内列较多，收窄内边距，让 5 列数据在整行里放得下 */
 .grid .card th, .grid .card td {
-    padding: 10px 14px;
+    padding: 12px 16px;
 }
 
 .grid .card td.nw {
     white-space: nowrap;
 }
 
+/* 头像：有图时铺图，无图时用昵称首字的宋体字，不留一个空灰圈 */
 .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    object-fit: cover;
-    background: var(--surface-2);
+    background: var(--accent-soft);
+    background-size: cover;
+    background-position: center;
+    color: var(--accent-ink);
+    font: 600 13px/1 var(--font-display);
     vertical-align: middle;
+    flex: none;
+}
+
+.avatar.has-img {
+    color: transparent;
 }
 
 td .avatar {
@@ -1071,7 +1217,7 @@ td .avatar {
 /* ---------- 签到 / 选座 ---------- */
 .seats {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
     gap: 8px;
 }
 
@@ -1083,36 +1229,42 @@ td .avatar {
     justify-content: center;
     gap: 2px;
     min-height: 64px;
-    padding: 9px 10px;
+    padding: 12px 8px;
     border: 1px solid var(--line-strong);
-    border-radius: 9px;
+    border-radius: var(--r-sm);
     background: var(--surface);
     color: var(--ink);
     font: inherit;
     font-size: 12px;
     text-align: center;
     cursor: pointer;
-    transition: border-color .14s, background .14s, box-shadow .14s, transform .14s;
+    transition: border-color .16s var(--ease), background .16s var(--ease), box-shadow .16s var(--ease);
 }
 
 .seat:hover:not(:disabled) {
     border-color: var(--accent);
     background: var(--accent-soft);
-    transform: translateY(-1px);
 }
 
+/* 空闲与部分时段只用一层很浅的底色，不做渐变 */
 .seat.s10 {
     border-color: #c6e0d2;
-    background: linear-gradient(180deg, #f4fbf7, #edf7f1);
+    background: #f1f8f3;
 }
 
 .seat.s10:hover:not(:disabled) {
     border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
 .seat.s20 {
     border-color: #ecd7b0;
-    background: linear-gradient(180deg, #fdf8ee, #fbf1e1);
+    background: #fbf4e8;
+}
+
+.seat.s20:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
 .seat.s30 {
@@ -1121,47 +1273,55 @@ td .avatar {
     background: var(--surface-2);
 }
 
+/* 选中：单层描边 + 底纹，不再叠外圈 */
 .seat.selected {
     border-color: var(--accent);
     background: var(--accent-soft);
-    box-shadow: 0 0 0 2px rgba(43, 99, 80, .2);
-    transform: none;
+    box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.seat.selected::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
 }
 
 .seat.selected::after {
-    content: '✓';
+    content: "";
     position: absolute;
-    top: 5px;
-    right: 6px;
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
+    top: 12px;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
+/* 座位号用宋体，和馆内铭牌一致；这是全站唯一的签名细节 */
 .seat .no {
-    font-weight: 700;
-    font-size: 13px;
+    font: 600 15px/1.2 var(--font-display);
+    color: var(--ink);
     word-break: break-all;
 }
 
 .seat .st {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .seat .tm {
-    color: #94631a;
+    color: var(--warn);
     font-size: 11px;
 }
 
 .area {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
 }
 
 .area:last-child {
@@ -1169,8 +1329,8 @@ td .avatar {
 }
 
 .area-title {
-    font-weight: 600;
-    margin-bottom: 9px;
+    font-weight: 500;
+    margin-bottom: 12px;
     font-size: 13px;
     display: flex;
     align-items: center;
@@ -1178,15 +1338,18 @@ td .avatar {
 }
 
 .area-count {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 20px;
-    padding: 0 6px;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent-ink);
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--muted);
     font-size: 11px;
-    text-align: center;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .legend {
@@ -1196,7 +1359,7 @@ td .avatar {
     flex-wrap: wrap;
     font-size: 12px;
     color: var(--muted);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .legend .lg {
@@ -1209,19 +1372,19 @@ td .avatar {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 3px;
+    border-radius: 2px;
     border: 1px solid var(--line-strong);
     background: #fff;
 }
 
 .dot.free {
     border-color: #c6e0d2;
-    background: #edf7f1;
+    background: #f1f8f3;
 }
 
 .dot.part {
     border-color: #ecd7b0;
-    background: #fbf1e1;
+    background: #fbf4e8;
 }
 
 .dot.off {
@@ -1237,7 +1400,7 @@ td .avatar {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
 }
 
@@ -1251,7 +1414,7 @@ td .avatar {
 }
 
 .wiz-head {
-    padding: 16px 22px;
+    padding: 20px 24px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1259,7 +1422,7 @@ td .avatar {
 }
 
 .wiz-head h3 {
-    font: 600 17px/1.3 var(--font-display);
+    font: 600 18px/1.3 var(--font-display);
     color: var(--ink);
 }
 
@@ -1267,11 +1430,23 @@ td .avatar {
     flex: 1;
 }
 
+/* 关闭按钮：方形点击区，图标 16px */
+.wiz-head .btn.ghost {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--muted);
+}
+
+.wiz-head .btn.ghost:hover:not(:disabled) {
+    color: var(--ink);
+}
+
 /* 步骤面包屑：宋体小字紧跟标题，当前项强调；不拉伸、不画进度条 */
 .wiz-steps {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     min-width: 0;
 }
 
@@ -1296,23 +1471,24 @@ td .avatar {
 
 .wiz-steps .sep {
     color: var(--line-strong);
-    font-size: 11px;
+    font-size: 12px;
 }
 
+/* 固定底高，各步骤切换时弹窗不跳 */
 .wiz-body {
-    padding: 22px;
+    padding: 24px;
     overflow: auto;
     flex: 1 1 auto;
-    min-height: 0;
+    min-height: 240px;
 }
 
 .wiz-foot {
-    padding: 13px 22px;
+    padding: 16px 24px;
     border-top: 1px solid var(--line);
     background: var(--surface-2);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .wiz-foot .spacer {
@@ -1323,9 +1499,24 @@ td .avatar {
     margin-right: auto;
 }
 
-/* 向导内信息块 */
+/* 向导内信息块：标签成列，值从同一列起排 */
 .wiz-confirm {
     max-width: 460px;
+}
+
+.wiz-confirm .list-row {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
+    padding: 12px 0;
+}
+
+.wiz-confirm .list-row > div:first-child {
+    color: var(--muted);
+}
+
+.wiz-confirm .list-row > div:last-child {
+    color: var(--ink);
 }
 
 .wiz-empty {
@@ -1371,15 +1562,15 @@ td .avatar {
 .wiz-result .status {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     font: 600 13px/1 var(--font-ui);
     color: var(--ok);
 }
 
 .wiz-result .status::before {
     content: '';
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--ok);
 }
@@ -1395,8 +1586,8 @@ td .avatar {
 .wiz-result .nums {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin: 18px 0;
+    gap: 24px;
+    margin: 20px 0;
 }
 
 .wiz-result .nums.one {
@@ -1458,7 +1649,7 @@ td .avatar {
 
 .kv .v {
     font-weight: 600;
-    font-size: 17px;
+    font-size: 16px;
     margin-top: 2px;
     font-family: var(--font-display);
 }
@@ -1467,15 +1658,20 @@ td .avatar {
 .wrap-setting {
     max-width: 780px;
     margin: 0 auto;
-    padding: 24px 22px 60px;
+    padding: 24px 32px 64px;
 }
 
 .wrap-setting .page-head h1 {
-    font-size: 21px;
+    font-size: 22px;
+}
+
+/* 放号时刻只有一个时间值，字段不铺满整行 */
+.field > input[type=time] {
+    max-width: 180px;
 }
 
 .card-hd-profile {
-    padding: 18px 22px;
+    padding: 20px 24px;
     border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
@@ -1510,10 +1706,44 @@ td .avatar {
     white-space: nowrap;
 }
 
+/* 行内操作排成一条安静的文字按钮，不再是一排描边方块 */
 .row-actions {
     display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.row-actions .btn {
+    padding: 0 8px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--ink-2);
+}
+
+.row-actions .btn:hover:not(:disabled) {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent-ink);
+}
+
+.row-actions .btn.danger {
+    margin-left: 8px;
+    color: var(--err);
+}
+
+.row-actions .btn.danger::before {
+    content: "";
+    width: 1px;
+    height: 12px;
+    margin-right: 8px;
+    background: var(--line-strong);
+}
+
+.row-actions .btn.danger:hover:not(:disabled) {
+    background: var(--err-soft);
+    border-color: transparent;
+    color: var(--err);
 }
 
 /* ---------- Token 绑定守卫 ---------- */
@@ -1533,7 +1763,7 @@ td .avatar {
     border: 1px solid var(--line);
     border-radius: var(--r);
     box-shadow: var(--shadow-2);
-    padding: 40px 34px 34px;
+    padding: 40px 32px 32px;
     text-align: center;
 }
 
@@ -1541,32 +1771,99 @@ td .avatar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 56px;
-    padding: 0 16px;
-    margin-bottom: 18px;
-    border-radius: 999px;
+    height: 28px;
+    padding: 0 10px;
+    margin-bottom: 16px;
+    border-radius: var(--r-xs);
     background: var(--warn-soft);
     color: var(--warn);
     border: 1px solid var(--warn-line);
-    font: 600 13px/1 var(--font-ui);
-    letter-spacing: .04em;
+    font: 500 12px/1 var(--font-ui);
 }
 
 .token-guard-card h2 {
-    font: 600 19px/1.35 var(--font-display);
+    font: 600 20px/1.35 var(--font-display);
     color: var(--ink);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .token-guard-card p {
     color: var(--ink-2);
     font-size: 13px;
     line-height: 1.7;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
 }
 
 .token-guard-card .btn {
-    height: 38px;
-    padding: 0 22px;
+    height: 40px;
+    padding: 0 24px;
     font-size: 14px;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width: 720px) {
+    /* 表格按内容取自然列宽后横向滚动，不把中文压成逐字换行 */
+    .card .bd > table,
+    .table-wrap > table {
+        width: max-content;
+        min-width: 100%;
+    }
+
+    .kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* 账本式统计折成 2×2 后补上横线，四格仍读得成一整块 */
+    .kpis.ledger .kpi:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--line);
+    }
+
+    .kpis.ledger .kpi:nth-child(2n) {
+        border-right: 0;
+    }
+
+    .kpi {
+        padding: 12px 16px;
+    }
+
+    .kpi .v {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 560px) {
+    .wrap {
+        padding: 20px 16px 40px;
+    }
+
+    .wrap-setting {
+        padding: 20px 16px 40px;
+    }
+
+    .page-head {
+        margin-bottom: 16px;
+    }
+
+    .card .hd {
+        padding: 16px;
+    }
+
+    .card .bd.pad,
+    .modal .body,
+    .wiz-body {
+        padding: 16px;
+    }
+
+    .modal h3,
+    .modal .foot,
+    .wiz-head,
+    .wiz-foot,
+    .drawer .head {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .drawer .list {
+        padding: 0 16px 16px;
+    }
 }

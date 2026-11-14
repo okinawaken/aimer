@@ -35,12 +35,7 @@ import xyz.erupt.core.view.R;
 
 import java.util.List;
 
-/**
- * 自习室预约域接口：座位图、下单、我的预约、取消
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室预约域接口：座位图、下单、我的预约、取消 */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -49,11 +44,7 @@ public class StudyRoomReserveController {
 
     private final StudyRoomReserveService reserveService;
 
-    /**
-     * 预约资格校验（是否有可预约套餐）
-     *
-     * @return 响应数据
-     */
+    /** 预约资格校验（是否有可预约套餐） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/check")
     public R<StudyRoomReserveCheckVO> reserveCheck() {
@@ -62,12 +53,7 @@ public class StudyRoomReserveController {
         return R.ok(reserveCheckVO);
     }
 
-    /**
-     * 可预约日期列表
-     *
-     * @param venueId 门店 ID
-     * @return 响应数据
-     */
+    /** 可预约日期列表 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/v2/date/select")
     public R<StudyRoomReserveDateVO> reserveDateList(@RequestParam(value = "venueId") Integer venueId) {
@@ -76,12 +62,7 @@ public class StudyRoomReserveController {
         return R.ok(reserveDateVO);
     }
 
-    /**
-     * 座位图（v2，推荐）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 座位图（v2，推荐） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/v2/seat/list")
     public R<StudyRoomSeatMapVO> reserveV2SeatList(@RequestBody StudyRoomSeatQueryClientReqDTO form) {
@@ -90,12 +71,7 @@ public class StudyRoomReserveController {
         return R.ok(seatMapVO);
     }
 
-    /**
-     * 提交预约（v2，推荐）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 提交预约（v2，推荐） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/v2/seat/confirm")
     public R<StudyRoomReserveConfirmVO> reserveV2SeatConfirm(@RequestBody StudyRoomReserveConfirmClientReqDTO form) {
@@ -104,12 +80,7 @@ public class StudyRoomReserveController {
         return R.ok(reserveConfirmVO);
     }
 
-    /**
-     * 座位图（v1，旧版，时间格式 {@code yyyy-MM-dd HH:mm}）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 座位图（v1，旧版，时间格式 {@code yyyy-MM-dd HH:mm}） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/seat/list")
     public R<StudyRoomSeatMapVO> reserveSeatList(@RequestBody StudyRoomSeatQueryV1ClientReqDTO form) {
@@ -118,12 +89,7 @@ public class StudyRoomReserveController {
         return R.ok(seatMapVO);
     }
 
-    /**
-     * 提交预约（v1，旧版，时间格式 {@code yyyy-MM-dd HH:mm}）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 提交预约（v1，旧版，时间格式 {@code yyyy-MM-dd HH:mm}） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/seat/confirm")
     public R<StudyRoomReserveConfirmVO> reserveSeatConfirm(@RequestBody StudyRoomReserveConfirmV1ClientReqDTO form) {
@@ -132,12 +98,7 @@ public class StudyRoomReserveController {
         return R.ok(reserveConfirmVO);
     }
 
-    /**
-     * 是否还能再预约一个座位
-     *
-     * @param userReserveId 用户预约 ID
-     * @return 响应数据
-     */
+    /** 是否还能再预约一个座位 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/another/check")
     public R<StudyRoomReserveAnotherCheckVO> reserveAnotherCheck(@RequestParam(value = "userReserveId") Long userReserveId) {
@@ -146,11 +107,7 @@ public class StudyRoomReserveController {
         return R.ok(anotherCheckVO);
     }
 
-    /**
-     * 我的预约状态选项（枚举取值来自真实接口数据，供页面筛选项渲染）
-     *
-     * @return 响应数据
-     */
+    /** 我的预约状态选项（枚举取值来自真实接口数据，供页面筛选项渲染） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/status/list")
     public R<List<String>> userReserveStatusList() {
@@ -158,12 +115,7 @@ public class StudyRoomReserveController {
         return R.ok(statusList);
     }
 
-    /**
-     * 我的预约列表（一次性返回全部，无分页）
-     *
-     * @param status 预约状态描述，为空时默认不展示已取消的预约
-     * @return 响应数据
-     */
+    /** 我的预约列表（一次性返回全部，无分页），status 为空时默认不展示已取消的预约。 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/user/list")
     public R<StudyRoomUserReserveListVO> userReserveList(@RequestParam(value = "status", required = false) String status) {
@@ -172,12 +124,7 @@ public class StudyRoomReserveController {
         return R.ok(reserveListVO);
     }
 
-    /**
-     * 取消预约前的提示
-     *
-     * @param userReserveId 用户预约 ID
-     * @return 响应数据
-     */
+    /** 取消预约前的提示 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/user/cancel/tip")
     public R<StudyRoomUserReserveCancelTipVO> userReserveCancelTip(@RequestParam(value = "userReserveId") Long userReserveId) {
@@ -186,12 +133,7 @@ public class StudyRoomReserveController {
         return R.ok(cancelTipVO);
     }
 
-    /**
-     * 取消预约
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 取消预约 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/user/cancel")
     public R<Integer> userReserveCancel(@RequestBody StudyRoomUserReserveCancelClientReqDTO form) {

@@ -14,14 +14,7 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/**
- * 签到扣费套餐查询过滤器
- * <p>
- * 按待签到预约的门店查询签到首页，取 {@code signInUserPackage.signInUserPackageId} 作为签到扣费套餐。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 按待签到预约的门店查签到首页，取 {@code signInUserPackage.signInUserPackageId} 作为扣费套餐。 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignPackageFilter implements StudyRoomAutoSignFilter {

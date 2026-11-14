@@ -19,12 +19,6 @@ import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
 
-/**
- * 自习室报修域接口
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -33,12 +27,7 @@ public class StudyRoomRepairController {
 
     private final StudyRoomRepairService repairService;
 
-    /**
-     * 提交报修
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 提交报修 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/submit")
     public R<Void> submitRepair(@RequestBody StudyRoomRepairSubmitClientReqDTO form) {
@@ -46,11 +35,7 @@ public class StudyRoomRepairController {
         return R.ok();
     }
 
-    /**
-     * 报修列表
-     *
-     * @return 响应数据
-     */
+    /** 报修列表 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/list")
     public R<StudyRoomRepairListVO> repairList() {
@@ -59,12 +44,7 @@ public class StudyRoomRepairController {
         return R.ok(repairListVO);
     }
 
-    /**
-     * 报修详情
-     *
-     * @param id ID
-     * @return 响应数据
-     */
+    /** 报修详情 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/detail/{id}")
     public R<StudyRoomRepairVO> repairDetail(@PathVariable(value = "id") Long id) {

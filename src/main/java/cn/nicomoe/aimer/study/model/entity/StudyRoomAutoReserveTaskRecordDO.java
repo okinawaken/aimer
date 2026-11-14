@@ -20,21 +20,16 @@ import xyz.erupt.jpa.model.MetaModel;
 import java.io.Serial;
 import java.time.LocalDate;
 
-/**
- * 自动预约执行记录实体（表 {@code study_room_auto_reserve_task_record}）。
- * <p>
- * 每轮抢座一条：仅在终态落库，跳过、成功、失败三种状态。
- * </p>
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动预约执行记录实体（表 {@code study_room_auto_reserve_task_record}），每轮抢座一条，仅终态落库。 */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = StudyRoomAutoReserveTaskRecordInfoDTO.class)
 @Entity
 @Table(name = "study_room_auto_reserve_task_record",
-        indexes = @Index(name = "idx_task_id_create_time", columnList = "task_id,create_time"))
+        indexes = {
+                @Index(name = "idx_task_id_create_time", columnList = "task_id,create_time"),
+                @Index(name = "idx_user_id_target_date", columnList = "user_id,target_date")
+        })
 @Comment(value = "自动预约执行记录表")
 @AttributeOverrides(value = {
         @AttributeOverride(name = "createTime", column = @Column(name = "create_time", nullable = false)),
@@ -45,48 +40,36 @@ public class StudyRoomAutoReserveTaskRecordDO extends MetaModel {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 任务 ID
-     */
+    /** 任务 ID */
     @Column(name = "task_id", nullable = false)
     @Comment(value = "任务 ID")
     private Long taskId;
 
-    /**
-     * 系统用户 ID
-     */
+    /** 系统用户 ID */
     @Column(name = "user_id", nullable = false)
     @Comment(value = "系统用户 ID")
     private Long userId;
 
-    /**
-     * 触发方式：0 定时，1 手动
-     */
+    /** 触发方式：0 定时，1 手动 */
     @JdbcTypeCode(value = SqlTypes.TINYINT)
     @ColumnDefault(value = "0")
     @Column(name = "trigger_type", nullable = false)
     @Comment(value = "触发方式：0 定时，1 手动")
     private Integer triggerType;
 
-    /**
-     * 目标预约日期
-     */
+    /** 目标预约日期 */
     @Column(name = "target_date", nullable = false)
     @Comment(value = "目标预约日期")
     private LocalDate targetDate;
 
-    /**
-     * 执行状态：0 跳过，1 成功，2 失败
-     */
+    /** 执行状态：0 跳过，1 成功，2 失败 */
     @JdbcTypeCode(value = SqlTypes.TINYINT)
     @ColumnDefault(value = "0")
     @Column(name = "status", nullable = false)
     @Comment(value = "执行状态：0 跳过，1 成功，2 失败")
     private Integer status;
 
-    /**
-     * 尝试明细 JSON，结构见 {@link StudyRoomAutoReserveTaskRecordDetailBO}
-     */
+    /** 尝试明细 JSON，结构见 {@link StudyRoomAutoReserveTaskRecordDetailBO} */
     @Column(name = "detail_json", nullable = false, length = 16_777_215)
     @Comment(value = "尝试明细 JSON")
     private String detailJson;

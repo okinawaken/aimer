@@ -20,14 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-/**
- * 座位图查询与选座过滤器
- * <p>
- * 选座优先级：指定座位 → 偏好区域首个可约座位 → 全场首个可约座位 → 失败。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 查座位图选座，优先级：指定座位 → 偏好区域首个可约座位 → 全场首个可约座位。 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveSeatFilter implements StudyRoomAutoReserveFilter {

@@ -32,12 +32,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 自习室签到域服务实现。
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Service
 @RequiredArgsConstructor
 public class StudyRoomSignServiceImpl implements StudyRoomSignService {

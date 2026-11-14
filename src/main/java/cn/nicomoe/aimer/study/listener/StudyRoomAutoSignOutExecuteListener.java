@@ -9,15 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-/**
- * 自动签退执行事件监听器。
- * <p>
- * 异步监听调度器发布的执行事件，转交执行器处理。
- * </p>
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动签退执行事件监听器：异步转交执行器。 */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,11 +17,7 @@ public class StudyRoomAutoSignOutExecuteListener {
 
     private final StudyRoomAutoSignOutExecutorService executorService;
 
-    /**
-     * 处理自动签退执行事件。
-     *
-     * @param event 执行事件
-     */
+    /** 处理自动签退执行事件。 */
     @Async
     @EventListener
     public void onExecuteEvent(StudyRoomAutoSignOutExecuteEvent event) {

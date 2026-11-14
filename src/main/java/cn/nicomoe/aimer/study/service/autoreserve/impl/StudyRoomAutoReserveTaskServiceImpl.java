@@ -27,21 +27,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 import xyz.erupt.jpa.dao.EruptDao;
-import xyz.erupt.upms.service.EruptUserService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 自动预约任务服务实现。
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Service
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserveTaskService {
@@ -51,12 +43,10 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
     private final StudyRoomVenueService venueService;
     private final StudyRoomReserveService reserveService;
     private final ApplicationEventPublisher eventPublisher;
-    private final EruptUserService eruptUserService;
     private final EruptDao eruptDao;
 
     @Override
-    public List<StudyRoomAutoReserveTaskInfoDTO> list(StudyRoomAutoReserveTaskQuery query) {
-        Long userId = eruptUserService.getCurrentUid();
+    public List<StudyRoomAutoReserveTaskInfoDTO> list(Long userId, StudyRoomAutoReserveTaskQuery query) {
         List<StudyRoomAutoReserveTaskDO> taskList = eruptDao.lambdaQuery(StudyRoomAutoReserveTaskDO.class)
                 .eq(StudyRoomAutoReserveTaskDO::getUserId, userId)
                 .eq(Objects.nonNull(query.getVenueId()), StudyRoomAutoReserveTaskDO::getVenueId, query.getVenueId())
@@ -67,20 +57,23 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
     }
 
     @Override
-    public StudyRoomAutoReserveTaskInfoDTO get(Long id) {
-        return this.toInfoDTO(this.getTaskDo(id));
+    public StudyRoomAutoReserveTaskInfoDTO get(Long userId, Long id) {
+        return this.toInfoDTO(this.getTaskDo(id, userId));
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Long create(StudyRoomAutoReserveTaskReqDTO req) {
+    public StudyRoomAutoReserveTaskInfoDTO getById(Long id) {
+        return this.toInfoDTO(this.findTaskDo(id));
+    }
+
+    @Override
+    public Long create(Long userId, StudyRoomAutoReserveTaskReqDTO req) {
         StudyRoomVenueClientRespDTO venueClientRespDTO = venueService.reserveVenueDetail(req.getVenueId());
         CheckUtils.throwIfNull(venueClientRespDTO, "未查询到门店数据");
         StudyRoomAutoReserveTaskConfigBO configBO = MapstructUtils.convert(req, StudyRoomAutoReserveTaskConfigBO.class);
-        Long currentUid = eruptUserService.getCurrentUid();
 
         StudyRoomAutoReserveTaskDO taskDO = new StudyRoomAutoReserveTaskDO();
-        taskDO.setUserId(currentUid);
+        taskDO.setUserId(userId);
         taskDO.setVenueId(req.getVenueId());
         taskDO.setVenueName(venueClientRespDTO.getVenueName());
         taskDO.setTaskJson(GsonUtils.toJson(configBO));
@@ -90,9 +83,8 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(StudyRoomAutoReserveTaskReqDTO req, Long id) {
-        StudyRoomAutoReserveTaskDO taskDO = this.getTaskDo(id);
+    public void update(Long userId, StudyRoomAutoReserveTaskReqDTO req, Long id) {
+        StudyRoomAutoReserveTaskDO taskDO = this.getTaskDo(id, userId);
         StudyRoomVenueClientRespDTO venueClientRespDTO = venueService.reserveVenueDetail(req.getVenueId());
         CheckUtils.throwIfNull(venueClientRespDTO, "未查询到门店数据");
         StudyRoomAutoReserveTaskConfigBO configBO = MapstructUtils.convert(req, StudyRoomAutoReserveTaskConfigBO.class);
@@ -105,17 +97,19 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> ids) {
-        for (Long id : ids) {
-            taskRepository.deleteById(id);
-            recordService.deleteByTaskId(id);
-        }
+    public void delete(Long userId, List<Long> ids) {
+        CheckUtils.throwIfEmpty(ids, "任务 ID 不能为空");
+        eruptDao.lambdaQuery(StudyRoomAutoReserveTaskDO.class)
+                .eq(StudyRoomAutoReserveTaskDO::getUserId, userId)
+                .in(StudyRoomAutoReserveTaskDO::getId, ids)
+                .delete();
+        recordService.deleteByTaskIds(userId, ids);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void pauseTask(Long taskId, String pauseReason) {
-        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId);
+    public void pauseTask(Long userId, Long taskId, String pauseReason) {
+        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId, userId);
         task.setEnableStatus(StudyRoomAutoReserveTaskEnableStatusEnum.PAUSED.getValue());
         task.setPauseReason(pauseReason);
         taskRepository.save(task);
@@ -123,16 +117,16 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void resumeTask(Long taskId) {
-        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId);
+    public void resumeTask(Long userId, Long taskId) {
+        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId, userId);
         task.setEnableStatus(StudyRoomAutoReserveTaskEnableStatusEnum.ENABLED.getValue());
         task.setPauseReason(StrUtil.EMPTY);
         taskRepository.save(task);
     }
 
     @Override
-    public void executeTask(Long taskId) {
-        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId);
+    public void executeTask(Long userId, Long taskId) {
+        StudyRoomAutoReserveTaskDO task = this.getTaskDo(taskId, userId);
         CheckUtils.throwIf(!StudyRoomAutoReserveTaskEnableStatusEnum.isEnabled(task.getEnableStatus()), "任务已暂停，请先恢复");
         eventPublisher.publishEvent(new StudyRoomAutoReserveExecuteEvent(task.getId(), StudyRoomAutoReserveTriggerTypeEnum.MANUAL.getValue()));
     }
@@ -175,8 +169,19 @@ public class StudyRoomAutoReserveTaskServiceImpl implements StudyRoomAutoReserve
         return seatOptionList;
     }
 
-    private StudyRoomAutoReserveTaskDO getTaskDo(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new EruptWebApiRuntimeException("任务不存在"));
+    private StudyRoomAutoReserveTaskDO getTaskDo(Long id, Long userId) {
+        StudyRoomAutoReserveTaskDO taskDO = eruptDao.lambdaQuery(StudyRoomAutoReserveTaskDO.class)
+                .eq(StudyRoomAutoReserveTaskDO::getId, id)
+                .eq(StudyRoomAutoReserveTaskDO::getUserId, userId)
+                .one();
+        CheckUtils.throwIfNull(taskDO, "任务不存在");
+        return taskDO;
+    }
+
+    private StudyRoomAutoReserveTaskDO findTaskDo(Long id) {
+        StudyRoomAutoReserveTaskDO taskDO = taskRepository.findById(id).orElse(null);
+        CheckUtils.throwIfNull(taskDO, "任务不存在");
+        return taskDO;
     }
 
     private StudyRoomAutoReserveTaskInfoDTO toInfoDTO(StudyRoomAutoReserveTaskDO taskDO) {

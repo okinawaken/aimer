@@ -17,9 +17,9 @@
         </div>
         <div class="actions">
             <button class="btn" id="btnRefresh">刷新</button>
-            <button class="btn primary" id="btnSignIn">签到</button>
             <button class="btn" id="btnChange">换座</button>
-            <button class="btn danger" id="btnSignOut">签退</button>
+            <button class="btn" id="btnSignOut">签退</button>
+            <button class="btn primary" id="btnSignIn">签到</button>
         </div>
     </div>
     <div class="card">
@@ -49,12 +49,12 @@
                     <div class="v" id="kSignNum">—</div>
                 </div>
                 <div class="kpi">
-                    <div class="k">累计学习天数</div>
-                    <div class="v" id="kDays">—</div>
+                    <div class="k">累计学习时长</div>
+                    <div class="v" id="kStudyTime">—</div>
                 </div>
             </div>
-            <div id="seatInfo" style="margin-top:14px"></div>
-            <div id="nextReserve" style="margin-top:10px"></div>
+            <div id="seatInfo" style="margin-top:16px"></div>
+            <div id="nextReserve" style="margin-top:12px"></div>
             <div id="lightBox" style="margin-top:12px"></div>
             <div class="tips" id="tips" hidden></div>
         </div>
@@ -68,7 +68,11 @@
             <h3 id="wizTitle">签到</h3>
             <div id="wizStepper" class="wiz-steps"></div>
             <div class="spacer"></div>
-            <button class="btn ghost sm" id="btnWizClose" aria-label="关闭">✕</button>
+            <button class="btn ghost" id="btnWizClose" aria-label="关闭">
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+            </button>
         </div>
         <div class="wiz-body" id="wizBody"></div>
         <div class="wiz-foot" id="wizFoot"></div>
@@ -78,15 +82,47 @@
 <div id="toast" role="status" aria-live="polite"></div>
 <script src="study/js/study-token-guard.js"></script>
 <script>
+    function saveToken(token) {
+        if (!token) return;
+        try {
+            sessionStorage.setItem('study_token', token);
+        } catch (e) {
+        }
+    }
+
+    function readStoredToken() {
+        try {
+            return sessionStorage.getItem('study_token') || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /* token 只从 URL 读取一次，写回 sessionStorage 后立即从地址栏移除，避免进入历史与日志 */
+    function readTokenParam() {
+        const fromUrl = new URLSearchParams(location.search).get('_token') || '';
+        if (fromUrl) {
+            saveToken(fromUrl);
+            const u = new URL(location.href);
+            u.searchParams.delete('_token');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        }
+        return fromUrl;
+    }
+
     const TOKEN = (() => {
+        const fromUrl = readTokenParam();
         try {
             if (parent && parent.getAppToken) {
                 const t = parent.getAppToken();
-                if (t && t.token) return t.token;
+                if (t && t.token) {
+                    saveToken(t.token);
+                    return t.token;
+                }
             }
         } catch (e) {
         }
-        return new URLSearchParams(location.search).get('_token') || '';
+        return readStoredToken() || fromUrl;
     })();
     const BASE = document.baseURI;
 
@@ -156,7 +192,7 @@
 
     function duration(h, m) {
         if ((h === null || h === undefined) && (m === null || m === undefined)) return '—';
-        return `${h || 0}h${m || 0}m`;
+        return `${h || 0}小时${m || 0}分`;
     }
 
     let state = {
@@ -281,7 +317,11 @@
                 return;
             }
             hideLocWarn();
-            const d = await api('sign/index', {query: {currentLng: loc.lng, currentLat: loc.lat, venueId}});
+            // sign/index 的 userSignInfoNum 是「当前在座签到条数」，累计签到次数取 user/index 的 signTotalNum
+            const [d, userIndex] = await Promise.all([
+                api('sign/index', {query: {currentLng: loc.lng, currentLat: loc.lat, venueId}}),
+                api('user/index').catch(() => null)
+            ]);
             if (!d) {
                 toast('未获取到签到信息', false);
                 return;
@@ -289,8 +329,9 @@
             const hasSeat = Number(d.hasSeat) === 1;
             state.hasSeat = hasSeat;
             $('#kSeat').textContent = hasSeat ? '在座' : '未在座';
-            $('#kSignNum').textContent = dash(d.userSignInfoNum);
-            $('#kDays').textContent = dash(d.studyDays);
+            $('#kSignNum').textContent = dash(userIndex && userIndex.signTotalNum);
+            // studyDays 实为注册/入馆天数（并非学习天数），学习量展示用 user/index 的 studyTotalTimeStr
+            $('#kStudyTime').textContent = dash(userIndex && userIndex.studyTotalTimeStr);
             state.userSignId = d.userSignId || (d.userSignInfoList && d.userSignInfoList[0] && d.userSignInfoList[0].id) || null;
             $('#kSignId').textContent = dash(state.userSignId);
             const pkg = d.signInUserPackage;
@@ -343,7 +384,8 @@
             $('#seatInfo').innerHTML = list.length ? list.map(s => {
                 const si = s.seatInfo || {};
                 const extra = [s.signOutExpectTimeStr ? `预计签退 ${esc(s.signOutExpectTimeStr)}` : '', s.packageName ? esc(s.packageName) : ''].filter(Boolean).join(' · ');
-                return `<div class="list-row"><div><span class="tag ok">${esc(dash(si.areaName))} · ${esc(dash(si.seatNumber))}</span></div>
+                const area = si.areaName ? `<span class="muted">${esc(si.areaName)} ·</span>` : '';
+                return `<div class="list-row seat-row"><div><span class="seat-tag">${area}<span class="no">${esc(dash(si.seatNumber))}</span></span></div>
         <div class="muted">签到 ${esc(dash(si.signInTimeStr || s.signInTimeStr))} · 已学 ${duration(si.studyHours, si.studyMinutes)}${extra ? ` · ${extra}` : ''}</div></div>`;
             }).join('') : '<div class="muted">当前未在座</div>';
 
@@ -549,7 +591,7 @@
             WIZ.data.seatMap = map;
             if (WIZ.flow === 'change' && WIZ.steps[WIZ.step].key === 'seat') renderWiz();
         } catch (e) {
-            $('#wizBody').innerHTML = `<div class="empty-box">加载失败：${esc(e.message)}<br><button class="btn sm" data-retry="1" style="margin-top:10px">重试</button></div>`;
+            $('#wizBody').innerHTML = `<div class="empty-box">加载失败：${esc(e.message)}<br><button class="btn sm" data-retry="1" style="margin-top:12px">重试</button></div>`;
         } finally {
             WIZ.submitting = false;
         }
@@ -604,7 +646,7 @@
             container.innerHTML = '<div class="empty-box">没有可换的座位</div>';
             return;
         }
-        container.innerHTML = `<div class="legend"><span class="lg"><i class="dot free"></i>空闲</span><span class="lg"><i class="dot part"></i>部分时段</span><span class="lg"><i class="dot off"></i>不可预约</span><span class="lg"><i class="dot pick"></i>已选</span><span class="muted">点击座位选中</span></div>` + html;
+        container.innerHTML = `<div class="legend"><span class="lg"><i class="dot free"></i>空闲</span><span class="lg"><i class="dot part"></i>部分时段</span><span class="lg"><i class="dot off"></i>不可预约</span><span class="lg"><i class="dot pick"></i>已选</span></div>` + html;
     }
 
     function syncWizSeatSel() {
@@ -631,7 +673,6 @@
     function renderChangeConfirm(body, foot) {
         const sel = WIZ.data.selected;
         body.innerHTML = `
-    <div class="hint" style="margin-bottom:10px">请确认换座信息</div>
     <div class="wiz-confirm">
       <div class="list-row"><div>当前签到ID</div><div><b>${esc(state.userSignId)}</b></div></div>
       <div class="list-row"><div>目标座位</div><div><b>${sel ? `${esc(sel.area)} · ${esc(sel.no)}` : '未选择'}</b></div></div>
@@ -679,14 +720,14 @@
         const needQr = String(state.qrCodeNeedSignOut) === 'true';
         const pkgName = state.packageName || state.packageId;
         body.innerHTML = `
-    <div class="hint" style="margin-bottom:10px">确认签退信息，签退后按当前套餐扣费结算</div>
+    <div class="hint" style="margin-bottom:12px">确认签退信息，签退后按当前套餐扣费结算</div>
     <div class="wiz-confirm">
       <div class="list-row"><div>当前签到ID</div><div><b>${esc(state.userSignId)}</b></div></div>
       <div class="list-row"><div>结算套餐</div><div>${esc(pkgName)}<span class="muted">（id ${esc(state.packageId)}）</span></div></div>
       <div class="list-row"><div>扫码签退</div><div>${needQr ? '<span class="tag err">需座位二维码</span>' : '<span class="tag ok">否（直接签退）</span>'}</div></div>
     </div>
-    ${needQr ? `<div class="field" style="margin-top:14px"><label for="wizSignOutQr">座位二维码内容 <span class="req">*</span></label><input type="text" id="wizSignOutQr" placeholder="座位二维码内容" value="${esc(WIZ.data.qrCode || '签到专用码')}"><div class="hint block">场馆开启扫码签退（qrCodeNeedSignOut=true），需提供座位二维码</div></div>` : ''}`;
-        foot.innerHTML = `<div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button><button class="btn danger" id="btnWizSignOutDo">确认签退</button>`;
+    ${needQr ? `<div class="field" style="margin-top:16px"><label for="wizSignOutQr">座位二维码内容 <span class="req">*</span></label><input type="text" id="wizSignOutQr" placeholder="座位二维码内容" value="${esc(WIZ.data.qrCode || '签到专用码')}"><div class="hint block">场馆开启扫码签退（qrCodeNeedSignOut=true），需提供座位二维码</div></div>` : ''}`;
+        foot.innerHTML = `<div class="spacer"></div><button class="btn" id="btnWizCancel">取消</button><button class="btn danger-solid" id="btnWizSignOutDo">确认签退</button>`;
         $('#btnWizCancel').addEventListener('click', closeWizard);
         $('#btnWizSignOutDo').addEventListener('click', doSignOut);
         if (needQr) setTimeout(() => $('#wizSignOutQr').focus(), 50);

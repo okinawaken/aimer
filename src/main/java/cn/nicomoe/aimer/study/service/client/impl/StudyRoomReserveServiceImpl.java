@@ -27,12 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 自习室预约域服务实现。
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Service
 @RequiredArgsConstructor
 public class StudyRoomReserveServiceImpl implements StudyRoomReserveService {
@@ -185,13 +179,7 @@ public class StudyRoomReserveServiceImpl implements StudyRoomReserveService {
         return reserveListDTO;
     }
 
-    /**
-     * 按状态描述筛选预约记录：状态为空时剔除已取消（含爽约系统取消），否则只保留匹配描述的记录。
-     *
-     * @param reserveList 上游返回的全部预约记录
-     * @param statusDesc  状态描述
-     * @return 筛选后的预约记录
-     */
+    /** 按状态描述筛选预约记录：状态为空时剔除已取消（含爽约系统取消），否则只保留匹配描述的记录。 */
     private List<StudyRoomUserReserveClientRespDTO> filterByStatusDesc(List<StudyRoomUserReserveClientRespDTO> reserveList, String statusDesc) {
         if (CollUtil.isEmpty(reserveList)) {
             return reserveList;

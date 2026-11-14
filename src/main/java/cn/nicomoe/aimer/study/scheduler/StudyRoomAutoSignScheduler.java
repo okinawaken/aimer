@@ -13,12 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 自动签到调度器。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动签到调度器。 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignScheduler {
@@ -26,9 +21,7 @@ public class StudyRoomAutoSignScheduler {
     private final StudyRoomUserSettingService settingService;
     private final ApplicationEventPublisher eventPublisher;
 
-    /**
-     * 扫描已开启自动签到的用户并发布执行事件。
-     */
+    /** 扫描已开启自动签到的用户并发布执行事件。 */
     @Scheduled(cron = "0 0/10 * * * ?")
     public void scan() {
         List<StudyRoomUserConfigDTO> userConfigDTOList = settingService.listAllConfigs();

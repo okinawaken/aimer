@@ -25,12 +25,7 @@ import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 import xyz.erupt.core.view.R;
 
-/**
- * 自习室用户域接口：资料、头像、签到记录
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室用户域接口：资料、头像、签到记录 */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -39,11 +34,7 @@ public class StudyRoomUserController {
 
     private final StudyRoomUserService userService;
 
-    /**
-     * 用户概览：头像、手机号、累计签到次数、累计学习时长
-     *
-     * @return 响应数据
-     */
+    /** 用户概览：头像、手机号、累计签到次数、累计学习时长 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/index")
     public R<StudyRoomUserIndexVO> userIndex() {
@@ -52,11 +43,7 @@ public class StudyRoomUserController {
         return R.ok(userIndexVO);
     }
 
-    /**
-     * 用户详情
-     *
-     * @return 响应数据
-     */
+    /** 用户详情 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/detail")
     public R<StudyRoomUserDetailVO> userDetail() {
@@ -65,11 +52,7 @@ public class StudyRoomUserController {
         return R.ok(userDetailVO);
     }
 
-    /**
-     * 欠费 / 当前签到状态
-     *
-     * @return 响应数据
-     */
+    /** 欠费 / 当前签到状态 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/fee")
     public R<StudyRoomUserFeeVO> userFee() {
@@ -78,12 +61,7 @@ public class StudyRoomUserController {
         return R.ok(userFeeVO);
     }
 
-    /**
-     * 修改资料
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 修改资料 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/update-info")
     public R<Integer> updateUserInfo(@RequestBody StudyRoomUpdateUserInfoClientReqDTO form) {
@@ -91,12 +69,7 @@ public class StudyRoomUserController {
         return R.ok(result);
     }
 
-    /**
-     * 更新授权头像（URL 形式）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 更新授权头像（URL 形式） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/authorize/head-img")
     public R<Void> authorizeHeadImg(@RequestBody StudyRoomAuthorizeHeadImgClientReqDTO form) {
@@ -104,22 +77,14 @@ public class StudyRoomUserController {
         return R.ok();
     }
 
-    /**
-     * 上传授权头像（当前不支持）
-     *
-     * @return 响应数据
-     */
+    /** 上传授权头像（当前不支持） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/authorize/head-img/upload")
     public R<Void> uploadAuthorizeHeadImg() {
         throw new EruptWebApiRuntimeException("暂不支持文件上传");
     }
 
-    /**
-     * 解除授权（退出登录）
-     *
-     * @return 响应数据
-     */
+    /** 解除授权（退出登录） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/authorize/cancel")
     public R<Void> cancelAuthorize() {
@@ -127,12 +92,7 @@ public class StudyRoomUserController {
         return R.ok();
     }
 
-    /**
-     * 签到记录列表（最近 N 条），id 传 0 即可
-     *
-     * @param id ID
-     * @return 响应数据
-     */
+    /** 签到记录列表（最近 N 条），id 传 0 即可 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/sign/list")
     public R<StudyRoomUserSignListVO> userSignList(@RequestParam(value = "id") Long id) {
@@ -141,11 +101,7 @@ public class StudyRoomUserController {
         return R.ok(signListVO);
     }
 
-    /**
-     * 更早的签到记录（分页续拉，无入参）
-     *
-     * @return 响应数据
-     */
+    /** 更早的签到记录（分页续拉，无入参） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/sign/list/more")
     public R<StudyRoomUserSignListVO> userSignListMore() {

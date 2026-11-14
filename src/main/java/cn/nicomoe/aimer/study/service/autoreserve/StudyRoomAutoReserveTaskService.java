@@ -8,95 +8,42 @@ import cn.nicomoe.aimer.study.model.query.StudyRoomAutoReserveTaskQuery;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
- * 自动预约任务服务。
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自动预约任务服务。 */
 public interface StudyRoomAutoReserveTaskService {
 
-    /**
-     * 查询任务列表（仅当前用户）。
-     *
-     * @param query 查询条件
-     * @return 列表数据
-     */
-    List<StudyRoomAutoReserveTaskInfoDTO> list(StudyRoomAutoReserveTaskQuery query);
+    /** 查询指定用户的任务列表。 */
+    List<StudyRoomAutoReserveTaskInfoDTO> list(Long userId, StudyRoomAutoReserveTaskQuery query);
 
-    /**
-     * 查询任务详情。
-     *
-     * @param id 任务 ID
-     * @return 详情数据
-     */
-    StudyRoomAutoReserveTaskInfoDTO get(Long id);
+    /** 查询指定用户的任务详情。 */
+    StudyRoomAutoReserveTaskInfoDTO get(Long userId, Long id);
 
-    /**
-     * 创建任务。
-     *
-     * @param req 请求参数
-     * @return 新任务 ID
-     */
-    Long create(StudyRoomAutoReserveTaskReqDTO req);
+    /** 按主键查询任务详情，供执行器等无登录上下文的内部流程使用，不做归属校验。 */
+    StudyRoomAutoReserveTaskInfoDTO getById(Long id);
 
-    /**
-     * 修改任务。
-     *
-     * @param req 请求参数
-     * @param id  任务 ID
-     */
-    void update(StudyRoomAutoReserveTaskReqDTO req, Long id);
+    /** 创建任务。 */
+    Long create(Long userId, StudyRoomAutoReserveTaskReqDTO req);
 
-    /**
-     * 删除任务（级联删除执行记录）。
-     *
-     * @param ids 任务 ID 集合
-     */
-    void delete(List<Long> ids);
+    /** 修改任务。 */
+    void update(Long userId, StudyRoomAutoReserveTaskReqDTO req, Long id);
 
-    /**
-     * 以指定原因暂停任务。
-     *
-     * @param taskId      任务 ID
-     * @param pauseReason 暂停原因
-     */
-    void pauseTask(Long taskId, String pauseReason);
+    /** 删除任务（级联删除执行记录）。 */
+    void delete(Long userId, List<Long> ids);
 
-    /**
-     * 恢复任务。
-     *
-     * @param taskId 任务 ID
-     */
-    void resumeTask(Long taskId);
+    /** 以指定原因暂停任务。 */
+    void pauseTask(Long userId, Long taskId, String pauseReason);
 
-    /**
-     * 手动执行一次。
-     *
-     * @param taskId 任务 ID
-     */
-    void executeTask(Long taskId);
+    /** 恢复任务。 */
+    void resumeTask(Long userId, Long taskId);
 
-    /**
-     * 查询全部启用中的任务。
-     *
-     * @return 列表数据
-     */
+    /** 手动执行一次。 */
+    void executeTask(Long userId, Long taskId);
+
+    /** 查询全部启用中的任务。 */
     List<StudyRoomAutoReserveTaskInfoDTO> listEnabledTasks();
 
-    /**
-     * 条件推进放号基线日期。
-     *
-     * @param taskId     任务 ID
-     * @param targetDate 目标预约日期
-     */
+    /** 条件推进放号基线日期。 */
     void advanceLastMaxReserveDate(Long taskId, LocalDate targetDate);
 
-    /**
-     * 查询指定门店的区域 / 座位下拉选项。
-     *
-     * @param venueId 门店 ID
-     * @return 座位选项列表（一行一个座位，含区域信息）
-     */
+    /** 查询指定门店的区域 / 座位下拉选项。 */
     List<StudyRoomAutoReserveSeatOptionDTO> listSeatOptions(Integer venueId);
 }

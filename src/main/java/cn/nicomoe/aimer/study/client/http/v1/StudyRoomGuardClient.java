@@ -9,29 +9,14 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/**
- * 门禁域：门禁区域列表、开门
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 门禁域：门禁区域列表、开门 */
 public interface StudyRoomGuardClient extends StudyRoomBaseClient {
 
-    /**
-     * 门店门禁区域列表
-     *
-     * @param venueId 门店 ID
-     * @return 响应数据
-     */
+    /** 门店门禁区域列表 */
     @Get(url = "/mp/guard/select")
     StudyRoomClientResult<StudyRoomGuardListClientRespDTO> guardSelect(@Query(value = "venueId") Integer venueId);
 
-    /**
-     * 门禁开门（服务端校验/记录；物理开锁需客户端 BLE）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 门禁开门（服务端校验/记录；物理开锁需客户端 BLE） */
     @Post(url = "/mp/guard/open")
     StudyRoomClientResult<Void> guardOpen(@JSONBody StudyRoomGuardOpenClientReqDTO form);
 

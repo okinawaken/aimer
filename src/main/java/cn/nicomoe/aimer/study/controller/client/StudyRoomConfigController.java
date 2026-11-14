@@ -16,12 +16,6 @@ import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
 
-/**
- * 自习室配置域接口
- *
- * @author bixiu
- * @since 4.2.0
- */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -30,11 +24,7 @@ public class StudyRoomConfigController {
 
     private final StudyRoomConfigService configService;
 
-    /**
-     * 小程序全局配置（含可提前预约天数、保留时长等）
-     *
-     * @return 响应数据
-     */
+    /** 小程序全局配置（含可提前预约天数、保留时长等） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/sys")
     public R<StudyRoomConfigVO> sysConfig() {
@@ -43,12 +33,7 @@ public class StudyRoomConfigController {
         return R.ok(configVO);
     }
 
-    /**
-     * 公告栏
-     *
-     * @param venueId 门店 ID
-     * @return 响应数据
-     */
+    /** 公告栏 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/notice")
     public R<StudyRoomNoticeVO> noticeBoard(

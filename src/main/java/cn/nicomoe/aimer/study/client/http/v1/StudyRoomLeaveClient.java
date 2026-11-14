@@ -10,38 +10,18 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/**
- * 请假域：套餐请假
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 请假域：套餐请假 */
 public interface StudyRoomLeaveClient extends StudyRoomBaseClient {
 
-    /**
-     * 进入请假页（校验可请假套餐）
-     *
-     * @param userPackageId 参数 userPackageId
-     * @return 响应数据
-     */
+    /** 进入请假页（校验可请假套餐） */
     @Get(url = "/mp/user/userLeave/enterLeave")
     StudyRoomClientResult<StudyRoomUserLeaveEnterClientRespDTO> userLeaveEnter(@Query(value = "userPackageId") Long userPackageId);
 
-    /**
-     * 确认请假
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 确认请假 */
     @Post(url = "/mp/user/userLeave/confirmLeave")
     StudyRoomClientResult<Integer> userLeaveConfirm(@JSONBody StudyRoomUserLeaveConfirmClientReqDTO form);
 
-    /**
-     * 取消请假
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 取消请假 */
     @Post(url = "/mp/user/userLeave/cancelLeave")
     StudyRoomClientResult<Integer> userLeaveCancel(@JSONBody StudyRoomUserLeaveCancelClientReqDTO form);
 

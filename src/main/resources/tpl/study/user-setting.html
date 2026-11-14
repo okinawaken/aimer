@@ -19,7 +19,7 @@
 
     <div class="card">
         <div class="hd">
-            <img class="avatar" id="avatar" alt="">
+            <div class="avatar" id="avatar" aria-hidden="true"></div>
             <div>
                 <div class="name" id="nick">账号信息</div>
                 <div class="sub" id="mobile">加载中…</div>
@@ -84,15 +84,47 @@
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
+    function saveToken(token) {
+        if (!token) return;
+        try {
+            sessionStorage.setItem('study_token', token);
+        } catch (e) {
+        }
+    }
+
+    function readStoredToken() {
+        try {
+            return sessionStorage.getItem('study_token') || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /* token 只从 URL 读取一次，写回 sessionStorage 后立即从地址栏移除，避免进入历史与日志 */
+    function readTokenParam() {
+        const fromUrl = new URLSearchParams(location.search).get('_token') || '';
+        if (fromUrl) {
+            saveToken(fromUrl);
+            const u = new URL(location.href);
+            u.searchParams.delete('_token');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        }
+        return fromUrl;
+    }
+
     const TOKEN = (() => {
+        const fromUrl = readTokenParam();
         try {
             if (parent && parent.getAppToken) {
                 const t = parent.getAppToken();
-                if (t && t.token) return t.token;
+                if (t && t.token) {
+                    saveToken(t.token);
+                    return t.token;
+                }
             }
         } catch (e) {
         }
-        return new URLSearchParams(location.search).get('_token') || '';
+        return readStoredToken() || fromUrl;
     })();
     const BASE = document.baseURI;
 
@@ -151,8 +183,12 @@
                 $('#mobile').textContent = u.mobile ? ('手机号 ' + u.mobile) : '未绑定手机号';
                 $('#studyTime').textContent = dash(u.studyTotalTimeStr);
                 $('#signNum').textContent = dash(u.signTotalNum);
+                const avatar = $('#avatar');
                 if (u.headImg) {
-                    $('#avatar').src = u.headImg;
+                    avatar.style.backgroundImage = `url("${encodeURI(u.headImg).replace(/"/g, '%22')}")`;
+                    avatar.classList.add('has-img');
+                } else {
+                    avatar.textContent = (u.nickName || u.userName || '').slice(0, 1);
                 }
             }
         } catch (e) {

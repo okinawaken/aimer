@@ -17,12 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-/**
- * 待签到预约查询过滤器
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 待签到预约查询过滤器 */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignPendingReserveFilter implements StudyRoomAutoSignFilter {

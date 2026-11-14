@@ -6,18 +6,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 抖音核销门店列表（/mp/douYin/venue/select）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 抖音核销门店列表（/mp/douYin/venue/select） */
 @Data
 @AutoMapper(target = StudyRoomDouYinVenueSelectClientRespDTO.class)
 public class StudyRoomDouYinVenueSelectVO {
 
-    /**
-     * 门店列表
-     */
+    /** 门店列表 */
     private List<StudyRoomDouYinVenueVO> venueList;
 }

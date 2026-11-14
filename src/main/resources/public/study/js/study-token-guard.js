@@ -7,22 +7,52 @@
 (function () {
     'use strict';
 
+    function saveToken(token) {
+        if (!token) return;
+        try {
+            sessionStorage.setItem('study_token', token);
+        } catch (e) {
+        }
+    }
+
+    function readStoredToken() {
+        try {
+            return sessionStorage.getItem('study_token') || '';
+        } catch (e) {
+            return '';
+        }
+    }
+
+    /* token 只从 URL 读取一次，写回 sessionStorage 后立即从地址栏移除，避免进入历史与日志 */
+    function readTokenParam() {
+        var fromUrl = new URLSearchParams(location.search).get('_token') || '';
+        if (fromUrl) {
+            saveToken(fromUrl);
+            var u = new URL(location.href);
+            u.searchParams.delete('_token');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        }
+        return fromUrl;
+    }
+
     var TOKEN = (function () {
+        var fromUrl = readTokenParam();
         try {
             if (parent && parent.getAppToken) {
                 var t = parent.getAppToken();
-                if (t && t.token) return t.token;
+                if (t && t.token) {
+                    saveToken(t.token);
+                    return t.token;
+                }
             }
         } catch (e) {
         }
-        return new URLSearchParams(location.search).get('_token') || '';
+        return readStoredToken() || fromUrl;
     })();
     var BASE = document.baseURI;
 
     function userSettingUrl() {
-        var u = new URL('erupt-api/tpl/study/user-setting', BASE);
-        u.searchParams.set('_token', TOKEN);
-        return u.href;
+        return new URL('erupt-api/tpl/study/user-setting', BASE).href;
     }
 
     function fetchSetting() {

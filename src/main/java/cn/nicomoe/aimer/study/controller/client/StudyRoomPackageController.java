@@ -39,12 +39,7 @@ import xyz.erupt.core.annotation.EruptRouter;
 import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.view.R;
 
-/**
- * 自习室套餐域接口：套餐浏览、下单、支付、我的订单与套餐
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室套餐域接口：套餐浏览、下单、支付、我的订单与套餐 */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -53,11 +48,7 @@ public class StudyRoomPackageController {
 
     private final StudyRoomPackageService packageService;
 
-    /**
-     * 套餐列表（旧版，按区域分组）
-     *
-     * @return 响应数据
-     */
+    /** 套餐列表（旧版，按区域分组） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/list")
     public R<StudyRoomBuyPackageListVO> buyPackageList() {
@@ -66,12 +57,7 @@ public class StudyRoomPackageController {
         return R.ok(packageListVO);
     }
 
-    /**
-     * 套餐列表（v2，按门店/区域/类型筛选）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 套餐列表（v2，按门店/区域/类型筛选） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/v2/list")
     public R<StudyRoomBuyV2PackageListVO> buyV2PackageList(@RequestBody StudyRoomBuyV2PackageListClientReqDTO form) {
@@ -80,13 +66,7 @@ public class StudyRoomPackageController {
         return R.ok(packageListVO);
     }
 
-    /**
-     * 套餐筛选项（门店、类型、标签）
-     *
-     * @param currentLng 当前经度
-     * @param currentLat 当前纬度
-     * @return 响应数据
-     */
+    /** 套餐筛选项（门店、类型、标签） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/v2/opt-list")
     public R<StudyRoomBuyV2PackageOptVO> buyV2PackageOptList(@RequestParam(name = "currentLng", required = false) Double currentLng, @RequestParam(name = "currentLat", required = false) Double currentLat) {
@@ -95,12 +75,7 @@ public class StudyRoomPackageController {
         return R.ok(packageOptVO);
     }
 
-    /**
-     * 套餐标签 / 座位区域筛选项
-     *
-     * @param venueId 门店 ID
-     * @return 响应数据
-     */
+    /** 套餐标签 / 座位区域筛选项 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/v2/label/select-list")
     public R<StudyRoomBuyV2PackageLabelVO> buyV2PackageLabelList(@RequestParam(value = "venueId") Integer venueId) {
@@ -109,12 +84,7 @@ public class StudyRoomPackageController {
         return R.ok(packageLabelVO);
     }
 
-    /**
-     * 套餐详情（v2）
-     *
-     * @param packageId 套餐 ID
-     * @return 响应数据
-     */
+    /** 套餐详情（v2） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/v2/detail/{packageId}")
     public R<StudyRoomBuyV2PackageDetailVO> buyV2PackageDetail(@PathVariable(value = "packageId") Long packageId) {
@@ -123,12 +93,7 @@ public class StudyRoomPackageController {
         return R.ok(packageDetailVO);
     }
 
-    /**
-     * 确认下单（旧版）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 确认下单（旧版） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/confirm")
     public R<StudyRoomBuyOrderVO> buyPackageConfirm(@RequestBody StudyRoomBuyPackageConfirmClientReqDTO form) {
@@ -137,12 +102,7 @@ public class StudyRoomPackageController {
         return R.ok(buyOrderVO);
     }
 
-    /**
-     * 确认下单（v2）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 确认下单（v2） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/v2/confirm")
     public R<StudyRoomBuyOrderVO> buyV2PackageConfirm(@RequestBody StudyRoomBuyV2PackageConfirmClientReqDTO form) {
@@ -151,12 +111,7 @@ public class StudyRoomPackageController {
         return R.ok(buyOrderVO);
     }
 
-    /**
-     * 微信支付下单（返回小程序 wx.requestPayment 所需参数）
-     *
-     * @param form 请求参数
-     * @return 响应数据
-     */
+    /** 微信支付下单（返回小程序 wx.requestPayment 所需参数） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/pay-order")
     public R<StudyRoomWxPayParamVO> buyPackagePayOrder(@RequestBody StudyRoomBuyPayOrderClientReqDTO form) {
@@ -165,11 +120,7 @@ public class StudyRoomPackageController {
         return R.ok(wxPayParamVO);
     }
 
-    /**
-     * 我的订单
-     *
-     * @return 响应数据
-     */
+    /** 我的订单 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/user/order/list")
     public R<StudyRoomUserOrderListVO> userOrderList() {
@@ -178,11 +129,7 @@ public class StudyRoomPackageController {
         return R.ok(orderListVO);
     }
 
-    /**
-     * 我的套餐
-     *
-     * @return 响应数据
-     */
+    /** 我的套餐 */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/user/package/list")
     public R<StudyRoomUserPackageListVO> userPackageList() {
@@ -191,12 +138,7 @@ public class StudyRoomPackageController {
         return R.ok(packageListVO);
     }
 
-    /**
-     * 微信支付状态查询（按支付单 ID）
-     *
-     * @param payId 支付单 ID
-     * @return 响应数据
-     */
+    /** 微信支付状态查询（按支付单 ID） */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/wx/query/status/{payId}")
     public R<StudyRoomWxPayQueryVO> wxPayQueryStatus(@PathVariable(value = "payId") Long payId) {

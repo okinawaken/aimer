@@ -5,18 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 套餐列表（/mp/buy/v2/package/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 套餐列表（/mp/buy/v2/package/list） */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomBuyV2PackageListClientRespDTO {
 
-    /**
-     * 套餐列表
-     */
+    /** 套餐列表 */
     private List<StudyRoomPackageItemClientRespDTO> packageList;
 }

@@ -2,23 +2,14 @@ package cn.nicomoe.aimer.study.model.dto;
 
 import lombok.Data;
 
-/**
- * 确认签退结算套餐（/mp/study/userPackage/confirm）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 确认签退结算套餐（/mp/study/userPackage/confirm） */
 @Data
 public class StudyRoomUserPackageConfirmClientReqDTO {
 
-    /**
-     * 当前签到ID（必填）
-     */
+    /** 当前签到ID（必填） */
     private Long userSignId;
 
-    /**
-     * 选中的结算套餐ID（settlement 返回的 userPackageList[].id）（必填）
-     */
+    /** 选中的结算套餐ID（settlement 返回的 userPackageList[].id）（必填） */
     private Long userPackageId;
 
 }

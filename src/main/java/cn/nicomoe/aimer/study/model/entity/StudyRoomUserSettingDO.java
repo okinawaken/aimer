@@ -14,15 +14,7 @@ import xyz.erupt.jpa.model.MetaModel;
 
 import java.io.Serial;
 
-/**
- * 自习室用户设置实体（表 {@code study_room_user_setting}）。
- * <p>
- * 一个系统用户一份配置，由唯一索引 {@code uk_user_id} 保证。
- * </p>
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 自习室用户设置实体（表 {@code study_room_user_setting}），一个系统用户一份配置。 */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -38,16 +30,12 @@ public class StudyRoomUserSettingDO extends MetaModel {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 系统用户 ID
-     */
+    /** 系统用户 ID */
     @Column(name = "user_id", nullable = false)
     @Comment(value = "系统用户 ID")
     private Long userId;
 
-    /**
-     * 配置 JSON，结构见 {@link StudyRoomUserConfigBO}
-     */
+    /** 配置 JSON，结构见 {@link StudyRoomUserConfigBO} */
     @Column(name = "config_json", nullable = false, length = 16_777_215)
     @Comment(value = "配置 JSON")
     private String configJson;

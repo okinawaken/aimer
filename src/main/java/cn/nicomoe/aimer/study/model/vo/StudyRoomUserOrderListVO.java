@@ -6,18 +6,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 我的订单（/mp/user/userOrder/list）
- *
- * @author bixiu
- * @since 4.2.0
- */
+/** 我的订单（/mp/user/userOrder/list） */
 @Data
 @AutoMapper(target = StudyRoomUserOrderListClientRespDTO.class)
 public class StudyRoomUserOrderListVO {
 
-    /**
-     * 订单列表
-     */
+    /** 订单列表 */
     private List<StudyRoomUserOrderVO> list;
 }
