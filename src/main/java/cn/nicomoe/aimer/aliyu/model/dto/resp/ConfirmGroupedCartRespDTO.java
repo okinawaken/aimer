@@ -1,0 +1,126 @@
+package cn.nicomoe.aimer.aliyu.model.dto.resp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+/**
+ * 由真实响应自动反推生成（2026-11-15）。
+ */
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ConfirmGroupedCartRespDTO {
+    private Object allGoodVos;
+    private Object asyncCreate;
+    private Object asyncTaskMsg;
+    private Object bearerVoPager;
+    private Object cartGoods;
+    private Object cartShowVos;
+    private Boolean closeOneTicketOneCard;
+    private Boolean closeRealNameLimitBuy;
+    private Object countryAreaCode;
+    private java.util.List<Object> couponCartShowVos;
+    private String couponDiscountMoney;
+    private Object credentialList;
+    private Object customerAccount;
+    private Object customerIntegral;
+    private Object discountCode;
+    private String distributionMoney;
+    private Object emailDesensitize;
+    private Boolean emptyShoppingCarts;
+    private Object eventAddress;
+    private Object expressTicket;
+    private String firstPayMoney;
+    private Object goodType;
+    private Long goodsCount;
+    private Boolean hideQRCodePickupAddress;
+    private Object hotProjectTip;
+    private Object invalidCartShowVos;
+    private Object invalidGoodVos;
+    private java.util.List<Object> invalidSingleCartShowVos;
+    private Object isGaOrder;
+    private Object isPwyLink;
+    private Object lastPayEndTime;
+    private String lastPayMoney;
+    private Object lastPayStartTime;
+    private Long limitTotalType;
+    private Object midPayEndTime;
+    private String midPayMoney;
+    private Object midPayStartTime;
+    private Object nameDesensitize;
+    private Boolean needOnlinePay;
+    private Object nextQueryCount;
+    private Object nextQueryTaskPeriod;
+    private Object noticeType;
+    private Object notifyContent;
+    private String onlinePaymentFenMoney;
+    private String onlinePaymentMoney;
+    private Object orderDiscountId;
+    private String orderDiscountMoney;
+    private java.util.List<Object> orderDiscounts;
+    private String orderFavorableMoney;
+    private Long orderGoodsCount;
+    private String orderGoodsDiscountMoney;
+    private String orderGoodsDiscountedMoney;
+    private String orderGoodsOriginalMoney;
+    private String orderGoodsReceiveMoney;
+    private Object orderId;
+    private String orderOriginMoney;
+    private Object orderPersents;
+    private String orderTotalMoney;
+    private Object orderType;
+    private String originFirstPayMoney;
+    private String originLastPayMoney;
+    private String originMidPayMoney;
+    private Object payStep;
+    private Object paymentDiscountId;
+    private String paymentDiscountMoney;
+    private Object paymentDiscounts;
+    private Object phoneDesensitize;
+    private Long pickUpType;
+    private Object pointFlag;
+    private Object presaleRuleType;
+    private String priceDiscountMoney;
+    private Object projectPtnrId;
+    private Object projectTenantId;
+    private Object promoCodeDiscountId;
+    private String promoCodeDiscountMoney;
+    private java.util.List<Object> promoCodeDiscounts;
+    private Object promoCodeResult;
+    private String promotionActivityMoney;
+    private Object qrcodeType;
+    private String receivableMoney;
+    private Object refundProjectRuleVo;
+    private Object seatFreeCombine;
+    private Object serviceToken;
+    private Object sessionId;
+    private Object shoppingCartToken;
+    private Object showGegMemberShip;
+    private java.util.List<Object> singleCartShowVos;
+    private Object studentDiscount;
+    private Object surchargeMoneyVOS;
+    private Object thirdDiscountVo;
+    private Object thirdMarkets;
+    private Object ticketCardFlag;
+    private Object ticketCerts;
+    private Object ticketTypeTips;
+    private Object token;
+    private String totalAmount;
+    private Object totalCount;
+    private Object totalDeduction;
+    private Object totalDerate;
+    private Object totalDiscount;
+    private Object totalIntegralAmount;
+    private Object totalIntegrationAmount;
+    private String totalMoneyAmount;
+    private String useBalanceMoney;
+    private String useDeductionMoney;
+    private Long useDeductionPoint;
+    private Object useGiftCardId;
+    private String useGiftCardMoney;
+    private Object useGiftCardNo;
+    private Object userDistributionPager;
+    private Object userGiftCardVos;
+    private String userToken;
+
+
+}
