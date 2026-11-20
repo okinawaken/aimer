@@ -3,15 +3,21 @@ package cn.nicomoe.aimer.study.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 储物柜下单结果（/mp/cabinetGrip/v2/lease/commit） */
+/**
+ * 储物柜下单结果（/mp/cabinetGrip/v2/lease/commit）
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomCabinetLeaseCommitClientRespDTO {
 
-    /** 租约ID（随后调 lease/pay 时作为 leaseId） */
+    /**
+     * 租约ID（随后调 lease/pay 时作为 leaseId）
+     */
     private Long id;
 
-    /** 支付单ID */
+    /**
+     * 支付单ID
+     */
     private Long payId;
 
 }

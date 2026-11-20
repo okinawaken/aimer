@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface StudyRoomAutoReserveTaskRecordRepository extends JpaRepository<StudyRoomAutoReserveTaskRecordDO, Long> {
 
-    /** 查询任务在指定目标日期的执行记录。 返回：记录列表 */
+    /**
+     * 查询任务在指定目标日期的执行记录。 返回：记录列表
+     */
     List<StudyRoomAutoReserveTaskRecordDO> findByTaskIdAndTargetDate(Long taskId, LocalDate targetDate);
 }

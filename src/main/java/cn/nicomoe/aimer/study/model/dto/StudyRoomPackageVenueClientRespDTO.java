@@ -5,23 +5,35 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 套餐可用门店 */
+/**
+ * 套餐可用门店
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomPackageVenueClientRespDTO {
 
-    /** 门店ID */
+    /**
+     * 门店ID
+     */
     private Long id;
 
-    /** 门店名称 */
+    /**
+     * 门店名称
+     */
     private String venueName;
 
-    /** 门店地址 */
+    /**
+     * 门店地址
+     */
     private String venueAddress;
 
-    /** 距离（km） */
+    /**
+     * 距离（km）
+     */
     private Double distance;
 
-    /** 可用区域 */
+    /**
+     * 可用区域
+     */
     private List<StudyRoomPackageAreaClientRespDTO> venueAreaList;
 }

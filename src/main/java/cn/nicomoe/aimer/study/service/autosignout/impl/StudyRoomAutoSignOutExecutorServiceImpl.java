@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-/** 按过滤器链给出的会话逐条签退；单条失败不影响其余记录。 */
+/**
+ * 按过滤器链给出的会话逐条签退；单条失败不影响其余记录。
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

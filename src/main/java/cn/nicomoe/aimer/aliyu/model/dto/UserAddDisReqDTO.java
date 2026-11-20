@@ -1,43 +1,69 @@
 package cn.nicomoe.aimer.aliyu.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-/** 新增联系人请求（{@code POST /user/addDis}），{@code email/telPhone} 为 RSA 加密字段。 */
+/**
+ * 新增联系人请求（{@code POST /user/addDis}），{@code email/telPhone} 为 RSA 加密字段。 空字段不序列化。
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserAddDisReqDTO {
 
-    /** 收件人姓名（编辑时未修改则传 null） */
+    /**
+     * 收件人姓名（编辑时未修改则传 null）
+     */
     private String receiverName;
 
-    /** 国家/地区 ID */
+    /**
+     * 国家/地区 ID
+     */
     private String countryId;
 
-    /** 省 ID */
+    /**
+     * 省 ID
+     */
     private String provinceId;
 
-    /** 市 ID */
+    /**
+     * 市 ID
+     */
     private String cityId;
 
-    /** 区 ID */
+    /**
+     * 区 ID
+     */
     private String areaId;
 
-    /** 是否默认地址（布尔） */
+    /**
+     * 是否默认地址（布尔）
+     */
     private Boolean isdefault;
 
-    /** 详细地址 */
+    /**
+     * 详细地址
+     */
     private String receiverAddress;
 
-    /** 联系人 ID（新增时为空） */
+    /**
+     * 联系人 ID（新增时为空）
+     */
     private String disId;
 
-    /** 邮箱（RSA 加密字段） */
+    /**
+     * 邮箱（RSA 加密字段）
+     */
     private String email;
 
-    /** 电话国际区号 */
+    /**
+     * 电话国际区号
+     */
     private String countryAreaCode;
 
-    /** 联系电话（RSA 加密字段，与原始值不同才传） */
+    /**
+     * 联系电话（RSA 加密字段，与原始值不同才传）
+     */
     private String telPhone;
 }

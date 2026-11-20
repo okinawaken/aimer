@@ -4,14 +4,20 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomUserReserveCancelTipClientRespD
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
-/** 取消预约提示（/mp/user/userReserve/cancel/tip） */
+/**
+ * 取消预约提示（/mp/user/userReserve/cancel/tip）
+ */
 @Data
 @AutoMapper(target = StudyRoomUserReserveCancelTipClientRespDTO.class)
 public class StudyRoomUserReserveCancelTipVO {
 
-    /** 确认弹窗文案 */
+    /**
+     * 确认弹窗文案
+     */
     private String tipDesc;
 
-    /** 预约记录ID */
+    /**
+     * 预约记录ID
+     */
     private Long userReserveId;
 }

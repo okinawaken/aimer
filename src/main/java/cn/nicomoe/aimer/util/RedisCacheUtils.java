@@ -23,13 +23,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/** Redis 缓存工具。 <p>按 Redis 数据结构拆分为静态内部类，调用方式如 {@code RedisCacheUtils.Strings.set(...)}。</p> */
+/**
+ * Redis 缓存工具。 <p>按 Redis 数据结构拆分为静态内部类，调用方式如 {@code RedisCacheUtils.Strings.set(...)}。</p>
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RedisCacheUtils {
 
     private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.class);
 
-    /** 键操作：删除、过期、存在性与扫描。 */
+    /**
+     * 键操作：删除、过期、存在性与扫描。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Keys {
 
@@ -60,7 +64,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** String：对象缓存与原子计数。 */
+    /**
+     * String：对象缓存与原子计数。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Strings {
 
@@ -106,7 +112,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** List：列表。 */
+    /**
+     * List：列表。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Lists {
 
@@ -129,7 +137,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** Hash：哈希表。 */
+    /**
+     * Hash：哈希表。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Hashes {
 
@@ -159,7 +169,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** Sorted Set：有序集合。 */
+    /**
+     * Sorted Set：有序集合。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class ZSets {
 
@@ -226,7 +238,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** Pub/Sub：发布订阅。 */
+    /**
+     * Pub/Sub：发布订阅。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class PubSub {
 
@@ -247,7 +261,9 @@ public final class RedisCacheUtils {
         }
     }
 
-    /** Redis 模块：令牌桶限流。 */
+    /**
+     * Redis 模块：令牌桶限流。
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class RateLimiters {
 

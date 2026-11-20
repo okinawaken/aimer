@@ -9,7 +9,9 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomAutoReserveTaskInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** 任务已暂停则终止链路并跳过（仍会写一条跳过记录）。 */
+/**
+ * 任务已暂停则终止链路并跳过（仍会写一条跳过记录）。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveEnabledFilter implements StudyRoomAutoReserveFilter {

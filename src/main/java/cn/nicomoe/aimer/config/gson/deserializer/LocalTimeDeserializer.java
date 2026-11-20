@@ -8,7 +8,9 @@ import java.lang.reflect.Type;
 import java.time.LocalTime;
 import java.util.Objects;
 
-/** {@link LocalTime} 的 Gson 反序列化器：ISO 文本（如 {@code 08:00}）转 {@code LocalTime}。 */
+/**
+ * {@link LocalTime} 的 Gson 反序列化器：ISO 文本（如 {@code 08:00}）转 {@code LocalTime}。
+ */
 public class LocalTimeDeserializer implements JsonDeserializer<LocalTime> {
 
     @Override

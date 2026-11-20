@@ -26,7 +26,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/** 阿里鱼小程序风控头计算服务实现。 <p>{@code coeus} 按请求路径子串匹配高风险接口清单。 <p>对齐小程序 v37 模块 93323 的 hecate 算法：请求明文按 JS 语义规范化、按 {@code localeCompare} 排序键、按 {@code JSON.stringify} 约定序列化，再以 UTF-16 码元视角编码后取 MD5。不复用 Erupt 数字适配器，避免在应用 JS 双精度语义前改变数值。 <p>{@code localeCompare} 与 {@code Number::toString} 语义由本地实现完成。 */
+/**
+ * 阿里鱼小程序风控头计算服务实现。 <p>{@code coeus} 按请求路径子串匹配高风险接口清单。 <p>对齐小程序 v37 模块 93323 的 hecate 算法：请求明文按 JS 语义规范化、按 {@code localeCompare} 排序键、按 {@code JSON.stringify} 约定序列化，再以 UTF-16 码元视角编码后取 MD5。不复用 Erupt 数字适配器，避免在应用 JS 双精度语义前改变数值。 <p>{@code localeCompare} 与 {@code Number::toString} 语义由本地实现完成。
+ */
 @Service
 public class AliyuRiskServiceImpl implements AliyuRiskService {
 
@@ -50,7 +52,7 @@ public class AliyuRiskServiceImpl implements AliyuRiskService {
     private static final int[] COLLATION_ORDER = new int[128];
     private static final Gson SIGN_GSON = new GsonBuilder().serializeNulls().serializeSpecialFloatingPointValues().create();
     private static final Gson JSON_PARSER = new GsonBuilder().setStrictness(Strictness.STRICT).create();
-    private static final char[] COLLATION_SEQUENCE = new char[] {
+    private static final char[] COLLATION_SEQUENCE = new char[]{
             ' ', '_', '-', ',', ';', ':', '!', '?', '.', '\'', '"', '(', ')', '[', ']', '{', '}',
             '@', '*', '/', '\\', '&', '#', '%', '`', '^', '+', '<', '=', '>', '|', '~', '$',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -59,8 +61,6 @@ public class AliyuRiskServiceImpl implements AliyuRiskService {
             'q', 'Q', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X',
             'y', 'Y', 'z', 'Z'
     };
-
-    /** {@code coeus} 为高等级的路径清单，按子串匹配。 例如 {@code /user/getDisInfo} 也匹配 {@code /user/getDis}。 */
     private static final Set<String> COEUS_HIGH_PATHS = Set.of(
             "/user/loginUser",
             "/pro/projects",
@@ -114,7 +114,7 @@ public class AliyuRiskServiceImpl implements AliyuRiskService {
         if (canonical instanceof Map<?, ?> map) {
             Map<String, Object> result = new LinkedHashMap<>(map.size() + 1);
             map.forEach((key, value) -> result.put(Convert.toStr(key), value));
-            result.put(AliyuApiConstants.Header.EPEIUS, timestamp);
+            result.put(AliyuApiConstants.RequestHeader.EPEIUS, timestamp);
             return result;
         }
         if (canonical instanceof List<?> list) {
@@ -419,31 +419,15 @@ public class AliyuRiskServiceImpl implements AliyuRiskService {
 
     private String formatMantissa(String digits, int k, int n) {
         if (k <= n && n <= ECMA_FIXED_POINT_MAX_N) {
-            return this.appendTrailingZeros(digits, k, n);
+            return StrUtil.padAfter(digits, n, '0');
         }
         if (0 < n && n <= ECMA_FIXED_POINT_MAX_N) {
             return digits.substring(0, n) + "." + digits.substring(n);
         }
         if (ECMA_EXPONENT_FORM_MIN_N < n && n <= 0) {
-            return this.prependLeadingZeros(digits, n);
+            return "0." + StrUtil.padPre(digits, digits.length() - n, '0');
         }
         return this.formatExponential(digits, k, n - 1);
-    }
-
-    private String appendTrailingZeros(String digits, int k, int n) {
-        StringBuilder result = new StringBuilder(digits);
-        for (int i = k; i < n; i++) {
-            result.append('0');
-        }
-        return result.toString();
-    }
-
-    private String prependLeadingZeros(String digits, int n) {
-        StringBuilder result = new StringBuilder("0.");
-        for (int i = 0; i < -n; i++) {
-            result.append('0');
-        }
-        return result.append(digits).toString();
     }
 
     private String formatExponential(String digits, int k, int exponent) {

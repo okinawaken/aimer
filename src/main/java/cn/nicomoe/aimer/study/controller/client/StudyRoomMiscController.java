@@ -37,7 +37,9 @@ import xyz.erupt.core.constant.EruptRestPath;
 import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 import xyz.erupt.core.view.R;
 
-/** 自习室其他域接口：储物柜、团购券核销 */
+/**
+ * 自习室其他域接口：储物柜、团购券核销
+ */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -46,7 +48,9 @@ public class StudyRoomMiscController {
 
     private final StudyRoomMiscService miscService;
 
-    /** 储物柜租赁订单（无业务参数） */
+    /**
+     * 储物柜租赁订单（无业务参数）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cabinet/lease/order/list")
     public R<StudyRoomCabinetLeaseOrderListVO> cabinetLeaseOrderList() {
@@ -55,7 +59,9 @@ public class StudyRoomMiscController {
         return R.ok(leaseOrderListVO);
     }
 
-    /** 储物柜租赁支付（参数走 query，leaseId 必须是整数） */
+    /**
+     * 储物柜租赁支付（参数走 query，leaseId 必须是整数）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cabinet/lease/pay")
     public R<StudyRoomWxPayParamVO> cabinetLeasePay(@RequestParam(value = "leaseId") Long leaseId, @RequestParam(value = "userId") Long userId) {
@@ -64,7 +70,9 @@ public class StudyRoomMiscController {
         return R.ok(wxPayParamVO);
     }
 
-    /** 储物柜下单，返回租约 ID */
+    /**
+     * 储物柜下单，返回租约 ID
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cabinet/lease/commit")
     public R<StudyRoomCabinetLeaseCommitVO> cabinetLeaseCommit(@RequestBody StudyRoomCabinetLeaseCommitClientReqDTO form) {
@@ -73,7 +81,9 @@ public class StudyRoomMiscController {
         return R.ok(leaseCommitVO);
     }
 
-    /** 储物柜逾期支付（参数走 query） */
+    /**
+     * 储物柜逾期支付（参数走 query）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cabinet/lease/overdue/pay")
     public R<StudyRoomCabinetLeaseOverduePayVO> cabinetLeaseOverduePay(@RequestParam(value = "leaseId") Long leaseId, @RequestParam(value = "userCode") String userCode) {
@@ -82,7 +92,9 @@ public class StudyRoomMiscController {
         return R.ok(overduePayVO);
     }
 
-    /** 储物柜自动退租（按最近一次租约） */
+    /**
+     * 储物柜自动退租（按最近一次租约）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/cabinet/lease/auto-checkout")
     public R<Void> cabinetLeaseAutoCheckout(@RequestParam(value = "lastLeaseId") Long lastLeaseId) {
@@ -90,7 +102,9 @@ public class StudyRoomMiscController {
         return R.ok();
     }
 
-    /** 储物柜开锁（WiFi 开锁，按柜格） */
+    /**
+     * 储物柜开锁（WiFi 开锁，按柜格）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cabinet/wifi/open")
     public R<Void> cabinetWifiOpen(@RequestBody StudyRoomCabinetWifiOpenClientReqDTO form) {
@@ -98,7 +112,9 @@ public class StudyRoomMiscController {
         return R.ok();
     }
 
-    /** 门店的储物柜列表 */
+    /**
+     * 门店的储物柜列表
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/cabinet/venue/list")
     public R<StudyRoomCabinetVenueListVO> cabinetVenueList(@RequestParam(value = "venueId") Integer venueId) {
@@ -107,7 +123,9 @@ public class StudyRoomMiscController {
         return R.ok(cabinetVenueListVO);
     }
 
-    /** 柜体的格口列表 */
+    /**
+     * 柜体的格口列表
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/cabinet/grid/list")
     public R<StudyRoomCabinetGridListVO> cabinetGridList(@RequestParam(value = "cabinetId") Integer cabinetId) {
@@ -116,7 +134,9 @@ public class StudyRoomMiscController {
         return R.ok(cabinetGridListVO);
     }
 
-    /** 我当前已租的柜格列表 */
+    /**
+     * 我当前已租的柜格列表
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/cabinet/user/grid/list")
     public R<StudyRoomCabinetUserGridListVO> cabinetUserGridList(@RequestParam(value = "venueId") Integer venueId) {
@@ -125,7 +145,9 @@ public class StudyRoomMiscController {
         return R.ok(userGridListVO);
     }
 
-    /** 柜格定价 */
+    /**
+     * 柜格定价
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/cabinet/grid/price")
     public R<StudyRoomCabinetGridPriceVO> cabinetGridPrice(@RequestParam(value = "gridId") Integer gridId) {
@@ -134,7 +156,9 @@ public class StudyRoomMiscController {
         return R.ok(gridPriceVO);
     }
 
-    /** 美团团购券核销 */
+    /**
+     * 美团团购券核销
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/receipt/consume")
     public R<StudyRoomConsumeResultVO> receiptConsume(@RequestBody StudyRoomReceiptConsumeClientReqDTO form) {
@@ -143,7 +167,9 @@ public class StudyRoomMiscController {
         return R.ok(consumeResultVO);
     }
 
-    /** 抖音券核销 */
+    /**
+     * 抖音券核销
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/douyin/verify")
     public R<StudyRoomConsumeResultVO> douYinVerify(@RequestBody StudyRoomDouYinVerifyClientReqDTO form) {
@@ -152,7 +178,9 @@ public class StudyRoomMiscController {
         return R.ok(consumeResultVO);
     }
 
-    /** 图片上传（当前不支持） */
+    /**
+     * 图片上传（当前不支持）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/image/upload")
     public R<Void> uploadImage() {

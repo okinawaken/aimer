@@ -4,15 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-/** CSRF token 响应（{@code GET /getCsrfToken}）。 */
+/**
+ * CSRF token 响应（{@code GET /getCsrfToken}）。
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AliyuCsrfTokenRespDTO {
 
-    /** CSRF token 明文 */
+    /**
+     * CSRF token 明文
+     */
     @JsonProperty(value = "xsrfToken")
     private String csrfToken;
 
-    /** 有效期（秒），真机实测为 60 */
+    /**
+     * 有效期（秒），真机实测为 60
+     */
     private Long expireTime;
 }

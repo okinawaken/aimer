@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-/** 执行星期过滤器 */
+/**
+ * 执行星期过滤器
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveWeekdayFilter implements StudyRoomAutoReserveFilter {

@@ -11,7 +11,9 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** 按待签到预约的门店查详情并写入上下文；后续签到首页用该门店经纬度当定位。 */
+/**
+ * 按待签到预约的门店查详情并写入上下文；后续签到首页用该门店经纬度当定位。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignVenueFilter implements StudyRoomAutoSignFilter {

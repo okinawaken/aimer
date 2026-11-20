@@ -18,7 +18,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-/** 执行记录服务：任务归属单独落在 {@code task_id} 列，执行明细在 {@code detail_json}。 */
+/**
+ * 执行记录服务：任务归属单独落在 {@code task_id} 列，执行明细在 {@code detail_json}。
+ */
 @Service
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveTaskRecordServiceImpl implements StudyRoomAutoReserveTaskRecordService {

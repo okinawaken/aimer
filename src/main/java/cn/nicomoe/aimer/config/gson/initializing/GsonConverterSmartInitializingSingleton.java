@@ -7,7 +7,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-/** 把 Erupt 启动时注册的 Gson 消息转换器换成 {@link GsonUtils#getGson()}， 让 HTTP 序列化也支持 {@link java.time.LocalTime}，并与代码级序列化共用同一实例。 */
+/**
+ * 把 Erupt 启动时注册的 Gson 消息转换器换成 {@link GsonUtils#getGson()}， 让 HTTP 序列化也支持 {@link java.time.LocalTime}，并与代码级序列化共用同一实例。
+ */
 @RequiredArgsConstructor
 public class GsonConverterSmartInitializingSingleton implements SmartInitializingSingleton {
 

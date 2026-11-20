@@ -6,22 +6,30 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
-/** 自动签退开关 */
+/**
+ * 自动签退开关
+ */
 @Getter
 @RequiredArgsConstructor
 public enum StudyRoomAutoSignOutEnableEnum implements BaseEnum<Integer> {
 
-    /** 关闭：不参与自动签退 */
+    /**
+     * 关闭：不参与自动签退
+     */
     DISABLED(0, "关闭"),
 
-    /** 开启：定时扫描已到期的已签到预约并自动签退 */
+    /**
+     * 开启：定时扫描已到期的已签到预约并自动签退
+     */
     ENABLED(1, "开启");
 
     private final Integer value;
 
     private final String description;
 
-    /** 是否开启自动签退 */
+    /**
+     * 是否开启自动签退
+     */
     public static boolean isEnabled(Integer value) {
         return Objects.equals(ENABLED.getValue(), value);
     }

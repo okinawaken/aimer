@@ -4,17 +4,25 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomReserveAnotherCheckClientRespDT
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
-/** 是否还能再约一座（/mp/reserve/another/check） */
+/**
+ * 是否还能再约一座（/mp/reserve/another/check）
+ */
 @Data
 @AutoMapper(target = StudyRoomReserveAnotherCheckClientRespDTO.class)
 public class StudyRoomReserveAnotherCheckVO {
 
-    /** 是否可再约：1 可以 */
+    /**
+     * 是否可再约：1 可以
+     */
     private Integer canReserveAnother;
 
-    /** 是否有可用的加座套餐：1 有 */
+    /**
+     * 是否有可用的加座套餐：1 有
+     */
     private Integer hasReserveAnotherPackage;
 
-    /** 不可再约原因 */
+    /**
+     * 不可再约原因
+     */
     private String descNoReserveAnother;
 }

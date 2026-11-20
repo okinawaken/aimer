@@ -91,7 +91,9 @@ public class StudyRoomAutoReserveExecutorServiceImpl implements StudyRoomAutoRes
         }
     }
 
-    /** 构建执行记录响应对象。 */
+    /**
+     * 构建执行记录响应对象。
+     */
     private StudyRoomAutoReserveTaskRecordInfoDTO buildTaskRecordDTO(StudyRoomAutoReserveContext context, StudyRoomAutoReserveTaskRecordStatusEnum statusEnum, String errorMsg) {
         StudyRoomAutoReserveTaskRecordInfoDTO taskRecordDTO = new StudyRoomAutoReserveTaskRecordInfoDTO();
         taskRecordDTO.setTriggerType(context.getTriggerType());

@@ -9,7 +9,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-/** 自动签到执行事件监听器：异步转交执行器。 */
+/**
+ * 自动签到执行事件监听器：异步转交执行器。
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -17,7 +19,9 @@ public class StudyRoomAutoSignExecuteListener {
 
     private final StudyRoomAutoSignExecutorService executorService;
 
-    /** 处理自动签到执行事件。 */
+    /**
+     * 处理自动签到执行事件。
+     */
     @Async
     @EventListener
     public void onExecuteEvent(StudyRoomAutoSignExecuteEvent event) {

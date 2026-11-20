@@ -10,6 +10,7 @@ import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskServic
 import cn.nicomoe.aimer.util.MapstructUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import xyz.erupt.upms.service.EruptUserService;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = EruptRestPath.ERUPT_API + "/study/auto-reserve/task")
@@ -34,7 +36,9 @@ public class StudyRoomAutoReserveTaskController {
     private final StudyRoomAutoReserveTaskService taskService;
     private final EruptUserService eruptUserService;
 
-    /** 查询任务列表。 */
+    /**
+     * 查询任务列表。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping
     public R<List<StudyRoomAutoReserveTaskInfoVO>> list(StudyRoomAutoReserveTaskQuery query) {
@@ -44,7 +48,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok(taskInfoListVO);
     }
 
-    /** 查询任务详情。 */
+    /**
+     * 查询任务详情。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/{id}")
     public R<StudyRoomAutoReserveTaskInfoVO> get(@PathVariable(value = "id") Long id) {
@@ -54,7 +60,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok(taskInfoVO);
     }
 
-    /** 创建任务。 */
+    /**
+     * 创建任务。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping
     public R<Long> create(@Valid @RequestBody StudyRoomAutoReserveTaskReqDTO req) {
@@ -62,7 +70,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok(taskService.create(currentUid, req));
     }
 
-    /** 修改任务。 */
+    /**
+     * 修改任务。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PutMapping(value = "/{id}")
     public R<Void> update(@PathVariable(value = "id") Long id,
@@ -72,7 +82,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok();
     }
 
-    /** 删除任务。 */
+    /**
+     * 删除任务。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @DeleteMapping
     public R<Void> delete(@RequestBody List<Long> ids) {
@@ -81,7 +93,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok();
     }
 
-    /** 暂停任务。 */
+    /**
+     * 暂停任务。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/{id}/pause")
     public R<Void> pause(@PathVariable(value = "id") Long id) {
@@ -90,7 +104,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok();
     }
 
-    /** 恢复任务。 */
+    /**
+     * 恢复任务。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/{id}/resume")
     public R<Void> resume(@PathVariable(value = "id") Long id) {
@@ -99,7 +115,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok();
     }
 
-    /** 立即执行一次。 */
+    /**
+     * 立即执行一次。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/{id}/execute")
     public R<Void> execute(@PathVariable(value = "id") Long id) {
@@ -108,7 +126,9 @@ public class StudyRoomAutoReserveTaskController {
         return R.ok();
     }
 
-    /** 查询指定门店的区域 / 座位下拉选项。 */
+    /**
+     * 查询指定门店的区域 / 座位下拉选项。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/seat/options")
     public R<List<StudyRoomAutoReserveSeatOptionVO>> seatOptions(@RequestParam(value = "venueId") Integer venueId) {

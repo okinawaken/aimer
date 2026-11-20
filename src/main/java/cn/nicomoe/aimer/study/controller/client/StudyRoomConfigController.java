@@ -24,7 +24,9 @@ public class StudyRoomConfigController {
 
     private final StudyRoomConfigService configService;
 
-    /** 小程序全局配置（含可提前预约天数、保留时长等） */
+    /**
+     * 小程序全局配置（含可提前预约天数、保留时长等）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/sys")
     public R<StudyRoomConfigVO> sysConfig() {
@@ -33,7 +35,9 @@ public class StudyRoomConfigController {
         return R.ok(configVO);
     }
 
-    /** 公告栏 */
+    /**
+     * 公告栏
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/notice")
     public R<StudyRoomNoticeVO> noticeBoard(

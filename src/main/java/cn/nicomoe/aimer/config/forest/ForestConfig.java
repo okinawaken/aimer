@@ -7,12 +7,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Forest 客户端扫描配置 */
+/**
+ * Forest 客户端扫描配置
+ */
 @Configuration
 @ForestScan(basePackages = "cn.nicomoe.aimer.*.client.http")
 public class ForestConfig {
 
-    /** 带 Java 8 时间支持的 Forest Jackson 转换器。 返回：Forest JSON 转换器 */
+    /**
+     * 带 Java 8 时间支持的 Forest Jackson 转换器。 返回：Forest JSON 转换器
+     */
     @Bean
     public ForestJacksonConverter forestJacksonConverter() {
         ForestJacksonConverter converter = new ForestJacksonConverter();

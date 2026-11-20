@@ -6,6 +6,7 @@ import cn.nicomoe.aimer.study.model.vo.StudyRoomAutoReserveTaskRecordInfoVO;
 import cn.nicomoe.aimer.study.service.autoreserve.StudyRoomAutoReserveTaskRecordService;
 import cn.nicomoe.aimer.util.MapstructUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import xyz.erupt.upms.service.EruptUserService;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = EruptRestPath.ERUPT_API + "/study/auto-reserve/task/record")
@@ -24,7 +26,9 @@ public class StudyRoomAutoReserveTaskRecordController {
     private final StudyRoomAutoReserveTaskRecordService recordService;
     private final EruptUserService eruptUserService;
 
-    /** 查询执行记录列表。 */
+    /**
+     * 查询执行记录列表。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping
     public R<List<StudyRoomAutoReserveTaskRecordInfoVO>> list(StudyRoomAutoReserveTaskRecordQuery query) {

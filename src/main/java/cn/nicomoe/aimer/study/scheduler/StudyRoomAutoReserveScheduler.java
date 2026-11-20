@@ -16,7 +16,9 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
-/** 自动预约调度器：每分钟扫描启用中的任务，放号时刻已过且当天未执行过才发事件。 执行异步进行，扫描不等结果；重启后当天未落记录仍会补跑。 */
+/**
+ * 自动预约调度器：每分钟扫描启用中的任务，放号时刻已过且当天未执行过才发事件。 执行异步进行，扫描不等结果；重启后当天未落记录仍会补跑。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveScheduler {
@@ -25,7 +27,9 @@ public class StudyRoomAutoReserveScheduler {
     private final StudyRoomUserSettingService settingService;
     private final ApplicationEventPublisher eventPublisher;
 
-    /** 扫描启用中的任务并发布执行事件。 */
+    /**
+     * 扫描启用中的任务并发布执行事件。
+     */
     @Scheduled(cron = "0 * * * * ?")
     public void scan() {
         List<StudyRoomAutoReserveTaskInfoDTO> taskInfoDTOList = taskService.listEnabledTasks();

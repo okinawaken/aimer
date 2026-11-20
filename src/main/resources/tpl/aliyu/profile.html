@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round" data-buttons="solid" data-motion>
+<head>
+    <meta charset="utf-8">
+    <base href="${base}/">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>阿里鱼个人资料：会员等级与基本资料</title>
+    <meta name="description" content="查看阿里鱼会员等级、小鱼丸和成长值，修改昵称、性别与生日。">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#e2e2e2">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="阿里鱼个人资料：会员等级与基本资料">
+    <meta property="og:description" content="查看阿里鱼会员等级、小鱼丸和成长值，修改昵称、性别与生日。">
+    <meta property="og:image" content="aliyu/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="aliyu/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="aliyu/fonts/fonts.css">
+    <link rel="stylesheet" href="aliyu/css/aliyu.css">
+    <link rel="stylesheet" href="aliyu/assets/motion.css">
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+</head>
+<body>
+<!-- type: software · deal: hero split, nav none (Erupt iframe), footer none, rhythm dark-band,
+     buttons solid, mark wordmark, palette oxblood-grey, type funnel, radius round · moment:
+     counter-rolls on the three identity figures (once, on load; still under reduced motion) -->
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="hero page-head" data-enter>
+    <div class="wrap">
+        <div class="page-head__main">
+            <p class="eyebrow">阿里鱼 · 账号</p>
+            <h1>个人资料</h1>
+            <p class="lead">会员等级、小鱼丸与成长值，以及阿里鱼账号的基本资料。昵称、性别和生日可以在这里改。</p>
+        </div>
+    </div>
+</header>
+
+<main id="main">
+    <section class="section" id="stateSection" hidden aria-labelledby="state-h">
+        <div class="wrap">
+            <article class="card m-nolift" id="stateCard"></article>
+        </div>
+    </section>
+
+    <section class="section" data-profile-section aria-labelledby="identity-h">
+        <div class="wrap">
+            <article class="card m-nolift profile-overview">
+                <div class="card-head profile-overview__head">
+                    <div>
+                        <h2 id="identity-h">账号</h2>
+                        <p id="identityState" aria-live="polite">读取中</p>
+                    </div>
+                </div>
+                <div class="profile-overview__identity" id="identityBody">
+                    <div class="identity">
+                        <div class="skeleton skeleton--avatar"></div>
+                        <div class="identity__body" style="flex:1">
+                            <div class="skeleton skeleton--line"></div>
+                            <div class="skeleton skeleton--line"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" data-profile-section aria-labelledby="basic-h">
+        <div class="wrap">
+            <div class="grid">
+                <div class="span-7">
+                    <article class="card m-nolift">
+                        <div class="card-head card-head--split">
+                            <div>
+                                <h2 id="basic-h">基本资料</h2>
+                                <p>来自阿里鱼账号；只改昵称、性别和生日，其余字段在小程序内修改。</p>
+                            </div>
+                            <button class="btn btn--secondary btn--sm" id="btnEdit" type="button" hidden>编辑资料</button>
+                        </div>
+                        <div id="basicBody">
+                            <div class="skeleton skeleton--line"></div>
+                            <div class="skeleton skeleton--line"></div>
+                            <div class="skeleton skeleton--line"></div>
+                        </div>
+                    </article>
+                </div>
+                <aside class="span-5">
+                    <article class="card m-nolift">
+                        <div class="card-head">
+                            <h2>资料说明</h2>
+                        </div>
+                        <p class="hint">手机号和证件信息来自阿里鱼账号，需要在小程序内修改。凭证失效时，先去用户设置重新绑定。</p>
+                    </article>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="benefitsSection" aria-labelledby="benefits-h" hidden>
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <h2 id="benefits-h">会员权益</h2>
+                    <p id="benefitsSub">来自当前会员等级</p>
+                </div>
+            </div>
+            <div class="benefit-grid" id="benefitGrid"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="app-foot">
+    <div class="wrap grid app-foot__inner">
+        <span class="span-6">阿里鱼 · 个人资料</span>
+        <span class="span-5 start-8">资料读取自阿里鱼账号</span>
+    </div>
+</footer>
+
+<div class="toast-stack" aria-live="polite"></div>
+
+<script type="module" src="aliyu/assets/motion.js"></script>
+<script type="module" src="aliyu/js/profile.js"></script>
+</body>
+</html>

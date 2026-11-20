@@ -179,7 +179,9 @@ public class StudyRoomReserveServiceImpl implements StudyRoomReserveService {
         return reserveListDTO;
     }
 
-    /** 按状态描述筛选预约记录：状态为空时剔除已取消（含爽约系统取消），否则只保留匹配描述的记录。 */
+    /**
+     * 按状态描述筛选预约记录：状态为空时剔除已取消（含爽约系统取消），否则只保留匹配描述的记录。
+     */
     private List<StudyRoomUserReserveClientRespDTO> filterByStatusDesc(List<StudyRoomUserReserveClientRespDTO> reserveList, String statusDesc) {
         if (CollUtil.isEmpty(reserveList)) {
             return reserveList;

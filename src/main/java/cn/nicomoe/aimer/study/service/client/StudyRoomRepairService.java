@@ -6,12 +6,18 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomRepairSubmitClientReqDTO;
 
 public interface StudyRoomRepairService {
 
-    /** 提交报修。 */
+    /**
+     * 提交报修。
+     */
     void submitRepair(StudyRoomRepairSubmitClientReqDTO form);
 
-    /** 报修列表。 */
+    /**
+     * 报修列表。
+     */
     StudyRoomRepairListClientRespDTO repairList();
 
-    /** 报修详情。 */
+    /**
+     * 报修详情。
+     */
     StudyRoomRepairClientRespDTO repairDetail(Long id);
 }

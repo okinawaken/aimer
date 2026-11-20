@@ -14,42 +14,68 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomDouYinVerifyClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomReceiptConsumeClientReqDTO;
 import cn.nicomoe.aimer.study.model.dto.StudyRoomWxPayParamClientRespDTO;
 
-/** 自习室其他域服务：储物柜、团购券核销。 */
+/**
+ * 自习室其他域服务：储物柜、团购券核销。
+ */
 public interface StudyRoomMiscService {
 
-    /** 储物柜租赁订单。 */
+    /**
+     * 储物柜租赁订单。
+     */
     StudyRoomCabinetLeaseOrderListClientRespDTO cabinetLeaseOrderList();
 
-    /** 储物柜租赁支付，返回支付参数。 */
+    /**
+     * 储物柜租赁支付，返回支付参数。
+     */
     StudyRoomWxPayParamClientRespDTO cabinetLeasePay(Long leaseId, Long userId);
 
-    /** 储物柜下单。 */
+    /**
+     * 储物柜下单。
+     */
     StudyRoomCabinetLeaseCommitClientRespDTO cabinetLeaseCommit(StudyRoomCabinetLeaseCommitClientReqDTO form);
 
-    /** 储物柜逾期支付，返回支付参数。 */
+    /**
+     * 储物柜逾期支付，返回支付参数。
+     */
     StudyRoomCabinetLeaseOverduePayClientRespDTO cabinetLeaseOverduePay(Long leaseId, String userCode);
 
-    /** 储物柜自动退租。 */
+    /**
+     * 储物柜自动退租。
+     */
     void cabinetLeaseAutoCheckout(Long lastLeaseId);
 
-    /** 储物柜开锁。 */
+    /**
+     * 储物柜开锁。
+     */
     void cabinetWifiOpen(StudyRoomCabinetWifiOpenClientReqDTO form);
 
-    /** 门店的储物柜列表。 */
+    /**
+     * 门店的储物柜列表。
+     */
     StudyRoomCabinetVenueListClientRespDTO cabinetVenueList(Integer venueId);
 
-    /** 柜体的格口列表。 */
+    /**
+     * 柜体的格口列表。
+     */
     StudyRoomCabinetGridListClientRespDTO cabinetGridList(Integer cabinetId);
 
-    /** 我当前已租的柜格列表。 */
+    /**
+     * 我当前已租的柜格列表。
+     */
     StudyRoomCabinetUserGridListClientRespDTO cabinetUserGridList(Integer venueId);
 
-    /** 柜格定价。 */
+    /**
+     * 柜格定价。
+     */
     StudyRoomCabinetGridPriceClientRespDTO cabinetGridPrice(Integer gridId);
 
-    /** 美团团购券核销。 */
+    /**
+     * 美团团购券核销。
+     */
     StudyRoomConsumeResultClientRespDTO receiptConsume(StudyRoomReceiptConsumeClientReqDTO form);
 
-    /** 抖音券核销。 */
+    /**
+     * 抖音券核销。
+     */
     StudyRoomConsumeResultClientRespDTO douYinVerify(StudyRoomDouYinVerifyClientReqDTO form);
 }

@@ -27,52 +27,84 @@ import java.util.List;
 
 public interface StudyRoomSignService {
 
-    /** 签到首页。 */
+    /**
+     * 签到首页。
+     */
     StudyRoomIndexClientRespDTO studyIndex(StudyRoomIndexClientReqDTO form);
 
-    /** 签到首页（指定用户）。 */
+    /**
+     * 签到首页（指定用户）。
+     */
     StudyRoomIndexClientRespDTO studyIndex(StudyRoomIndexClientReqDTO form, Long userId);
 
-    /** 签到选座座位图。 */
+    /**
+     * 签到选座座位图。
+     */
     StudyRoomSignSeatListClientRespDTO studySeatList(StudyRoomSignSeatQueryClientReqDTO form);
 
-    /** 签到选座座位图（指定用户）。 */
+    /**
+     * 签到选座座位图（指定用户）。
+     */
     StudyRoomSignSeatListClientRespDTO studySeatList(
             StudyRoomSignSeatQueryClientReqDTO form, Long userId);
 
-    /** 换座座位图。 */
+    /**
+     * 换座座位图。
+     */
     StudyRoomSignSeatMapClientRespDTO studyChangeSeatList(StudyRoomChangeSeatClientReqDTO form);
 
-    /** 签退可选结算套餐。 */
+    /**
+     * 签退可选结算套餐。
+     */
     List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form);
 
-    /** 签退可选结算套餐（指定用户）。 */
+    /**
+     * 签退可选结算套餐（指定用户）。
+     */
     List<StudyRoomSettlePackageClientRespDTO> studySettlePackageSelect(StudyRoomSettlePackageClientReqDTO form, Long userId);
 
-    /** 是否可再签一个座位。 */
+    /**
+     * 是否可再签一个座位。
+     */
     StudyRoomSignAnotherCheckClientRespDTO studySignAnotherCheck(Integer venueId);
 
-    /** 签退。 */
+    /**
+     * 签退。
+     */
     StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form);
 
-    /** 签退（指定用户）。 */
+    /**
+     * 签退（指定用户）。
+     */
     StudyRoomSignOutClientRespDTO studySignOut(StudyRoomSignOutClientReqDTO form, Long userId);
 
-    /** 学习排行榜。 */
+    /**
+     * 学习排行榜。
+     */
     StudyRoomRankClientRespDTO studyRank(StudyRoomRankClientReqDTO form);
 
-    /** 签到选座确认。 */
+    /**
+     * 签到选座确认。
+     */
     StudyRoomSeatConfirmClientRespDTO studySeatConfirm(StudyRoomSeatConfirmClientReqDTO form);
 
-    /** 换座确认。 */
+    /**
+     * 换座确认。
+     */
     StudyRoomChangeSeatConfirmClientRespDTO studyChangeSeatConfirm(StudyRoomChangeSeatConfirmClientReqDTO form);
 
-    /** 进入签退结算。 */
+    /**
+     * 进入签退结算。
+     */
     StudyRoomSettlementClientRespDTO studySettlement(StudyRoomSettlementClientReqDTO form);
 
-    /** 确认签退结算套餐。 */
+    /**
+     * 确认签退结算套餐。
+     */
     StudyRoomUserPackageConfirmClientRespDTO studyUserPackageConfirm(StudyRoomUserPackageConfirmClientReqDTO form);
 
-    /** 座位灯控。 */
+    /**
+     * 座位灯控。
+     */
     void espLightTurn(StudyRoomEspLightTurnClientReqDTO form);
 }

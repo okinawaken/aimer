@@ -1,8 +1,12 @@
 package cn.nicomoe.aimer.study.service.autosign;
 
-/** 自动签到执行器 */
+/**
+ * 自动签到执行器
+ */
 public interface StudyRoomAutoSignExecutorService {
 
-    /** 为指定用户执行一次自动签到 */
+    /**
+     * 为指定用户执行一次自动签到
+     */
     void execute(Long userId);
 }

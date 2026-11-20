@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/** 在座签到记录查询过滤器 */
+/**
+ * 在座签到记录查询过滤器
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignOutActiveSessionFilter implements StudyRoomAutoSignOutFilter {

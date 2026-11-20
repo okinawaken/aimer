@@ -7,16 +7,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/** 自动预约过滤器链，按顺序执行过滤器，遇到失败立即返回。 */
+/**
+ * 自动预约过滤器链，按顺序执行过滤器，遇到失败立即返回。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveFilterChain {
 
     private final List<StudyRoomAutoReserveFilter> filters;
 
-    /** 按顺序执行过滤器链，遇到失败立即返回 */
+    /**
+     * 按顺序执行过滤器链，遇到失败立即返回
+     */
     public FilterResultDTO<?> doFilter(StudyRoomAutoReserveContext context) {
-        for (StudyRoomAutoReserveFilter filter : this.filters) {
+        for (StudyRoomAutoReserveFilter filter : filters) {
             FilterResultDTO<?> result = filter.doFilter(context);
             if (!result.isSuccess()) {
                 return result;

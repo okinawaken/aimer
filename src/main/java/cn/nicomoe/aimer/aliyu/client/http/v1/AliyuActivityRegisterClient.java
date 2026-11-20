@@ -15,30 +15,44 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/** 活动报名 / 抽奖域。 */
+/**
+ * 活动报名 / 抽奖域。
+ */
 public interface AliyuActivityRegisterClient extends AliyuBaseClient {
 
-    /** 报名活动详情。 */
+    /**
+     * 报名活动详情。
+     */
     @Get(url = "/act/registerActDetail")
     AliyuClientResult<RegisterActDetailRespDTO> registerActDetail(@Query(value = "actId") String actId);
 
-    /** 报名活动列表。 */
+    /**
+     * 报名活动列表。
+     */
     @Post(url = "/act/registerActList")
     AliyuClientResult<RegisterActListRespDTO> registerActList(@JSONBody ActivityRegisterActListReqDTO body);
 
-    /** 活动报名。 */
+    /**
+     * 活动报名。
+     */
     @Post(url = "/act/registerUser")
     AliyuClientResult<Boolean> registerUser(@JSONBody ActivityRegisterUserReqDTO body);
 
-    /** 抽奖列表。 */
+    /**
+     * 抽奖列表。
+     */
     @Post(url = "/act/drawList")
     AliyuClientResult<DrawListRespDTO> drawList(@JSONBody ActivityDrawListReqDTO body);
 
-    /** 活动注册（开售提醒登记）。 */
+    /**
+     * 活动注册（开售提醒登记）。响应 {@code data} 为操作成功标识。
+     */
     @Post(url = "/event/register/eventRegister")
-    AliyuClientResult<Object> eventRegister(@JSONBody EventRegisterEventRegisterReqDTO body);
+    AliyuClientResult<Boolean> eventRegister(@JSONBody EventRegisterEventRegisterReqDTO body);
 
-    /** 更新开售提醒。 */
+    /**
+     * 更新开售提醒。响应 {@code data} 为操作成功标识。
+     */
     @Post(url = "/event/register/updateSaleRemind")
-    AliyuClientResult<Object> updateSaleRemind(@JSONBody EventRegisterUpdateSaleRemindReqDTO body);
+    AliyuClientResult<Boolean> updateSaleRemind(@JSONBody EventRegisterUpdateSaleRemindReqDTO body);
 }

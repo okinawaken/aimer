@@ -4,14 +4,20 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomAreaClientRespDTO;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
-/** 区域（/mp/reserve/area/select） */
+/**
+ * 区域（/mp/reserve/area/select）
+ */
 @Data
 @AutoMapper(target = StudyRoomAreaClientRespDTO.class)
 public class StudyRoomAreaVO {
 
-    /** 区域ID */
+    /**
+     * 区域ID
+     */
     private Long id;
 
-    /** 区域名称 */
+    /**
+     * 区域名称
+     */
     private String areaName;
 }

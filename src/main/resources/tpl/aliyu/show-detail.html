@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round" data-buttons="solid" data-motion>
+<head>
+    <meta charset="utf-8">
+    <base href="${base}/">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>阿里鱼演出详情：场次、开售提醒与场馆须知</title>
+    <meta name="description" content="查看一场演出的时间、场次、票价、开售提醒与场馆须知。选好场次后可以设置开售提醒，或直接进入购票页下单。">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#e2e2e2">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="阿里鱼演出详情：场次、开售提醒与场馆须知">
+    <meta property="og:description" content="查看一场演出的时间、场次、票价、开售提醒与场馆须知。选好场次后可以设置开售提醒，或直接进入购票页下单。">
+    <meta property="og:image" content="aliyu/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="aliyu/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="aliyu/fonts/fonts.css">
+    <link rel="stylesheet" href="aliyu/css/aliyu.css">
+    <link rel="stylesheet" href="aliyu/assets/motion.css">
+    <link rel="stylesheet" href="aliyu/css/show-detail.css">
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+</head>
+<body>
+<!-- type: software · deal: hero split, nav none (Erupt iframe), footer none, rhythm dark-band,
+     buttons solid, mark wordmark, palette oxblood-grey, type funnel, radius round · moment: the
+     poster develops once on load (filter and opacity; still under reduced motion) -->
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="hero page-head detail-head" data-enter id="detailHead">
+    <div class="wrap grid detail-hero">
+        <div class="detail-hero__main">
+            <p class="eyebrow">阿里鱼 · 演出</p>
+            <div id="heroLoading">
+                <div class="skeleton detail-skel-title"></div>
+                <div class="skeleton skeleton--line"></div>
+                <div class="skeleton skeleton--line"></div>
+                <div class="skeleton detail-skel-cta"></div>
+            </div>
+            <div id="heroBody" hidden>
+                <h1 id="detailTitle">演出详情</h1>
+                <p class="detail-loc" id="detailLoc"></p>
+                <p class="detail-date" id="detailDate"></p>
+                <div class="detail-price-row" id="detailPriceRow">
+                    <p class="detail-price"><span id="detailPrice">票价见场次</span></p>
+                    <span class="chip detail-price-desc" id="detailPriceDesc" hidden></span>
+                </div>
+                <div class="detail-hero__actions">
+                    <span class="status-pill" id="detailSale" role="status">
+                        <span class="dot" aria-hidden="true"></span>
+                        <span id="detailSaleText">读取中</span>
+                    </span>
+                    <a class="btn btn--primary" href="#sessions">选择场次</a>
+                </div>
+            </div>
+        </div>
+        <div class="detail-hero__side">
+            <div class="detail-poster" id="detailPoster">
+                <div class="skeleton detail-poster__skeleton"></div>
+            </div>
+        </div>
+    </div>
+    <p class="visually-hidden" id="pageStatus" role="status" aria-live="polite"></p>
+</header>
+
+<main id="main">
+
+    <section class="section" id="loadingSection" aria-label="正在加载演出详情">
+        <div class="wrap grid">
+            <div class="span-7">
+                <article class="card m-nolift">
+                    <div class="skeleton detail-skel-summary"></div>
+                    <div class="skeleton skeleton--line"></div>
+                    <div class="skeleton skeleton--line"></div>
+                    <div class="skeleton skeleton--line"></div>
+                </article>
+            </div>
+            <div class="span-5">
+                <article class="card m-nolift">
+                    <div class="skeleton skeleton--line"></div>
+                    <div class="skeleton skeleton--line"></div>
+                    <div class="skeleton detail-skel-cta"></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="stateSection" hidden aria-labelledby="state-h">
+        <div class="wrap">
+            <article class="card m-nolift state-card" id="stateCard"></article>
+        </div>
+    </section>
+
+    <section class="section" id="sessions" data-detail-section hidden aria-labelledby="sessions-h">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <h2 id="sessions-h">选择场次</h2>
+                    <p>按日期挑一场，右侧会显示票价、限购与开售倒计时。</p>
+                </div>
+                <p class="hint" id="sessionsStatus" role="status" aria-live="polite"></p>
+            </div>
+            <div class="grid session-layout">
+                <div class="span-7">
+                    <div class="date-strip" id="dateStrip" role="group" aria-label="按日期筛选场次"></div>
+                    <div class="event-list" id="eventList"></div>
+                </div>
+                <aside class="span-5">
+                    <article class="card m-nolift summary-card" id="summaryCard">
+                        <div class="card-head">
+                            <h3>已选场次</h3>
+                            <p id="summaryState" aria-live="polite">还没有选择场次</p>
+                        </div>
+                        <div id="summaryBody"></div>
+                        <a class="btn btn--primary summary-cta" id="buyBtn" hidden>立即购票</a>
+                        <button class="btn btn--primary summary-cta" id="remindBtn" type="button" disabled>先选择场次</button>
+                        <p class="summary-status" id="remindStatus" role="status" aria-live="polite"></p>
+                        <p class="summary-note">下单在这里完成，支付在阿里鱼小程序继续</p>
+                    </article>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="intro" data-detail-section hidden aria-labelledby="intro-h">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <h2 id="intro-h">演出介绍</h2>
+                    <p>来自阿里鱼的项目详情。</p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="span-7">
+                    <article class="card m-nolift">
+                        <div class="rich-text" id="richDetail"></div>
+                    </article>
+                </div>
+                <aside class="span-5">
+                    <article class="card m-nolift" id="introFactsCard">
+                        <div class="card-head">
+                            <h3>观演信息</h3>
+                        </div>
+                        <div class="kv" id="introRows"></div>
+                    </article>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="venue" data-detail-section hidden aria-labelledby="venue-h">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <h2 id="venue-h">场馆与须知</h2>
+                    <p>入场、寄存与退票规则以阿里鱼页面为准。</p>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="span-5">
+                    <article class="card m-nolift" id="venueCard">
+                        <div class="card-head">
+                            <h3>场馆</h3>
+                        </div>
+                        <div class="kv" id="venueRows"></div>
+                    </article>
+                </div>
+                <div class="span-7">
+                    <article class="card m-nolift" id="noticeCard">
+                        <div class="card-head">
+                            <h3>须知</h3>
+                        </div>
+                        <div id="noticeBody"></div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="hot" data-detail-section hidden aria-labelledby="hot-h">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <h2 id="hot-h">热门演出</h2>
+                    <p>阿里鱼正在热门的项目。</p>
+                </div>
+            </div>
+            <div class="hot-grid" id="hotGrid"></div>
+            <p class="hint hot-status" id="hotStatus" role="status" aria-live="polite"></p>
+        </div>
+    </section>
+</main>
+
+<footer class="app-foot">
+    <div class="wrap grid app-foot__inner">
+        <span class="span-6">阿里鱼 · 演出详情</span>
+        <span class="span-5 start-8">场次与票价读取自阿里鱼</span>
+    </div>
+</footer>
+
+<div class="action-bar" id="actionBar" hidden>
+    <div class="action-bar__info">
+        <p class="action-bar__title" id="actionBarTitle"></p>
+        <p class="action-bar__meta" id="actionBarMeta"></p>
+    </div>
+    <div class="action-bar__actions" id="actionBarActions"></div>
+</div>
+
+<div class="toast-stack" aria-live="polite"></div>
+
+<script type="module" src="aliyu/assets/motion.js"></script>
+<script type="module" src="aliyu/js/show-detail.js"></script>
+</body>
+</html>

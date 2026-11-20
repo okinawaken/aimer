@@ -3,17 +3,25 @@ package cn.nicomoe.aimer.study.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 未购买套餐推荐 */
+/**
+ * 未购买套餐推荐
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomNotBuyPackageClientRespDTO {
 
-    /** 套餐名称 */
+    /**
+     * 套餐名称
+     */
     private String packageName;
 
-    /** 套餐类型 */
+    /**
+     * 套餐类型
+     */
     private Integer packageType;
 
-    /** 套餐简介 */
+    /**
+     * 套餐简介
+     */
     private String packageIntroDesc;
 }

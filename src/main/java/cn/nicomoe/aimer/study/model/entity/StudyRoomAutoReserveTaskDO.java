@@ -21,7 +21,9 @@ import xyz.erupt.jpa.model.MetaModel;
 import java.io.Serial;
 import java.time.LocalDate;
 
-/** 自动预约任务实体（表 {@code study_room_auto_reserve_task}）。 座位、区域、时段、星期存在 {@code task_json}；查询与索引字段独立成列。 */
+/**
+ * 自动预约任务实体（表 {@code study_room_auto_reserve_task}）。 座位、区域、时段、星期存在 {@code task_json}；查询与索引字段独立成列。
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = StudyRoomAutoReserveTaskInfoDTO.class)
@@ -41,39 +43,53 @@ public class StudyRoomAutoReserveTaskDO extends MetaModel {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /** 系统用户 ID */
+    /**
+     * 系统用户 ID
+     */
     @Column(name = "user_id", nullable = false)
     @Comment(value = "系统用户 ID")
     private Long userId;
 
-    /** 门店 ID */
+    /**
+     * 门店 ID
+     */
     @Column(name = "venue_id", nullable = false)
     @Comment(value = "门店 ID")
     private Integer venueId;
 
-    /** 门店名称（冗余，避免列表页反复调上游） */
+    /**
+     * 门店名称（冗余，避免列表页反复调上游）
+     */
     @Column(name = "venue_name", nullable = false, length = 128)
     @Comment(value = "门店名称")
     private String venueName;
 
-    /** 任务详情 JSON，结构见 {@link StudyRoomAutoReserveTaskConfigBO} */
+    /**
+     * 任务详情 JSON，结构见 {@link StudyRoomAutoReserveTaskConfigBO}
+     */
     @Column(name = "task_json", nullable = false, length = 16_777_215)
     @Comment(value = "任务详情 JSON")
     private String taskJson;
 
-    /** 启用状态，见 {@link StudyRoomAutoReserveTaskEnableStatusEnum} */
+    /**
+     * 启用状态，见 {@link StudyRoomAutoReserveTaskEnableStatusEnum}
+     */
     @JdbcTypeCode(value = SqlTypes.TINYINT)
     @ColumnDefault(value = "1")
     @Column(name = "enable_status", nullable = false)
     @Comment(value = "是否启用：0 暂停，1 启用")
     private Integer enableStatus;
 
-    /** 暂停原因 */
+    /**
+     * 暂停原因
+     */
     @Column(name = "pause_reason")
     @Comment(value = "暂停原因")
     private String pauseReason;
 
-    /** 放号基线日期 */
+    /**
+     * 放号基线日期
+     */
     @Column(name = "last_max_reserve_date")
     @Comment(value = "放号基线日期")
     private LocalDate lastMaxReserveDate;

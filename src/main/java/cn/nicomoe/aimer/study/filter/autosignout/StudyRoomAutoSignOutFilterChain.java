@@ -7,16 +7,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/** 自动签退过滤器链，按顺序执行过滤器，遇到失败立即返回。 */
+/**
+ * 自动签退过滤器链，按顺序执行过滤器，遇到失败立即返回。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignOutFilterChain {
 
     private final List<StudyRoomAutoSignOutFilter> filters;
 
-    /** 按顺序执行过滤器链，遇到失败立即返回 */
+    /**
+     * 按顺序执行过滤器链，遇到失败立即返回
+     */
     public FilterResultDTO<?> doFilter(StudyRoomAutoSignOutContext context) {
-        for (StudyRoomAutoSignOutFilter filter : this.filters) {
+        for (StudyRoomAutoSignOutFilter filter : filters) {
             FilterResultDTO<?> result = filter.doFilter(context);
             if (!result.isSuccess()) {
                 return result;

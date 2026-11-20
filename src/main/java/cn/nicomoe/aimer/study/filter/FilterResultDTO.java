@@ -3,7 +3,9 @@ package cn.nicomoe.aimer.study.filter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 过滤器执行结果，包含成功标识、数据和失败原因。 */
+/**
+ * 过滤器执行结果，包含成功标识、数据和失败原因。
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FilterResultDTO<T> {
@@ -14,12 +16,16 @@ public class FilterResultDTO<T> {
 
     private String errorMsg;
 
-    /** 构造成功结果 */
+    /**
+     * 构造成功结果
+     */
     public static <T> FilterResultDTO<T> success() {
         return success(null);
     }
 
-    /** 构造带数据的成功结果 */
+    /**
+     * 构造带数据的成功结果
+     */
     public static <T> FilterResultDTO<T> success(T data) {
         FilterResultDTO<T> result = new FilterResultDTO<>();
         result.setSuccess(true);
@@ -27,7 +33,9 @@ public class FilterResultDTO<T> {
         return result;
     }
 
-    /** 构造失败结果 */
+    /**
+     * 构造失败结果
+     */
     public static <T> FilterResultDTO<T> fail(String errorMsg) {
         FilterResultDTO<T> result = new FilterResultDTO<>();
         result.setSuccess(false);

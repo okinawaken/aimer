@@ -6,11 +6,15 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 储物柜租赁订单列表（/mp/cabinetGrip/v2/lease/order/list） */
+/**
+ * 储物柜租赁订单列表（/mp/cabinetGrip/v2/lease/order/list）
+ */
 @Data
 @AutoMapper(target = StudyRoomCabinetLeaseOrderListClientRespDTO.class)
 public class StudyRoomCabinetLeaseOrderListVO {
 
-    /** 订单列表 */
+    /**
+     * 订单列表
+     */
     private List<StudyRoomCabinetLeaseOrderVO> list;
 }

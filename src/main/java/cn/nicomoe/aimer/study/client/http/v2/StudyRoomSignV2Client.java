@@ -33,54 +33,80 @@ import com.dtflys.forest.annotation.Var;
 
 import java.util.List;
 
-/** 签到域（显式用户上下文）：签到、换座、签退、排行榜，与 {@link StudyRoomSignClient} 一一对应，只是用户 ID 通过 {@code @Var} 显式传入，供定时任务等无登录上下文的线程使用。 */
+/**
+ * 签到域（显式用户上下文）：签到、换座、签退、排行榜，与 {@link StudyRoomSignClient} 一一对应，只是用户 ID 通过 {@code @Var} 显式传入，供定时任务等无登录上下文的线程使用。
+ */
 public interface StudyRoomSignV2Client extends StudyRoomBaseClient {
 
-    /** 签到首页：当前签到信息、附近门店、可选套餐 */
+    /**
+     * 签到首页：当前签到信息、附近门店、可选套餐
+     */
     @Get(url = "/mp/study/index")
     StudyRoomClientResult<StudyRoomIndexClientRespDTO> studyIndex(@Query(value = "currentLng") Double currentLng, @Query(value = "currentLat") Double currentLat, @Query(value = "venueId") Integer venueId, @Query(value = "bssid") String bssid, @Query(value = "ssid") String ssid, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 签到选座。该接口有两种响应：普通用户返回座位图（{@code code=200}），存在待签到预约的用户由上游直接完成签到，返回 {@code code=SV0001} + 「预约座位XXX签到成功！」文案（{@code data=1}），两种形态由 {@link StudyRoomSignSeatListClientRespDTO} 统一承接。 */
+    /**
+     * 签到选座。该接口有两种响应：普通用户返回座位图（{@code code=200}），存在待签到预约的用户由上游直接完成签到，返回 {@code code=SV0001} + 「预约座位XXX签到成功！」文案（{@code data=1}），两种形态由 {@link StudyRoomSignSeatListClientRespDTO} 统一承接。
+     */
     @Post(url = "/mp/study/seat/list")
     StudyRoomClientResult<StudyRoomSignSeatListClientRespDTO> studySeatList(@JSONBody StudyRoomSignSeatQueryClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 换座座位图 */
+    /**
+     * 换座座位图
+     */
     @Post(url = "/mp/study/change/seat/list")
     StudyRoomClientResult<StudyRoomSignSeatMapClientRespDTO> studyChangeSeatList(@JSONBody StudyRoomChangeSeatClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 签退可选结算套餐（实测 {@code data} 是数组） */
+    /**
+     * 签退可选结算套餐（实测 {@code data} 是数组）
+     */
     @Post(url = "/mp/study/settlePackage/select")
     StudyRoomClientResult<List<StudyRoomSettlePackageClientRespDTO>> studySettlePackageSelect(@JSONBody StudyRoomSettlePackageClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 是否可再签一个座位 */
+    /**
+     * 是否可再签一个座位
+     */
     @Get(url = "/mp/study/signAnother/check")
     StudyRoomClientResult<StudyRoomSignAnotherCheckClientRespDTO> studySignAnotherCheck(@Query(value = "venueId") Integer venueId, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 签退（扫码签退），返回结算结果 */
+    /**
+     * 签退（扫码签退），返回结算结果
+     */
     @Post(url = "/mp/study/signOut")
     StudyRoomClientResult<StudyRoomSignOutClientRespDTO> studySignOut(@JSONBody StudyRoomSignOutClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 学习排行榜 */
+    /**
+     * 学习排行榜
+     */
     @Post(url = "/mp/study/rank/index")
     StudyRoomClientResult<StudyRoomRankClientRespDTO> studyRank(@JSONBody StudyRoomRankClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 签到选座确认（真正入座）。与 {@link #studySeatList} 配对使用：先取座位图选座，再调本接口落座。 */
+    /**
+     * 签到选座确认（真正入座）。与 {@link #studySeatList} 配对使用：先取座位图选座，再调本接口落座。
+     */
     @Post(url = "/mp/study/seat/confirm")
     StudyRoomClientResult<StudyRoomSeatConfirmClientRespDTO> studySeatConfirm(@JSONBody StudyRoomSeatConfirmClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 换座确认。与 {@link #studyChangeSeatList} 配对使用。未签到时调用会返回「还未签到，不能换座」。 */
+    /**
+     * 换座确认。与 {@link #studyChangeSeatList} 配对使用。未签到时调用会返回「还未签到，不能换座」。
+     */
     @Post(url = "/mp/study/change/seat/confirm")
     StudyRoomClientResult<StudyRoomChangeSeatConfirmClientRespDTO> studyChangeSeatConfirm(@JSONBody StudyRoomChangeSeatConfirmClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 进入签退结算：返回结算明细 + 可选结算套餐 */
+    /**
+     * 进入签退结算：返回结算明细 + 可选结算套餐
+     */
     @Post(url = "/mp/study/settlement")
     StudyRoomClientResult<StudyRoomSettlementClientRespDTO> studySettlement(@JSONBody StudyRoomSettlementClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 确认签退结算套餐（选套餐扣费） */
+    /**
+     * 确认签退结算套餐（选套餐扣费）
+     */
     @Post(url = "/mp/study/userPackage/confirm")
     StudyRoomClientResult<StudyRoomUserPackageConfirmClientRespDTO> studyUserPackageConfirm(@JSONBody StudyRoomUserPackageConfirmClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 
-    /** 座位灯控（开灯 / 关灯） */
+    /**
+     * 座位灯控（开灯 / 关灯）
+     */
     @Post(url = "/mp/espLight/turn")
     StudyRoomClientResult<Void> espLightTurn(@JSONBody StudyRoomEspLightTurnClientReqDTO form, @Var(value = StudyRoomApiConstants.Variable.USER_ID) Long userId);
 

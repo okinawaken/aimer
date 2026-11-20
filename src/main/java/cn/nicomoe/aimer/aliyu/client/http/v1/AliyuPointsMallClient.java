@@ -9,6 +9,7 @@ import cn.nicomoe.aimer.aliyu.model.dto.PointsExchangeListRespDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallCurrentStoreReqDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallCurrentStoreRespDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallMemberCouponListReqDTO;
+import cn.nicomoe.aimer.aliyu.model.dto.PointsMallPointsExchangeDetailReqDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallPointsExchangeListReqDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallPrizeExchangeReqDTO;
 import cn.nicomoe.aimer.aliyu.model.dto.PointsMallPrizeStoreReqDTO;
@@ -31,86 +32,122 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/** 积分商城域。奖品 / 壁纸兑换、会员券、积分兑换订单。 */
+/**
+ * 积分商城域。
+ */
 public interface AliyuPointsMallClient extends AliyuBaseClient {
 
-    /** 当前门店（响应为门店数组，见 {@link PointsMallCurrentStoreRespDTO}）。 参数 query：会员卡 ID、定位与已选门店（均有值时小程序才传） */
+    /**
+     * 当前门店。
+     */
     @Get(url = "/aliyuMember/pointsMall/currentStore")
     AliyuClientResult<java.util.List<PointsMallCurrentStoreRespDTO>> currentStore(@Query PointsMallCurrentStoreReqDTO query);
 
-    /** 奖品列表。 */
+    /**
+     * 奖品列表。
+     */
     @Get(url = "/aliyuMember/pointsMall/prize/list")
     AliyuClientResult<PrizeListRespDTO> prizeList(@Query(value = "pageNo") Integer pageNo,
                                                   @Query(value = "pageSize") Integer pageSize,
                                                   @Query(value = "cardId") String cardId,
                                                   @Query(value = "storeId") String storeId);
 
-    /** 奖品详情。 */
+    /**
+     * 奖品详情。
+     */
     @Get(url = "/aliyuMember/pointsMall/prize/detail")
     AliyuClientResult<PrizeDetailRespDTO> prizeDetail(@Query(value = "id") String id,
                                                       @Query(value = "cardId") String cardId,
                                                       @Query(value = "storeId") String storeId);
 
-    /** 奖品兑换校验。 */
+    /**
+     * 奖品兑换校验。
+     */
     @Get(url = "/aliyuMember/pointsMall/prize/check")
     AliyuClientResult<PrizeCheckRespDTO> prizeCheck(@Query(value = "pointsPrizeId") String pointsPrizeId,
                                                     @Query(value = "cardId") String cardId,
                                                     @Query(value = "amount") Integer amount,
                                                     @Query(value = "storeId") String storeId);
 
-    /** 奖品可用门店。 参数 query：会员卡 / 门店 ID 与定位（{@code latitude/longitude} 为字符串） */
+    /**
+     * 奖品可用门店。
+     */
     @Get(url = "/aliyuMember/pointsMall/prize/store")
     AliyuClientResult<java.util.List<PointsMallPrizeStoreRespDTO>> prizeStore(@Query PointsMallPrizeStoreReqDTO query);
 
-    /** 奖品兑换（消耗小鱼丸）。 */
+    /**
+     * 奖品兑换（消耗小鱼丸）。
+     */
     @Post(url = "/aliyuMember/pointsMall/prize/exchange")
     AliyuClientResult<PrizeExchangeRespDTO> prizeExchange(@JSONBody PointsMallPrizeExchangeReqDTO body);
 
-    /** 壁纸列表。 参数 query：分页与可选 IP 编码 */
+    /**
+     * 壁纸列表。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/list")
     AliyuClientResult<WallpaperListRespDTO> wallpaperList(@Query PointsMallWallpaperListReqDTO query);
 
-    /** 壁纸详情。 */
+    /**
+     * 壁纸详情。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/detail")
     AliyuClientResult<WallpaperDetailRespDTO> wallpaperDetail(@Query(value = "pointsPrizeId") String pointsPrizeId);
 
-    /** 壁纸系列详情。 */
+    /**
+     * 壁纸系列详情。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/seriesDetail")
     AliyuClientResult<WallpaperSeriesRespDTO> wallpaperSeriesDetail(@Query(value = "seriesId") String seriesId);
 
-    /** 壁纸兑换校验。 */
+    /**
+     * 壁纸兑换校验。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/check")
     AliyuClientResult<WallpaperCheckRespDTO> wallpaperCheck(@Query(value = "pointsPrizeId") String pointsPrizeId,
                                                             @Query(value = "cardId") String cardId,
                                                             @Query(value = "amount") Integer amount,
                                                             @Query(value = "storeId") String storeId);
 
-    /** 壁纸下载。 */
+    /**
+     * 壁纸下载。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/download")
     AliyuClientResult<WallpaperDownloadRespDTO> wallpaperDownload(@Query(value = "materialId") String materialId);
 
-    /** 壁纸装扮首页。 参数 pageNo：页码参数 pageSize：每页数量 */
+    /**
+     * 壁纸装扮首页。
+     */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/dressHome")
     AliyuClientResult<WallpaperDressHomeRespDTO> wallpaperDressHome(@Query(value = "pageNo") Integer pageNo,
                                                                     @Query(value = "pageSize") Integer pageSize);
 
-    /** 壁纸兑换。 */
+    /**
+     * 壁纸兑换。
+     */
     @Post(url = "/aliyuMember/pointsMall/wallpaper/exchange")
     AliyuClientResult<WallpaperExchangeRespDTO> wallpaperExchange(@JSONBody PointsMallWallpaperExchangeReqDTO body);
 
-    /** 会员券详情。 */
+    /**
+     * 会员券详情。
+     */
     @Get(url = "/aliyuMember/memberCoupon/detail")
     AliyuClientResult<MemberCouponRespDTO> memberCouponDetail(@Query(value = "memberCouponId") String memberCouponId);
 
-    /** 会员券列表。 */
+    /**
+     * 会员券列表。
+     */
     @Post(url = "/aliyuMember/memberCoupon/list")
     AliyuClientResult<MemberCouponListRespDTO> memberCouponList(@JSONBody PointsMallMemberCouponListReqDTO body);
 
-    /** 积分兑换订单详情。 */
+    /**
+     * 积分兑换订单详情。
+     */
     @Get(url = "/aliyuMember/order/pointsExchange/detail")
-    AliyuClientResult<PointsExchangeDetailRespDTO> pointsExchangeDetail();
+    AliyuClientResult<PointsExchangeDetailRespDTO> pointsExchangeDetail(@Query PointsMallPointsExchangeDetailReqDTO query);
 
-    /** 积分兑换订单列表。 */
+    /**
+     * 积分兑换订单列表。
+     */
     @Post(url = "/aliyuMember/order/pointsExchange/list")
     AliyuClientResult<PointsExchangeListRespDTO> pointsExchangeList(@JSONBody PointsMallPointsExchangeListReqDTO body);
 }

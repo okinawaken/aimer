@@ -6,12 +6,18 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomUserLeaveEnterClientRespDTO;
 
 public interface StudyRoomLeaveService {
 
-    /** 进入请假页。 */
+    /**
+     * 进入请假页。
+     */
     StudyRoomUserLeaveEnterClientRespDTO userLeaveEnter(Long userPackageId);
 
-    /** 确认请假。 */
+    /**
+     * 确认请假。
+     */
     Integer userLeaveConfirm(StudyRoomUserLeaveConfirmClientReqDTO form);
 
-    /** 取消请假。 */
+    /**
+     * 取消请假。
+     */
     Integer userLeaveCancel(StudyRoomUserLeaveCancelClientReqDTO form);
 }

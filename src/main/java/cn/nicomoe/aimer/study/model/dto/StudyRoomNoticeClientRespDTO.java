@@ -3,23 +3,35 @@ package cn.nicomoe.aimer.study.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 通知公告（/mp/notice/board/info） */
+/**
+ * 通知公告（/mp/notice/board/info）
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomNoticeClientRespDTO {
 
-    /** 是否展示：1 展示 0 不展示 */
+    /**
+     * 是否展示：1 展示 0 不展示
+     */
     private Integer showFlag;
 
-    /** 标题 */
+    /**
+     * 标题
+     */
     private String title;
 
-    /** 公告内容（支持富文本） */
+    /**
+     * 公告内容（支持富文本）
+     */
     private String noticeMsg;
 
-    /** 确认按钮文案 */
+    /**
+     * 确认按钮文案
+     */
     private String buttonText;
 
-    /** 门店名称 */
+    /**
+     * 门店名称
+     */
     private String venueName;
 }

@@ -14,7 +14,9 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** 按待签到预约的门店查签到首页，取 {@code signInUserPackage.signInUserPackageId} 作为扣费套餐。 */
+/**
+ * 按待签到预约的门店查签到首页，取 {@code signInUserPackage.signInUserPackageId} 作为扣费套餐。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignPackageFilter implements StudyRoomAutoSignFilter {

@@ -10,18 +10,26 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Var;
 
-/** 报修域：提交报修、报修记录 */
+/**
+ * 报修域：提交报修、报修记录
+ */
 public interface StudyRoomRepairClient extends StudyRoomBaseClient {
 
-    /** 提交报修（实测成功时 {@code data} 为 {@code null}） */
+    /**
+     * 提交报修（实测成功时 {@code data} 为 {@code null}）
+     */
     @Post(url = "/mp/userRepair/submit")
     StudyRoomClientResult<Void> submitRepair(@JSONBody StudyRoomRepairSubmitClientReqDTO form);
 
-    /** 报修列表 */
+    /**
+     * 报修列表
+     */
     @Get(url = "/mp/userRepair/list")
     StudyRoomClientResult<StudyRoomRepairListClientRespDTO> repairList();
 
-    /** 报修详情 */
+    /**
+     * 报修详情
+     */
     @Get(url = "/mp/userRepair/detail/${id}")
     StudyRoomClientResult<StudyRoomRepairClientRespDTO> repairDetail(@Var(value = "id") Long id);
 

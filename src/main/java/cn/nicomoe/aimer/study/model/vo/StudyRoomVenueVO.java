@@ -7,72 +7,116 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 门店详情（/mp/reserve/venue/detail、/mp/reserve/index 的 venueList 元素） */
+/**
+ * 门店详情（/mp/reserve/venue/detail、/mp/reserve/index 的 venueList 元素）
+ */
 @Data
 @AutoMapper(target = StudyRoomVenueClientRespDTO.class)
 public class StudyRoomVenueVO {
 
-    /** 门店ID */
+    /**
+     * 门店ID
+     */
     private Integer id;
 
-    /** 门店名称 */
+    /**
+     * 门店名称
+     */
     private String venueName;
 
-    /** 门店地址 */
+    /**
+     * 门店地址
+     */
     private String venueAddress;
 
-    /** 纬度 */
+    /**
+     * 纬度
+     */
     private Double venueLat;
 
-    /** 经度 */
+    /**
+     * 经度
+     */
     private Double venueLng;
 
-    /** 营业时间，如 06:00-23:55 */
+    /**
+     * 营业时间，如 06:00-23:55
+     */
     private String venueOpenTime;
 
-    /** 预约状态：0 可预约 1 不可预约 */
+    /**
+     * 预约状态：0 可预约 1 不可预约
+     */
     private Integer venueReserveState;
 
-    /** 距离描述，如 1002.8km（按定位计算） */
+    /**
+     * 距离描述，如 1002.8km（按定位计算）
+     */
     private String distanceStr;
 
-    /** 背景图 */
+    /**
+     * 背景图
+     */
     private String backImage;
 
-    /** 停车说明 */
+    /**
+     * 停车说明
+     */
     private String parking;
 
-    /** 联系电话 */
+    /**
+     * 联系电话
+     */
     private String phone;
 
-    /** 交通说明 */
+    /**
+     * 交通说明
+     */
     private String traffic;
 
-    /** 到店指引链接 */
+    /**
+     * 到店指引链接
+     */
     private String venueGuideUrl;
 
-    /** 是否限制最长学习时长 */
+    /**
+     * 是否限制最长学习时长
+     */
     @JsonProperty(value = "timeLimit")
     private Boolean timeLimitFlag;
 
-    /** 最短可预约时间 */
+    /**
+     * 最短可预约时间
+     */
     private StudyRoomTimePointVO minTime;
 
-    /** 最长可预约时间 */
+    /**
+     * 最长可预约时间
+     */
     private StudyRoomTimePointVO maxTime;
 
-    /** 门店图片 */
+    /**
+     * 门店图片
+     */
     private List<StudyRoomFileVO> venueImgPathList;
 
-    /** 门店设备 */
+    /**
+     * 门店设备
+     */
     private List<StudyRoomVenueDeviceVO> deviceList;
 
-    /** 门店区域介绍 */
+    /**
+     * 门店区域介绍
+     */
     private List<StudyRoomVenueRoomVO> roomList;
 
-    /** 店内 WiFi 名称（签到页展示） */
+    /**
+     * 店内 WiFi 名称（签到页展示）
+     */
     private String wifiName;
 
-    /** 店内 WiFi 密码（签到页展示） */
+    /**
+     * 店内 WiFi 密码（签到页展示）
+     */
     private String wifiPwd;
 }

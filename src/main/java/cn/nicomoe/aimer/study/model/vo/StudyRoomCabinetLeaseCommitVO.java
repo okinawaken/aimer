@@ -4,15 +4,21 @@ import cn.nicomoe.aimer.study.model.dto.StudyRoomCabinetLeaseCommitClientRespDTO
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
-/** 储物柜下单结果（/mp/cabinetGrip/v2/lease/commit） */
+/**
+ * 储物柜下单结果（/mp/cabinetGrip/v2/lease/commit）
+ */
 @Data
 @AutoMapper(target = StudyRoomCabinetLeaseCommitClientRespDTO.class)
 public class StudyRoomCabinetLeaseCommitVO {
 
-    /** 租约ID（随后调 lease/pay 时作为 leaseId） */
+    /**
+     * 租约ID（随后调 lease/pay 时作为 leaseId）
+     */
     private Long id;
 
-    /** 支付单ID */
+    /**
+     * 支付单ID
+     */
     private Long payId;
 
 }

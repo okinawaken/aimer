@@ -4,23 +4,35 @@ import cn.nicomoe.aimer.enums.BaseEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-/** 自动签到过滤器执行顺序：数值越小越先执行。 */
+/**
+ * 自动签到过滤器执行顺序：数值越小越先执行。
+ */
 @Getter
 @RequiredArgsConstructor
 public enum StudyRoomAutoSignFilterOrderEnum implements BaseEnum<Integer> {
 
-    /** 待签到预约查询 */
+    /**
+     * 待签到预约查询
+     */
     PENDING_RESERVE(100, "待签到预约查询"),
 
-    /** 签到门店校验 */
+    /**
+     * 签到门店校验
+     */
     VENUE(200, "签到门店校验"),
 
-    /** 签到扣费套餐查询 */
+    /**
+     * 签到扣费套餐查询
+     */
     SIGN_IN_PACKAGE(300, "签到扣费套餐查询");
 
-    /** 枚举值，值越小越先执行 */
+    /**
+     * 枚举值，值越小越先执行
+     */
     private final Integer value;
 
-    /** 枚举描述 */
+    /**
+     * 枚举描述
+     */
     private final String description;
 }

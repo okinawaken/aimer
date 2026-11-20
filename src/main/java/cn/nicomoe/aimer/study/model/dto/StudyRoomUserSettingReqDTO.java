@@ -10,30 +10,42 @@ import lombok.Data;
 
 import java.time.LocalTime;
 
-/** 用户设置写请求。<b>整对象覆盖</b>：未传（null）的配置项不会保留原值。 */
+/**
+ * 用户设置写请求。<b>整对象覆盖</b>：未传（null）的配置项不会保留原值。
+ */
 @Data
 @AutoMapper(target = StudyRoomUserConfigBO.class)
 public class StudyRoomUserSettingReqDTO {
 
-    /** 放号时刻 {@code HH:mm[:ss]} */
+    /**
+     * 放号时刻 {@code HH:mm[:ss]}
+     */
     @JsonFormat(pattern = "HH:mm[:ss]")
     private LocalTime releaseTime;
 
-    /** 是否启用自动签到：0 关闭，1 开启 */
+    /**
+     * 是否启用自动签到：0 关闭，1 开启
+     */
     @Min(value = 0, message = "自动签到开关取值不合法")
     @Max(value = 1, message = "自动签到开关取值不合法")
     private Integer signInEnable;
 
-    /** 是否启用自动签退：0 关闭，1 开启 */
+    /**
+     * 是否启用自动签退：0 关闭，1 开启
+     */
     @Min(value = 0, message = "自动签退开关取值不合法")
     @Max(value = 1, message = "自动签退开关取值不合法")
     private Integer signOutEnable;
 
-    /** 微信小程序 token（JWT） */
+    /**
+     * 微信小程序 token（JWT）
+     */
     @Size(max = 1024, message = "小程序 token 长度不能超过{max}个字符")
     private String token;
 
-    /** Bark 推送地址，形如 {@code https://api.day.app/{key}}，留空则不推送。 */
+    /**
+     * Bark 推送地址，形如 {@code https://api.day.app/{key}}，留空则不推送。
+     */
     @Size(max = 512, message = "Bark 推送地址长度不能超过{max}个字符")
     private String barkUrl;
 }

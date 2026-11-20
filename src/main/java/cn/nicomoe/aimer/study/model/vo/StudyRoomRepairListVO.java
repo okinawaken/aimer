@@ -6,11 +6,15 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 报修列表（/mp/userRepair/list） */
+/**
+ * 报修列表（/mp/userRepair/list）
+ */
 @Data
 @AutoMapper(target = StudyRoomRepairListClientRespDTO.class)
 public class StudyRoomRepairListVO {
 
-    /** 报修单列表 */
+    /**
+     * 报修单列表
+     */
     private List<StudyRoomRepairVO> list;
 }

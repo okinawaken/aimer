@@ -4,19 +4,29 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 套餐列表查询（/mp/buy/v2/package/list） */
+/**
+ * 套餐列表查询（/mp/buy/v2/package/list）
+ */
 @Data
 public class StudyRoomBuyV2PackageListClientReqDTO {
 
-    /** 门店ID */
+    /**
+     * 门店ID
+     */
     private Integer venueId;
 
-    /** 套餐类型 */
+    /**
+     * 套餐类型
+     */
     private Integer packageType;
 
-    /** 套餐标签ID列表 */
+    /**
+     * 套餐标签ID列表
+     */
     private List<Long> packageLabelIds;
 
-    /** 座位区域ID */
+    /**
+     * 座位区域ID
+     */
     private Long seatAreaId;
 }

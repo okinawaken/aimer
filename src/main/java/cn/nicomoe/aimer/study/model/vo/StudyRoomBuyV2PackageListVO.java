@@ -6,11 +6,15 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 套餐列表（/mp/buy/v2/package/list） */
+/**
+ * 套餐列表（/mp/buy/v2/package/list）
+ */
 @Data
 @AutoMapper(target = StudyRoomBuyV2PackageListClientRespDTO.class)
 public class StudyRoomBuyV2PackageListVO {
 
-    /** 套餐列表 */
+    /**
+     * 套餐列表
+     */
     private List<StudyRoomPackageItemVO> packageList;
 }

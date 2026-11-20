@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round" data-buttons="solid" data-motion>
+<head>
+    <meta charset="utf-8">
+    <base href="${base}/">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>阿里鱼演出日历：本月演出与售罄</title>
+    <meta name="description" content="按天查看阿里鱼演出：哪天有演出、哪天售罄，选中日期查看当天场次、票价与售票状态。">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#e2e2e2">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="阿里鱼演出日历：本月演出与售罄">
+    <meta property="og:description" content="按天查看阿里鱼演出：哪天有演出、哪天售罄，选中日期查看当天场次、票价与售票状态。">
+    <meta property="og:image" content="aliyu/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="aliyu/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="aliyu/fonts/fonts.css">
+    <link rel="stylesheet" href="aliyu/css/aliyu.css">
+    <link rel="stylesheet" href="aliyu/css/show-calendar.css">
+    <link rel="stylesheet" href="aliyu/assets/motion.css">
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+</head>
+<body>
+<!-- type: software · deal: hero split, nav none (Erupt iframe), footer none, rhythm dark-band,
+     buttons solid, mark wordmark, palette oxblood-grey, type funnel, radius round · moment:
+     the selected-day panel fades and settles 240ms on every change; the calendar marks carry the page -->
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="hero page-head" data-enter>
+    <div class="wrap">
+        <div class="page-head__main">
+            <p class="eyebrow">阿里鱼 · 演出</p>
+            <h1>演出日历</h1>
+            <p class="lead">这个月哪天有演出、哪天售罄，一眼看到。选中日期再看当天的场次。</p>
+        </div>
+        <div class="page-head__side">
+            <div class="month-nav" role="group" aria-label="切换月份">
+                <button class="btn btn--secondary" id="btnPrevMonth" type="button">上一月</button>
+                <span class="month-nav__label" id="monthLabel">读取中</span>
+                <button class="btn btn--secondary" id="btnNextMonth" type="button">下一月</button>
+            </div>
+        </div>
+    </div>
+    <p class="sr-only" id="liveStatus" aria-live="polite" aria-atomic="true"></p>
+</header>
+
+<main id="main">
+    <section class="section" aria-labelledby="cal-h">
+        <div class="wrap grid cal-layout">
+            <div class="span-7">
+                <article class="card m-nolift cal-card">
+                    <div class="card-head cal-head">
+                        <div>
+                            <h2 id="cal-h">演出月历</h2>
+                            <p id="monthSummary" role="status">读取中</p>
+                        </div>
+                        <div class="cal-legend" aria-hidden="true">
+                            <span><i class="cal-legend__show"></i>有演出</span>
+                            <span><i class="cal-legend__out"></i>售罄</span>
+                            <span><i class="cal-legend__today"></i>今天</span>
+                        </div>
+                    </div>
+                    <div class="cal-weekdays" aria-hidden="true">
+                        <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+                    </div>
+                    <div class="cal-grid" id="calGrid" role="group" aria-label="演出日历" aria-busy="true"></div>
+                    <p class="cal-note" id="calEmpty" hidden>这个月还没有演出。换个月看看。</p>
+                    <div class="cal-error" id="calError" hidden></div>
+                </article>
+            </div>
+
+            <aside class="span-5">
+                <article class="card m-nolift day-card">
+                    <div class="card-head">
+                        <div>
+                            <h2 id="dayTitle">选中日期</h2>
+                            <p id="daySub">读取中</p>
+                        </div>
+                    </div>
+                    <div class="day-body" id="dayBody" aria-busy="true">
+                        <div class="day-skel">
+                            <div class="skeleton day-skel__media"></div>
+                            <div class="day-skel__lines">
+                                <div class="skeleton skeleton--line"></div>
+                                <div class="skeleton skeleton--line"></div>
+                                <div class="skeleton skeleton--line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<footer class="app-foot">
+    <div class="wrap grid app-foot__inner">
+        <span class="span-6">阿里鱼 · 演出日历</span>
+        <span class="span-5 start-8">日期与场次读取自阿里鱼</span>
+    </div>
+</footer>
+
+<div class="toast-stack" aria-live="polite"></div>
+
+<script type="module" src="aliyu/assets/motion.js"></script>
+<script type="module" src="aliyu/js/show-calendar.js"></script>
+</body>
+</html>

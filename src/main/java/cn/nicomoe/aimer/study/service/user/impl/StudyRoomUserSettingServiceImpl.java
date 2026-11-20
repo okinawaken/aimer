@@ -74,7 +74,9 @@ public class StudyRoomUserSettingServiceImpl implements StudyRoomUserSettingServ
         }
     }
 
-    /** 构建默认用户配置。 */
+    /**
+     * 构建默认用户配置。
+     */
     private StudyRoomUserConfigBO defaultConfig() {
         StudyRoomUserConfigBO configBO = new StudyRoomUserConfigBO();
         configBO.setReleaseTime(LocalTime.of(20, 0, 0));

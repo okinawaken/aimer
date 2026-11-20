@@ -20,7 +20,9 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** 计算最大可预约日期，并校验当天是否已执行、是否放出新日期。 */
+/**
+ * 计算最大可预约日期，并校验当天是否已执行、是否放出新日期。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveTargetDateFilter implements StudyRoomAutoReserveFilter {

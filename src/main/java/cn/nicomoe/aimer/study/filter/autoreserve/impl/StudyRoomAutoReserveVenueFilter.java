@@ -12,7 +12,9 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** 查门店详情并校验是否可预约，结果写入执行上下文。 */
+/**
+ * 查门店详情并校验是否可预约，结果写入执行上下文。
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoReserveVenueFilter implements StudyRoomAutoReserveFilter {

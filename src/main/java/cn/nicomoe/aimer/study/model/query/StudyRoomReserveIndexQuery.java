@@ -5,25 +5,37 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
-/** 预约首页查询条件 */
+/**
+ * 预约首页查询条件
+ */
 @Data
 public class StudyRoomReserveIndexQuery implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /** 当前经度 */
+    /**
+     * 当前经度
+     */
     private Double currentLng;
 
-    /** 当前纬度 */
+    /**
+     * 当前纬度
+     */
     private Double currentLat;
 
-    /** 门店名称 */
+    /**
+     * 门店名称
+     */
     private String venueName;
 
-    /** 渠道标识 */
+    /**
+     * 渠道标识
+     */
     private Integer channelBili;
 
-    /** 区域 ID */
+    /**
+     * 区域 ID
+     */
     private Long areaId;
 }

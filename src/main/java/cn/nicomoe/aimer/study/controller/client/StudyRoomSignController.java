@@ -50,7 +50,9 @@ import xyz.erupt.core.view.R;
 
 import java.util.List;
 
-/** 自习室签到域接口：签到、换座、签退、排行榜 */
+/**
+ * 自习室签到域接口：签到、换座、签退、排行榜
+ */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -59,7 +61,9 @@ public class StudyRoomSignController {
 
     private final StudyRoomSignService signService;
 
-    /** 签到首页：当前签到信息、附近门店、可选套餐，{@code currentLng}、{@code currentLat} 为必传参数。 */
+    /**
+     * 签到首页：当前签到信息、附近门店、可选套餐，{@code currentLng}、{@code currentLat} 为必传参数。
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/index")
     public R<StudyRoomIndexVO> studyIndex(@Valid StudyRoomIndexClientReqDTO form) {
@@ -68,7 +72,9 @@ public class StudyRoomSignController {
         return R.ok(studyIndexVO);
     }
 
-    /** 签到选座座位图 */
+    /**
+     * 签到选座座位图
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/seat/list")
     public R<StudyRoomSignSeatListVO> studySeatList(@RequestBody StudyRoomSignSeatQueryClientReqDTO form) {
@@ -77,7 +83,9 @@ public class StudyRoomSignController {
         return R.ok(seatListVO);
     }
 
-    /** 换座座位图 */
+    /**
+     * 换座座位图
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/change/seat/list")
     public R<StudyRoomSignSeatMapVO> studyChangeSeatList(@RequestBody StudyRoomChangeSeatClientReqDTO form) {
@@ -86,7 +94,9 @@ public class StudyRoomSignController {
         return R.ok(seatMapVO);
     }
 
-    /** 签退可选结算套餐 */
+    /**
+     * 签退可选结算套餐
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/settle-package/select")
     public R<List<StudyRoomSettlePackageVO>> studySettlePackageSelect(@RequestBody StudyRoomSettlePackageClientReqDTO form) {
@@ -95,7 +105,9 @@ public class StudyRoomSignController {
         return R.ok(settlePackageListVO);
     }
 
-    /** 是否可再签一个座位 */
+    /**
+     * 是否可再签一个座位
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/another/check")
     public R<StudyRoomSignAnotherCheckVO> studySignAnotherCheck(@RequestParam(value = "venueId") Integer venueId) {
@@ -104,7 +116,9 @@ public class StudyRoomSignController {
         return R.ok(anotherCheckVO);
     }
 
-    /** 签退（扫码签退），返回结算结果 */
+    /**
+     * 签退（扫码签退），返回结算结果
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/out")
     public R<StudyRoomSignOutVO> studySignOut(@RequestBody StudyRoomSignOutClientReqDTO form) {
@@ -113,7 +127,9 @@ public class StudyRoomSignController {
         return R.ok(signOutVO);
     }
 
-    /** 学习排行榜 */
+    /**
+     * 学习排行榜
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/rank/index")
     public R<StudyRoomRankVO> studyRank(@RequestBody StudyRoomRankClientReqDTO form) {
@@ -122,7 +138,9 @@ public class StudyRoomSignController {
         return R.ok(rankVO);
     }
 
-    /** 签到选座确认（真正入座） */
+    /**
+     * 签到选座确认（真正入座）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/seat/confirm")
     public R<StudyRoomSeatConfirmVO> studySeatConfirm(@RequestBody StudyRoomSeatConfirmClientReqDTO form) {
@@ -131,7 +149,9 @@ public class StudyRoomSignController {
         return R.ok(seatConfirmVO);
     }
 
-    /** 换座确认 */
+    /**
+     * 换座确认
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/change/seat/confirm")
     public R<StudyRoomChangeSeatConfirmVO> studyChangeSeatConfirm(@RequestBody StudyRoomChangeSeatConfirmClientReqDTO form) {
@@ -140,7 +160,9 @@ public class StudyRoomSignController {
         return R.ok(changeSeatConfirmVO);
     }
 
-    /** 进入签退结算：返回结算明细 + 可选结算套餐 */
+    /**
+     * 进入签退结算：返回结算明细 + 可选结算套餐
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/settlement")
     public R<StudyRoomSettlementVO> studySettlement(@RequestBody StudyRoomSettlementClientReqDTO form) {
@@ -149,7 +171,9 @@ public class StudyRoomSignController {
         return R.ok(settlementVO);
     }
 
-    /** 确认签退结算套餐（选套餐扣费） */
+    /**
+     * 确认签退结算套餐（选套餐扣费）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/user-package/confirm")
     public R<StudyRoomUserPackageConfirmVO> studyUserPackageConfirm(@RequestBody StudyRoomUserPackageConfirmClientReqDTO form) {
@@ -158,7 +182,9 @@ public class StudyRoomSignController {
         return R.ok(userPackageConfirmVO);
     }
 
-    /** 座位灯控（开灯 / 关灯） */
+    /**
+     * 座位灯控（开灯 / 关灯）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/esp-light/turn")
     public R<Void> espLightTurn(@Valid @RequestBody StudyRoomEspLightTurnClientReqDTO form) {

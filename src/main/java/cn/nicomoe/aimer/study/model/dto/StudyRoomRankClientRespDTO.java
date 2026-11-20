@@ -5,11 +5,15 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 学习排行榜（/mp/study/rank/index） */
+/**
+ * 学习排行榜（/mp/study/rank/index）
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomRankClientRespDTO {
 
-    /** 排行列表 */
+    /**
+     * 排行列表
+     */
     private List<StudyRoomRankUserClientRespDTO> rankUserList;
 }

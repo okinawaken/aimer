@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round" data-buttons="solid" data-motion>
+<head>
+    <meta charset="utf-8">
+    <base href="${base}/">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>阿里鱼演出列表：按分类、城市和日期筛选</title>
+    <meta name="description" content="浏览阿里鱼在售演出，按分类、城市和日期筛选，卡片上直接标出价格与开售状态。">
+    <meta name="page-type" content="software">
+    <meta name="site-kind" content="software">
+    <meta name="theme-color" content="#e2e2e2">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="阿里鱼演出列表：按分类、城市和日期筛选">
+    <meta property="og:description" content="浏览阿里鱼在售演出，按分类、城市和日期筛选，卡片上直接标出价格与开售状态。">
+    <meta property="og:image" content="aliyu/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="aliyu/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="aliyu/fonts/fonts.css">
+    <link rel="stylesheet" href="aliyu/css/aliyu.css">
+    <link rel="stylesheet" href="aliyu/assets/motion.css">
+    <link rel="stylesheet" href="aliyu/css/shows.css">
+    <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+</head>
+<body>
+<!-- type: software · deal: hero split with one hot-show ticket, filter deck,
+     show grid, pager; buttons solid, mark wordmark, palette oxblood-grey, type funnel, radius round -->
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="hero page-head shows-head" data-enter>
+    <div class="wrap">
+        <div class="shows-head__grid">
+            <div class="page-head__main shows-head__main">
+                <p class="eyebrow">阿里鱼 · 演出</p>
+                <h1>演出列表</h1>
+                <p class="lead">阿里鱼在售演出，按分类、城市和日期 3 种方式筛选。价格直接标在卡片上。</p>
+                <p class="hero-fact" id="heroFact" hidden></p>
+            </div>
+            <div class="shows-head__aside" id="heroShow">
+                <div class="card hero-show hero-show--loading m-nolift" aria-hidden="true">
+                    <div class="skeleton hero-show__poster-skeleton"></div>
+                    <div class="hero-show__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main id="main">
+    <section class="section shows-tools" aria-labelledby="filter-h">
+        <div class="wrap">
+            <h2 id="filter-h" class="visually-hidden">筛选</h2>
+            <form class="filters" id="filterForm" role="search" aria-labelledby="filter-h" novalidate>
+                <div class="filters__cats">
+                    <span class="filters__label" id="catLabel">分类</span>
+                    <div class="filter-chips" id="catChips" role="group" aria-labelledby="catLabel">
+                        <span class="chip-skeleton skeleton" aria-hidden="true"></span>
+                        <span class="chip-skeleton skeleton" aria-hidden="true"></span>
+                        <span class="chip-skeleton skeleton" aria-hidden="true"></span>
+                    </div>
+                </div>
+
+                <div class="filters__grid">
+                    <div class="field field--compact">
+                        <label for="city">城市</label>
+                        <select id="city" name="city">
+                            <option value="">全部城市</option>
+                        </select>
+                    </div>
+                    <div class="field field--compact">
+                        <label for="startDate">开始日期</label>
+                        <input id="startDate" name="startDate" type="date">
+                    </div>
+                    <div class="field field--compact">
+                        <label for="endDate">结束日期</label>
+                        <input id="endDate" name="endDate" type="date">
+                    </div>
+                    <div class="field field--compact filters__search">
+                        <label for="search">项目名称</label>
+                        <div class="field-row">
+                            <input id="search" name="search" type="search" autocomplete="off"
+                                   placeholder="输入演出名称">
+                            <button class="btn btn--secondary" type="submit">搜索</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters__foot">
+                    <p class="filters__summary" id="filterSummary">未加筛选</p>
+                    <p class="filters__note" id="filterNote" role="status" aria-live="polite"></p>
+                    <button class="btn btn--text" id="btnClear" type="button" disabled>清除筛选</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="section shows-list" id="list" aria-labelledby="list-h">
+        <div class="wrap">
+            <div class="section-head shows-list__head">
+                <div>
+                    <h2 id="list-h" tabindex="-1">全部演出</h2>
+                    <p id="listStatus" role="status" aria-live="polite">正在读取演出…</p>
+                </div>
+                <p class="shows-list__hint">价格以详情页为准</p>
+            </div>
+
+            <div class="show-grid" id="showGrid" aria-busy="true">
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+                <div class="card show-card show-card--skeleton m-nolift" aria-hidden="true">
+                    <div class="skeleton show-card__poster-skeleton"></div>
+                    <div class="show-card__body">
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                        <div class="skeleton skeleton--line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="state-block" id="emptyState" hidden>
+                <div class="empty__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8Z"/>
+                        <path d="M14 6v2M14 11v2M14 16v2"/>
+                    </svg>
+                </div>
+                <h3>没有结果</h3>
+                <p>没有符合条件的演出。清掉一个筛选条件再试。</p>
+                <button class="btn btn--secondary" id="btnEmptyClear" type="button">清除筛选</button>
+            </div>
+
+            <div class="state-block" id="errorState" hidden>
+                <div class="empty__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8.5"/>
+                        <path d="M12 7.5v5M12 16.2v.1"/>
+                    </svg>
+                </div>
+                <h3>没有读到演出列表</h3>
+                <p id="errorMessage">请稍后重试。</p>
+                <button class="btn btn--secondary" id="btnRetry" type="button">重试</button>
+            </div>
+
+            <nav class="pager" id="pager" aria-label="演出分页" hidden>
+                <button class="pager__step" id="prevPage" type="button">上一页</button>
+                <div class="pager__nums" id="pageNums"></div>
+                <button class="pager__step" id="nextPage" type="button">下一页</button>
+                <p class="pager__meta" id="pageMeta"></p>
+            </nav>
+        </div>
+    </section>
+</main>
+
+<footer class="app-foot">
+    <div class="wrap grid app-foot__inner">
+        <span class="span-6">阿里鱼 · 演出列表</span>
+        <span class="span-5 start-8">数据读取自阿里鱼，价格与状态以详情页为准</span>
+    </div>
+</footer>
+
+<div class="toast-stack" aria-live="polite"></div>
+
+<script type="module" src="aliyu/assets/motion.js"></script>
+<script type="module" src="aliyu/js/shows.js"></script>
+</body>
+</html>

@@ -26,7 +26,9 @@ public class StudyRoomLeaveController {
 
     private final StudyRoomLeaveService leaveService;
 
-    /** 进入请假页（校验可请假套餐） */
+    /**
+     * 进入请假页（校验可请假套餐）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/enter")
     public R<StudyRoomUserLeaveEnterVO> userLeaveEnter(@RequestParam(value = "userPackageId") Long userPackageId) {
@@ -35,7 +37,9 @@ public class StudyRoomLeaveController {
         return R.ok(leaveEnterVO);
     }
 
-    /** 确认请假 */
+    /**
+     * 确认请假
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/confirm")
     public R<Integer> userLeaveConfirm(@RequestBody StudyRoomUserLeaveConfirmClientReqDTO form) {
@@ -43,7 +47,9 @@ public class StudyRoomLeaveController {
         return R.ok(result);
     }
 
-    /** 取消请假 */
+    /**
+     * 取消请假
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @PostMapping(value = "/cancel")
     public R<Integer> userLeaveCancel(@RequestBody StudyRoomUserLeaveCancelClientReqDTO form) {

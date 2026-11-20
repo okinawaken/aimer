@@ -11,7 +11,9 @@ import cn.nicomoe.aimer.util.CheckUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-/** 门店坐标解析过滤器 */
+/**
+ * 门店坐标解析过滤器
+ */
 @Component
 @RequiredArgsConstructor
 public class StudyRoomAutoSignOutVenueFilter implements StudyRoomAutoSignOutFilter {

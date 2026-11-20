@@ -3,14 +3,20 @@ package cn.nicomoe.aimer.study.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 门店设施 */
+/**
+ * 门店设施
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomVenueDeviceClientRespDTO {
 
-    /** 图标地址 */
+    /**
+     * 图标地址
+     */
     private String icon;
 
-    /** 设施名称 */
+    /**
+     * 设施名称
+     */
     private String title;
 }

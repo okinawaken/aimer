@@ -5,7 +5,9 @@ import cn.nicomoe.aimer.study.client.http.interceptor.StudyRoomResponseIntercept
 import cn.nicomoe.aimer.study.constant.StudyRoomApiConstants;
 import com.dtflys.forest.annotation.BaseRequest;
 
-/** 自习室小程序接口的公共请求配置 */
+/**
+ * 自习室小程序接口的公共请求配置
+ */
 @BaseRequest(baseURL = StudyRoomApiConstants.Gateway.BASE_URL, contentType = "application/json", interceptor = {StudyRoomAuthInterceptor.class, StudyRoomResponseInterceptor.class})
 public interface StudyRoomBaseClient {
 }

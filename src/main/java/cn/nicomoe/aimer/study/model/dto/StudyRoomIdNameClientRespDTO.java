@@ -3,14 +3,20 @@ package cn.nicomoe.aimer.study.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-/** 通用「ID + 名称」选项 */
+/**
+ * 通用「ID + 名称」选项
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomIdNameClientRespDTO {
 
-    /** ID */
+    /**
+     * ID
+     */
     private Long id;
 
-    /** 名称 */
+    /**
+     * 名称
+     */
     private String name;
 }

@@ -31,7 +31,9 @@ public class StudyRoomVenueController {
 
     private final StudyRoomVenueService venueService;
 
-    /** 按定位查询附近门店（签到首页、报修页用） */
+    /**
+     * 按定位查询附近门店（签到首页、报修页用）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/select")
     public R<StudyRoomVenueSelectVO> venueSelect(@RequestParam(value = "currentLng") Double currentLng, @RequestParam(value = "currentLat") Double currentLat) {
@@ -40,7 +42,9 @@ public class StudyRoomVenueController {
         return R.ok(venueSelectVO);
     }
 
-    /** 预约可选门店列表（无定位参数） */
+    /**
+     * 预约可选门店列表（无定位参数）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/reserve/select")
     public R<StudyRoomVenueSelectVO> reserveVenueSelect() {
@@ -49,7 +53,9 @@ public class StudyRoomVenueController {
         return R.ok(venueSelectVO);
     }
 
-    /** 门店详情 */
+    /**
+     * 门店详情
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/reserve/detail")
     public R<StudyRoomVenueVO> reserveVenueDetail(@RequestParam(value = "venueId") Integer venueId) {
@@ -58,7 +64,9 @@ public class StudyRoomVenueController {
         return R.ok(venueVO);
     }
 
-    /** 预约首页（banner + 门店列表 + 区域筛选） */
+    /**
+     * 预约首页（banner + 门店列表 + 区域筛选）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/reserve/index")
     public R<StudyRoomReserveIndexVO> reserveIndex(StudyRoomReserveIndexQuery query) {
@@ -67,7 +75,9 @@ public class StudyRoomVenueController {
         return R.ok(reserveIndexVO);
     }
 
-    /** 区域列表（预约首页筛选） */
+    /**
+     * 区域列表（预约首页筛选）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/reserve/area/select")
     public R<StudyRoomAreaSelectVO> reserveAreaSelect() {
@@ -76,7 +86,9 @@ public class StudyRoomVenueController {
         return R.ok(areaSelectVO);
     }
 
-    /** 收银台门店列表（美团团购核销） */
+    /**
+     * 收银台门店列表（美团团购核销）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/receipt/select")
     public R<StudyRoomVenueSelectVO> receiptVenueSelect(@RequestParam(value = "currentLng") Double currentLng, @RequestParam(value = "currentLat") Double currentLat) {
@@ -85,7 +97,9 @@ public class StudyRoomVenueController {
         return R.ok(venueSelectVO);
     }
 
-    /** 抖音门店列表（比普通门店多 poiId / poiName） */
+    /**
+     * 抖音门店列表（比普通门店多 poiId / poiName）
+     */
     @EruptRouter(verifyType = EruptRouter.VerifyType.LOGIN)
     @GetMapping(value = "/douyin/select")
     public R<StudyRoomDouYinVenueSelectVO> douYinVenueSelect(@RequestParam(value = "currentLng") Double currentLng, @RequestParam(value = "currentLat") Double currentLat) {

@@ -5,11 +5,15 @@ import lombok.Data;
 
 import java.util.List;
 
-/** 抖音核销门店列表（/mp/douYin/venue/select） */
+/**
+ * 抖音核销门店列表（/mp/douYin/venue/select）
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudyRoomDouYinVenueSelectClientRespDTO {
 
-    /** 门店列表 */
+    /**
+     * 门店列表
+     */
     private List<StudyRoomDouYinVenueClientRespDTO> venueList;
 }

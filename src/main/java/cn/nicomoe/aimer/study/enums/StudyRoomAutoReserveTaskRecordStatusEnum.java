@@ -4,18 +4,26 @@ import cn.nicomoe.aimer.enums.BaseEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-/** 自动预约执行记录状态：跳过、成功、失败三种终态 */
+/**
+ * 自动预约执行记录状态：跳过、成功、失败三种终态
+ */
 @Getter
 @RequiredArgsConstructor
 public enum StudyRoomAutoReserveTaskRecordStatusEnum implements BaseEnum<Integer> {
 
-    /** 跳过 */
+    /**
+     * 跳过
+     */
     SKIPPED(0, "跳过"),
 
-    /** 预约成功 */
+    /**
+     * 预约成功
+     */
     SUCCESS(1, "成功"),
 
-    /** 执行失败 */
+    /**
+     * 执行失败
+     */
     FAILED(2, "失败");
 
     private final Integer value;
