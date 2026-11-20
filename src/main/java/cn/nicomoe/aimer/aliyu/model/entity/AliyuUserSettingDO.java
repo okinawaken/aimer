@@ -1,6 +1,6 @@
 package cn.nicomoe.aimer.aliyu.model.entity;
 
-import cn.nicomoe.aimer.aliyu.model.bo.AliyuUserConfigBO;
+import cn.nicomoe.aimer.aliyu.model.bo.AliyuUserSettingConfigBO;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -35,7 +35,7 @@ public class AliyuUserSettingDO extends MetaModel {
     @Comment(value = "系统用户 ID")
     private Long userId;
 
-    /** 配置 JSON，结构见 {@link AliyuUserConfigBO} */
+    /** 配置 JSON，结构见 {@link AliyuUserSettingConfigBO} */
     @Column(name = "config_json", nullable = false, length = 16_777_215)
     @Comment(value = "配置 JSON")
     private String configJson;

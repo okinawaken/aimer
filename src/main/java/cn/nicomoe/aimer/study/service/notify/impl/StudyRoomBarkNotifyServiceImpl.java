@@ -38,6 +38,6 @@ public class StudyRoomBarkNotifyServiceImpl implements StudyRoomBarkNotifyServic
         payload.setTitle(title);
         payload.setBody(body);
         payload.setGroup(DEFAULT_GROUP);
-        this.barkService.push(barkUrl, payload);
+        barkService.push(barkUrl, payload);
     }
 }

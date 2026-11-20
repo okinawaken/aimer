@@ -8,7 +8,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AliyuAuthLoginClientReqDTO {
 
-    /** 小程序平台类型，微信为 {@code weapp}；简化授权载荷可不携带 */
+    /** 小程序平台类型，由小程序运行环境映射：抖音 {@code "1"}、支付宝 {@code "4"}、微信 {@code "5"}；简化授权载荷可不携带 */
     private String appType;
 
     /** {@code wx.login()} 返回的 code（非加密），形态 A 字段名；形态 B 中同值以 {@code jsCode} 传递 */

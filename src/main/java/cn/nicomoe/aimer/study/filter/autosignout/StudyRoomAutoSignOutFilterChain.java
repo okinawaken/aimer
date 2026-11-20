@@ -16,7 +16,7 @@ public class StudyRoomAutoSignOutFilterChain {
 
     /** 按顺序执行过滤器链，遇到失败立即返回 */
     public FilterResultDTO<?> doFilter(StudyRoomAutoSignOutContext context) {
-        for (StudyRoomAutoSignOutFilter filter : this.filters) {
+        for (StudyRoomAutoSignOutFilter filter : filters) {
             FilterResultDTO<?> result = filter.doFilter(context);
             if (!result.isSuccess()) {
                 return result;

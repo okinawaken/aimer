@@ -32,7 +32,7 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/** 阿里鱼会员 / 积分域。会员信息、小鱼丸（积分）明细、成长值、动态码、 任务体系、消息订阅。 */
+/** 阿里鱼会员 / 积分域。 */
 public interface AliyuMemberPointClient extends AliyuBaseClient {
 
     /** 阿里鱼会员信息。 */
@@ -51,7 +51,7 @@ public interface AliyuMemberPointClient extends AliyuBaseClient {
     @Get(url = "/aliyupoint/checkMember")
     AliyuClientResult<Boolean> checkMember();
 
-    /** 小鱼丸（积分）明细。 参数 query：会员卡类型与分页 */
+    /** 小鱼丸（积分）明细。 */
     @Get(url = "/aliyupoint/getPointsDetail")
     AliyuClientResult<PointsDetailRespDTO> getPointsDetail(@Query MemberPointPointsDetailReqDTO query);
 
@@ -59,7 +59,7 @@ public interface AliyuMemberPointClient extends AliyuBaseClient {
     @Get(url = "/aliyupoint/getPointsRule")
     AliyuClientResult<java.util.List<PointsRuleRespDTO>> getPointsRule(@Query(value = "cardType") String cardType);
 
-    /** 成长值明细。 参数 query：分页 */
+    /** 成长值明细。 */
     @Get(url = "/aliyupoint/getGrowthValueDetail")
     AliyuClientResult<GrowthValueDetailRespDTO> getGrowthValueDetail(@Query MemberPointGrowthValueDetailReqDTO query);
 
@@ -79,7 +79,7 @@ public interface AliyuMemberPointClient extends AliyuBaseClient {
     @Post(url = "/aliyupoint/deregisterUser")
     AliyuClientResult<MemberPointDeregisterUserRespDTO> deregisterUser(@JSONBody MemberPointDeregisterUserReqDTO body);
 
-    /** 批量订阅（消息）。成功时响应体 {@code data} 为 {@code true}，失败由 {@code code/msg} 表达。 */
+    /** 批量订阅（消息）。 */
     @Post(url = "/aliyupoint/batchSubscribe")
     AliyuClientResult<Boolean> batchSubscribe(@JSONBody MemberPointBatchSubscribeReqDTO body);
 
@@ -95,11 +95,11 @@ public interface AliyuMemberPointClient extends AliyuBaseClient {
     @Post(url = "/aliyupoint/task/checkStatus")
     AliyuClientResult<MemberPointTaskCheckStatusRespDTO> taskCheckStatus(@JSONBody MemberPointTaskCheckStatusReqDTO body);
 
-    /** 任务领取（领积分）。响应体顶层带 {@code success/code/msg/data}， 失败码（如 {@code TASK_NOT_FOUND}）需由调用方按 {@code code} 处理，故直接返回响应体。 */
+    /** 任务领取（领积分）。 */
     @Post(url = "/aliyupoint/task/claim")
     MemberPointTaskClaimRespDTO taskClaim(@JSONBody MemberPointTaskClaimReqDTO body);
 
-    /** 任务上报（完成行为）。响应体顶层带 {@code success/data}，故直接返回响应体。 小程序以 {@code application/x-www-form-urlencoded} 提交，需显式覆盖基础客户端的 JSON 类型。 */
+    /** 任务上报（完成行为）。 */
     @Post(url = "/aliyupoint/task/report", contentType = "application/x-www-form-urlencoded")
     MemberPointTaskReportRespDTO taskReport(@FormBody MemberPointTaskReportReqDTO body);
 }

@@ -16,7 +16,7 @@ import com.dtflys.forest.annotation.Query;
 
 import java.util.Map;
 
-/** 订单域。列表、详情、取消、删除、退款、退票、票务折扣。 */
+/** 订单域。 */
 public interface AliyuOrderClient extends AliyuBaseClient {
 
     /** 订单列表。 */
@@ -26,12 +26,12 @@ public interface AliyuOrderClient extends AliyuBaseClient {
                                                        @Query(value = "orderListType") String orderListType,
                                                        @Query(value = "needCount") Boolean needCount);
 
-    /** 订单详情。小程序固定传 {@code isNewUI=true}。 参数 orderToken：订单号 */
+    /** 订单详情。 */
     @Get(url = "/order/queryOrderDetail")
     AliyuClientResult<OrderDetailRespDTO> queryOrderDetail(@Query(value = "orderToken") String orderToken,
                                                            @Query(value = "isNewUI") Boolean isNewUI);
 
-    /** 订单详情（新版 UI）。 参数 orderToken：订单号 */
+    /** 订单详情（新版 UI）。 */
     @Get(url = "/order/queryOrderDetailNew")
     AliyuClientResult<OrderDetailRespDTO> queryOrderDetailNew(@Query(value = "orderToken") String orderToken);
 
@@ -39,7 +39,7 @@ public interface AliyuOrderClient extends AliyuBaseClient {
     @Get(url = "/order/calculateRefundAmount")
     AliyuClientResult<OrderCalculateRefundAmountRespDTO> calculateRefundAmount(@Query(value = "orderToken") String orderToken);
 
-    /** 领取票务折扣。 参数 ticketId：票品 ID */
+    /** 领取票务折扣。 */
     @Get(url = "/order/ticket/discount/receive")
     AliyuClientResult<Object> ticketDiscountReceive(@Query(value = "ticketId") String ticketId);
 

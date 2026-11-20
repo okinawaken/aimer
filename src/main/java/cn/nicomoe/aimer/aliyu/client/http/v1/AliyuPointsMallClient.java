@@ -31,10 +31,10 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/** 积分商城域。奖品 / 壁纸兑换、会员券、积分兑换订单。 */
+/** 积分商城域。 */
 public interface AliyuPointsMallClient extends AliyuBaseClient {
 
-    /** 当前门店（响应为门店数组，见 {@link PointsMallCurrentStoreRespDTO}）。 参数 query：会员卡 ID、定位与已选门店（均有值时小程序才传） */
+    /** 当前门店。 */
     @Get(url = "/aliyuMember/pointsMall/currentStore")
     AliyuClientResult<java.util.List<PointsMallCurrentStoreRespDTO>> currentStore(@Query PointsMallCurrentStoreReqDTO query);
 
@@ -58,7 +58,7 @@ public interface AliyuPointsMallClient extends AliyuBaseClient {
                                                     @Query(value = "amount") Integer amount,
                                                     @Query(value = "storeId") String storeId);
 
-    /** 奖品可用门店。 参数 query：会员卡 / 门店 ID 与定位（{@code latitude/longitude} 为字符串） */
+    /** 奖品可用门店。 */
     @Get(url = "/aliyuMember/pointsMall/prize/store")
     AliyuClientResult<java.util.List<PointsMallPrizeStoreRespDTO>> prizeStore(@Query PointsMallPrizeStoreReqDTO query);
 
@@ -66,7 +66,7 @@ public interface AliyuPointsMallClient extends AliyuBaseClient {
     @Post(url = "/aliyuMember/pointsMall/prize/exchange")
     AliyuClientResult<PrizeExchangeRespDTO> prizeExchange(@JSONBody PointsMallPrizeExchangeReqDTO body);
 
-    /** 壁纸列表。 参数 query：分页与可选 IP 编码 */
+    /** 壁纸列表。 */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/list")
     AliyuClientResult<WallpaperListRespDTO> wallpaperList(@Query PointsMallWallpaperListReqDTO query);
 
@@ -89,7 +89,7 @@ public interface AliyuPointsMallClient extends AliyuBaseClient {
     @Get(url = "/aliyuMember/pointsMall/wallpaper/download")
     AliyuClientResult<WallpaperDownloadRespDTO> wallpaperDownload(@Query(value = "materialId") String materialId);
 
-    /** 壁纸装扮首页。 参数 pageNo：页码参数 pageSize：每页数量 */
+    /** 壁纸装扮首页。 */
     @Get(url = "/aliyuMember/pointsMall/wallpaper/dressHome")
     AliyuClientResult<WallpaperDressHomeRespDTO> wallpaperDressHome(@Query(value = "pageNo") Integer pageNo,
                                                                     @Query(value = "pageSize") Integer pageSize);

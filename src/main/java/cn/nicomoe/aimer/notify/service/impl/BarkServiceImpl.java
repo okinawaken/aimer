@@ -21,7 +21,7 @@ public class BarkServiceImpl implements BarkService {
     @Override
     public boolean push(String barkUrl, BarkPushReqDTO payload) {
         try {
-            ForestResponse<?> response = this.barkClient.push(barkUrl, payload);
+            ForestResponse<?> response = barkClient.push(barkUrl, payload);
             if (Objects.isNull(response) || !response.isSuccess()) {
                 log.warn("Bark 推送失败，barkUrl={}，payload={}", barkUrl, GsonUtils.toJson(payload));
                 return false;

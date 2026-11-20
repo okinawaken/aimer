@@ -419,31 +419,15 @@ public class AliyuRiskServiceImpl implements AliyuRiskService {
 
     private String formatMantissa(String digits, int k, int n) {
         if (k <= n && n <= ECMA_FIXED_POINT_MAX_N) {
-            return this.appendTrailingZeros(digits, k, n);
+            return StrUtil.padAfter(digits, n, '0');
         }
         if (0 < n && n <= ECMA_FIXED_POINT_MAX_N) {
             return digits.substring(0, n) + "." + digits.substring(n);
         }
         if (ECMA_EXPONENT_FORM_MIN_N < n && n <= 0) {
-            return this.prependLeadingZeros(digits, n);
+            return "0." + StrUtil.padPre(digits, digits.length() - n, '0');
         }
         return this.formatExponential(digits, k, n - 1);
-    }
-
-    private String appendTrailingZeros(String digits, int k, int n) {
-        StringBuilder result = new StringBuilder(digits);
-        for (int i = k; i < n; i++) {
-            result.append('0');
-        }
-        return result.toString();
-    }
-
-    private String prependLeadingZeros(String digits, int n) {
-        StringBuilder result = new StringBuilder("0.");
-        for (int i = 0; i < -n; i++) {
-            result.append('0');
-        }
-        return result.append(digits).toString();
     }
 
     private String formatExponential(String digits, int k, int exponent) {

@@ -45,7 +45,7 @@ public class AliyuEncryptServiceImpl implements AliyuEncryptService {
     public String encryptField(String plain) {
         try {
             Cipher cipher = Cipher.getInstance(RSA_TRANSFORMATION);
-            cipher.init(Cipher.ENCRYPT_MODE, this.publicKey);
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(plain.getBytes(StandardCharsets.UTF_8)));
         } catch (GeneralSecurityException e) {
             throw new EruptWebApiRuntimeException("阿里鱼请求字段加密失败", e);

@@ -12,7 +12,9 @@ import xyz.erupt.core.exception.EruptWebApiRuntimeException;
 
 import java.util.Objects;
 
-/** 校验 HTTP 状态与业务码。业务码缺失（如裸 DTO 响应）时放行；非成功码优先使用上游错误文案。 */
+/**
+ * 校验 HTTP 状态与业务码，业务码缺失时放行。
+ */
 @Component
 @RequiredArgsConstructor
 public class AliyuResponseInterceptor implements ForestInterceptor {

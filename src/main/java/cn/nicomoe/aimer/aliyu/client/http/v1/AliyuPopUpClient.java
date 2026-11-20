@@ -11,7 +11,7 @@ import com.dtflys.forest.annotation.Post;
 /** 弹窗营销域。 */
 public interface AliyuPopUpClient extends AliyuBaseClient {
 
-    /** 查询弹窗配置，无弹窗时 {@code data} 为空。 */
+    /** 查询弹窗配置。 */
     @Post(url = "/aliyuPopUp/query")
     AliyuClientResult<AliyuPopUpQueryRespDTO> query(@JSONBody AliyuPopUpQueryReqDTO body);
 

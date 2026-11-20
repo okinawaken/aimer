@@ -6,9 +6,9 @@ import cn.nicomoe.aimer.aliyu.model.dto.AliyuUserSettingReqDTO;
 /** 阿里鱼用户设置服务，以系统用户 ID 作为资源 ID。 */
 public interface AliyuUserSettingService {
 
-    /** 读取用户配置，无记录时返回默认值。 */
+    /** 读取用户配置，无记录时返回空配置。 参数 userId：系统用户 ID返回：用户配置 */
     AliyuUserConfigDTO get(Long userId);
 
-    /** 覆盖用户配置。写入前以传入的凭证束调用 {@code /user/loginUser} 校验有效性， 校验失败则抛出{@link cn.nicomoe.aimer.aliyu.enums.AliyuApiErrorCodeEnum#CREDENTIAL_INVALID}。 */
+    /** 绑定/换绑凭证：先调用上游校验，再落库。 参数 userId：系统用户 ID参数 req：绑定请求 */
     void update(Long userId, AliyuUserSettingReqDTO req);
 }

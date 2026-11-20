@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AliyuApiErrorCodeEnum implements BaseEnum<Integer> {
 
-    /** 绑定凭证校验失败（cookie / 会话已失效） */
+    /** 绑定凭证校验失败（cookie 已失效） */
     CREDENTIAL_INVALID(40201, "阿里鱼小程序凭证已失效，请重新绑定"),
 
     /** 上游返回了非成功的业务码且未给出文案时的兜底提示 */
@@ -27,8 +27,8 @@ public enum AliyuApiErrorCodeEnum implements BaseEnum<Integer> {
     /** POST 接口无法获取 CSRF token */
     CSRF_UNAVAILABLE(40206, "阿里鱼 CSRF token 获取失败，请检查凭证是否有效"),
 
-    /** 缺少 maitix 会话标识（{@code X-MZ-SESSION}），上游会一律判定未登录 */
-    SESSION_MISSING(40207, "阿里鱼会话标识（X-MZ-SESSION）不能为空，请从真机抓包获取"),
+    /** 缺少 maitix 会话标识（{@code X-MZ-SESSION}），上游可能判定未登录 */
+    SESSION_MISSING(40207, "阿里鱼会话标识（X-MZ-SESSION）缺失，请重新复制 Cookie 或补充会话标识"),
 
     /** CSRF 换取接口返回成功码但未携带 token */
     CSRF_TOKEN_EMPTY(40208, "阿里鱼 CSRF token 换取成功但未返回 token，请检查凭证是否有效");

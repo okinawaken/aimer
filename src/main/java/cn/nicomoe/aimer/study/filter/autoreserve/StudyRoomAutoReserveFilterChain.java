@@ -16,7 +16,7 @@ public class StudyRoomAutoReserveFilterChain {
 
     /** 按顺序执行过滤器链，遇到失败立即返回 */
     public FilterResultDTO<?> doFilter(StudyRoomAutoReserveContext context) {
-        for (StudyRoomAutoReserveFilter filter : this.filters) {
+        for (StudyRoomAutoReserveFilter filter : filters) {
             FilterResultDTO<?> result = filter.doFilter(context);
             if (!result.isSuccess()) {
                 return result;

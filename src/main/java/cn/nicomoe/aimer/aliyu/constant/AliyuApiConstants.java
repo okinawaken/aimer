@@ -35,7 +35,7 @@ public final class AliyuApiConstants {
         /** CSRF 头（由 {@code GET /getCsrfToken} 取得，TTL 60s，POST 必填） */
         public static final String X_XSRF_TOKEN = "X-XSRF-TOKEN";
 
-        /** Cookie 头（JSESSIONID + MZCONSUMERJSESSIONID + MZOPERATEID，持久会话身份） */
+        /** Cookie 头（JSESSIONID + MZCONSUMERJSESSIONID + MZOPERATEID，持久会话身份）；同时作为 {@code @Var} 传递显式 Cookie 时的变量名 */
         public static final String COOKIE = "cookie";
 
         /** 风控头：epeius，由风控拦截器逐次计算。 */
@@ -54,7 +54,7 @@ public final class AliyuApiConstants {
         /** 租户反解析参数：值为 {@link Gateway#SR_VALUE} 的 URL 编码形式，由请求层统一追加到每个业务接口 URL */
         public static final String __SR = "__sr";
 
-        /** 语言类型参数：小程序对每个请求 URL 末尾追加，取值见 {@link cn.nicomoe.aimer.aliyu.enums.AliyuLangTypeEnum}， 默认简体 {@code 1}。由 {@code AliyuLangTypeInterceptor} 统一追加，调用方无需显式传入。 */
+        /** 语言类型参数：小程序对每个请求 URL 末尾追加，取值见 {@link cn.nicomoe.aimer.aliyu.enums.AliyuLangTypeEnum}， 默认简体 {@code 1}。由 {@code AliyuTenantInterceptor} 统一追加，调用方无需显式传入。 */
         public static final String LANG_TYPE = "langType";
     }
 
@@ -63,12 +63,6 @@ public final class AliyuApiConstants {
 
         /** 系统用户 ID。由调用方通过 {@code @Var} 传入，用于在无登录上下文（如定时任务线程） 中指定凭证归属用户；未传时取当前登录用户 */
         public static final String USER_ID = "userId";
-
-        /** 持久会话 Cookie。由调用方通过 {@code @Var} 显式传入，供凭证尚未落库的绑定校验等场景使用； 未传时取当前用户的已存配置 */
-        public static final String COOKIE = "cookie";
-
-        /** maitix 会话标识（{@code X-MZ-SESSION} 头）。由调用方通过 {@code @Var} 显式传入， 与 {@link #COOKIE} 配对使用；未传时取当前用户的已存配置 */
-        public static final String SESS_VALUE = "sessValue";
     }
 
     /** API 业务响应码 */
@@ -76,5 +70,11 @@ public final class AliyuApiConstants {
 
         /** 业务成功码（字符串 "200"）。 */
         public static final String SUCCESS_CODE = "200";
+
+        /** 未登录/凭证失效业务码，小程序按“请登录”处理。 */
+        public static final String NEED_LOGIN_CODE = "603";
+
+        /** 未登录业务码，历史实现中业务接口返回该值时表示凭证失效。 */
+        public static final String NO_LOGIN_CODE = "804";
     }
 }

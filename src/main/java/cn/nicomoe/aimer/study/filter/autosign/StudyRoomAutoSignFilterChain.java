@@ -16,7 +16,7 @@ public class StudyRoomAutoSignFilterChain {
 
     /** 按顺序执行过滤器链，遇到失败立即返回 */
     public FilterResultDTO<?> doFilter(StudyRoomAutoSignContext context) {
-        for (StudyRoomAutoSignFilter filter : this.filters) {
+        for (StudyRoomAutoSignFilter filter : filters) {
             FilterResultDTO<?> result = filter.doFilter(context);
             if (!result.isSuccess()) {
                 return result;

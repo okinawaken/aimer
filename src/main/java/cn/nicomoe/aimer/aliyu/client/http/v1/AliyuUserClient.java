@@ -22,7 +22,7 @@ import com.dtflys.forest.annotation.JSONBody;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.annotation.Query;
 
-/** 用户域。资料、持票人、联系人、退出登录。 */
+/** 用户域。 */
 public interface AliyuUserClient extends AliyuBaseClient {
 
     /** 获取登录用户信息。 */
@@ -44,11 +44,11 @@ public interface AliyuUserClient extends AliyuBaseClient {
                                                     @Query(value = "eventIds") String eventIds,
                                                     @Query(value = "exitTicketCert") String exitTicketCert);
 
-    /** 获取联系人 / 收件人列表。 参数 query：分页（小程序传 page=1、pageSize=20） */
+    /** 获取联系人 / 收件人列表。 */
     @Get(url = "/user/getDis")
     AliyuClientResult<DisListRespDTO> getDis(@Query UserGetDisReqDTO query);
 
-    /** 联系人详情。 参数 disId：联系人 ID */
+    /** 联系人详情。 */
     @Get(url = "/user/getDisInfo")
     AliyuClientResult<UserGetDisInfoRespDTO> getDisInfo(@Query(value = "disId") String disId);
 
